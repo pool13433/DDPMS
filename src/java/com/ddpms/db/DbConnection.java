@@ -1,4 +1,4 @@
-package th.co.ais.ibudget.db;
+package com.ddpms.db;
 
 import java.io.InputStream;
 import java.sql.Connection;
