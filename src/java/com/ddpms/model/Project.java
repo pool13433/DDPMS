@@ -1,6 +1,8 @@
 
 package com.ddpms.model;
 
+import java.util.List;
+
 
 public class Project {
     private String projId;
@@ -18,6 +20,8 @@ public class Project {
     private String modifiedDate;
 
     private String modifiedBy;
+    
+     private List<TaskAssign> taskAssignList;
 
     public String getProjId() {
         return projId;
@@ -81,6 +85,14 @@ public class Project {
 
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    public List<TaskAssign> getTaskAssignList() {
+        return taskAssignList;
+    }
+
+    public void setTaskAssignList(List<TaskAssign> taskAssignList) {
+        this.taskAssignList = taskAssignList;
     }
     
     
