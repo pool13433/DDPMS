@@ -28,9 +28,9 @@
             }
         </style>
     </head>
-    <body>
+    <body style="background-color: #F8F8F8;">
 
-        <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: #64B5F6;">
+        <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: #FB7B55;">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -95,7 +95,7 @@
                         </ul>   
                         <ul class="nav nav-sidebar">
                             <li class="<c:out value="${menu == 'task_assign' ? 'active': ''}"/>">                                
-                                <a href="#"><i class="glyphicon glyphicon-import"></i> Manage Task Assign</a>
+                                <a href="${context}/TaskAssignListServlet?menu=task_assign"><i class="glyphicon glyphicon-import"></i> Manage Task Assign</a>
                             </li>
                             <li class="<c:out value="${menu == 'task_working' ? 'active': ''}"/>">                                
                                 <a href="#"><i class="glyphicon glyphicon-saved"></i> Manage Task Working</a>
