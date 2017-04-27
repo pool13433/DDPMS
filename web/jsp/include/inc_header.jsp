@@ -78,13 +78,13 @@
                         </ul>
                         <ul class="nav nav-sidebar">
                             <li class="<c:out value="${menu == 'budget_plan' ? 'active': ''}"/>">                                
-                                <a href="#"><i class="glyphicon glyphicon-inbox"></i> Manage BudgetPlan</a>
+                                <a href="${context}/BudgetplanSearchServlet?menu=budget_plan"><i class="glyphicon glyphicon-inbox"></i> Manage BudgetPlan</a>
                             </li>
                             <li class="<c:out value="${menu == 'project' ? 'active': ''}"/>">                                
-                                <a href="#"><i class="glyphicon glyphicon-bed"></i> Manage Project Master</a>
+                                <a href="${context}/ProjectSearchServlet?menu=project"><i class="glyphicon glyphicon-bed"></i> Manage Project Master</a>
                             </li>
                             <li class="<c:out value="${menu == 'project_working' ? 'active': ''}"/>">                                
-                                <a href="#"><i class="glyphicon glyphicon-play-circle"></i> Manage Project Working</a>
+                                <a href="${context}/ProjectWorkingSearchServlet?menu=project-working"><i class="glyphicon glyphicon-play-circle"></i> Manage Project Working</a>
                             </li>
                             <li class="<c:out value="${menu == 'project_shift' ? 'active': ''}"/>">                                
                                 <a href="#"><i class="glyphicon glyphicon-share"></i> Manage Project Shift</a>

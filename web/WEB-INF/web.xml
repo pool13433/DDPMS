@@ -20,6 +20,54 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>com.ddpms.action.authen.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BudgetplanSearchServlet</servlet-name>
+        <servlet-class>com.ddpms.action.budgetplan.BudgetplanSearchServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BudgetplanAddServlet</servlet-name>
+        <servlet-class>com.ddpms.action.budgetplan.BudgetplanAddServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BudgetplanEditServlet</servlet-name>
+        <servlet-class>com.ddpms.action.budgetplan.BudgetplanEditServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BudgetplanDeleteServlet</servlet-name>
+        <servlet-class>com.ddpms.action.budgetplan.BudgetplanDeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectSearchServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project.ProjectSearchServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectAddServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project.ProjectAddServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectEditServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project.ProjectEditServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectDeleteServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project.ProjectDeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectWorkingSearchServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project_working.ProjectWorkingSearchServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectWorkingAddServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project_working.ProjectWorkingAddServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectWorkingEditServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project_working.ProjectWorkingEditServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectWorkingDeleteServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project_working.ProjectWorkingDeleteServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
@@ -54,6 +102,54 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BudgetplanSearchServlet</servlet-name>
+        <url-pattern>/BudgetplanSearchServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BudgetplanAddServlet</servlet-name>
+        <url-pattern>/BudgetplanAddServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BudgetplanEditServlet</servlet-name>
+        <url-pattern>/BudgetplanEditServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BudgetplanDeleteServlet</servlet-name>
+        <url-pattern>/BudgetplanDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectSearchServlet</servlet-name>
+        <url-pattern>/ProjectSearchServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectAddServlet</servlet-name>
+        <url-pattern>/ProjectAddServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectEditServlet</servlet-name>
+        <url-pattern>/ProjectEditServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectDeleteServlet</servlet-name>
+        <url-pattern>/ProjectDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectWorkingSearchServlet</servlet-name>
+        <url-pattern>/ProjectWorkingSearchServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectWorkingAddServlet</servlet-name>
+        <url-pattern>/ProjectWorkingAddServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectWorkingEditServlet</servlet-name>
+        <url-pattern>/ProjectWorkingEditServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectWorkingDeleteServlet</servlet-name>
+        <url-pattern>/ProjectWorkingDeleteServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
