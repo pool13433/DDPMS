@@ -68,6 +68,10 @@
         <servlet-name>ProjectWorkingDeleteServlet</servlet-name>
         <servlet-class>com.ddpms.action.project_working.ProjectWorkingDeleteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TaskAssignListServlet</servlet-name>
+        <servlet-class>com.ddpms.action.task.TaskAssignListServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
@@ -150,6 +154,10 @@
     <servlet-mapping>
         <servlet-name>ProjectWorkingDeleteServlet</servlet-name>
         <url-pattern>/ProjectWorkingDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskAssignListServlet</servlet-name>
+        <url-pattern>/TaskAssignListServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
