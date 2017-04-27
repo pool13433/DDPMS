@@ -15,25 +15,25 @@
                 <c:remove var="MessageUI" scope="session" />
             </c:if>            
 
-            <c:forEach items="${taskList}" var="task">                
+            <c:forEach items="${projectList}" var="project">                
                 <div class="panel panel-ddpms">
                     <div class="panel-heading">
                         <a href="#" class="btn btn-default btn-primary">
                             <i class="glyphicon glyphicon-plus"></i> Assign Task
-                        </a>&nbsp ${task.taskName} 
+                        </a>&nbsp ${project.projName} [เงินงบประมาณ : ${project.budpId} , แผนพัฒนา : ${project.planId}]
                     </div>
                     <div class="panel-body">
                         <table id="search_table" class="table table-bordered table-striped">                        
                             <tr>
-                                <th>Project Name</th>                                 
+                                <th>Task Name</th>                                 
                                 <th>Employee</th>
                                 <th>Assign Date</th>
                             </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="assign" items="${task.taskAssignList}">
+                                <c:forEach var="assign" items="${project.taskAssignList}">
                                     <tr>
-                                        <td>${assign.projName}</td>
+                                        <td>${assign.taskName}</td>
                                         <td>${assign.taskUsername}</td>
                                         <td>${assign.modifiedDate}</td>
                                     </tr>

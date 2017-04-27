@@ -48,6 +48,32 @@ public class ProjectDao {
         return list;
     }
     
+    public List<Project> getProjectAll(){
+        logger.debug("..getProjectAll");
+        List<Project> list = new ArrayList<Project>();
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
+            sql.append(" (SELECT count(*) FROM plan p WHERE p.plan_id = p.plan_id) as plan_id, ");
+            sql.append(" (SELECT count(*) FROM budget_plan bp WHERE bp.budp_id = p.budp_id) as budp_id, ");
+            sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, `modified_by` ");
+            sql.append(" FROM `project` p ORDER BY proj_name ASC");
+            pstm = conn.prepareStatement(sql.toString());
+            logger.info("pstm ::=="+pstm.toString());
+            rs = pstm.executeQuery();
+            
+            while (rs.next()) {                
+                list.add(getEntityProject(rs));
+            }
+        } catch (Exception e) {
+            logger.error("getProjectAll Error",e);
+        }
+        return list;
+    }
+    
     public int createProject(Project p){
          logger.debug("..createProject");
          int exe = 0;

@@ -80,7 +80,7 @@ public class TaskAssignDao {
         return task;
     }
 
-    public List<TaskAssign> getTaskAssignsByTask(int taskId) {
+    public List<TaskAssign> getTaskAssignsByProject(String projId) {
         logger.info("..getTaskAssignsByTask");
         List<TaskAssign> taskAssignList = null;
         PreparedStatement pstm = null;
@@ -93,11 +93,11 @@ public class TaskAssignDao {
             sql.append(" `task_userid`,(SELECT CONCAT(e.emp_fname,' ',e.emp_lname) FROM employee e where e.emp_id = ta.task_userid) as task_Username, ");
             sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date,`modified_by` ");
             sql.append(" FROM task_assign ta ");
-            sql.append(" WHERE ta.task_id = ? ");
+            sql.append(" WHERE ta.proj_id = ? ");
             sql.append(" ORDER by ta.task_id ASC");
 
             pstm = conn.prepareStatement(sql.toString());
-            pstm.setInt(1, taskId);
+            pstm.setString(1, projId);
             logger.info("pstm ::==" + pstm.toString());
             rs = pstm.executeQuery();
             taskAssignList = new ArrayList<TaskAssign>();
