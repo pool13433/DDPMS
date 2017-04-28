@@ -2,24 +2,28 @@ package com.ddpms.model;
 
 public class TaskAssign {
 
-    private int taskaId;
+    private String taskaId;
     private int taskId;
     private String taskName;
     private int projId;
     private String projName;
-    private String taskUserId;
+    private int taskUserId;
     private String taskUsername;
     private String modifiedDate;
-    private String modifiedBy;
-        
+    private String taskaAssignDate;
+    private String taskaTargetDate;
+    private int modifiedBy;
 
-    public int getTaskaId() {
+    public String getTaskaId() {
         return taskaId;
     }
 
-    public void setTaskaId(int taskaId) {
+    public void setTaskaId(String taskaId) {
         this.taskaId = taskaId;
     }
+        
+
+    
 
     public int getTaskId() {
         return taskId;
@@ -53,13 +57,15 @@ public class TaskAssign {
         this.projName = projName;
     }
 
-    public String getTaskUserId() {
+    public int getTaskUserId() {
         return taskUserId;
     }
 
-    public void setTaskUserId(String taskUserId) {
+    public void setTaskUserId(int taskUserId) {
         this.taskUserId = taskUserId;
     }
+
+    
 
     public String getTaskUsername() {
         return taskUsername;
@@ -77,12 +83,30 @@ public class TaskAssign {
         this.modifiedDate = modifiedDate;
     }
 
-    public String getModifiedBy() {
+    public int getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(int modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
+
+    public String getTaskaAssignDate() {
+        return taskaAssignDate;
+    }
+
+    public void setTaskaAssignDate(String taskaAssignDate) {
+        this.taskaAssignDate = taskaAssignDate;
+    }
+
+    public String getTaskaTargetDate() {
+        return taskaTargetDate;
+    }
+
+    public void setTaskaTargetDate(String taskaTargetDate) {
+        this.taskaTargetDate = taskaTargetDate;
+    }
+
+    
 
 }

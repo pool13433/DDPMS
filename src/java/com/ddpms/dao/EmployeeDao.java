@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 import com.ddpms.db.DbConnection;
 import com.ddpms.model.Employee;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -49,6 +51,34 @@ public class EmployeeDao {
             this.close(pstm, rs);
         }
         return user;
+    }
+    
+    public List<Employee> getEmployeeListByRole(String role) {
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        List<Employee> employeeList = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" SELECT `emp_id`, `emp_code`,  `username`, `password`,`emp_fname`, `emp_lname`,  ");
+            sql.append(" `emp_email`,`emp_mobile`, `gender`, `title`, `dept_id`, status, `modified_date`, `modified_by` ");
+            sql.append(" FROM `employee`  ");
+            sql.append(" WHERE status = ?");
+            
+            pstm = conn.prepareStatement(sql.toString());
+            pstm.setString(1, role);            
+            rs = pstm.executeQuery();
+            
+            employeeList = new ArrayList<Employee>();
+            while(rs.next()){
+                employeeList.add(this.getEntityEmployee(rs));
+            }
+        } catch (Exception e) {
+            logger.error("getUser error", e);
+        } finally {
+            this.close(pstm, rs);
+        }
+        return employeeList;
     }
     
     private Employee getEntityEmployee(ResultSet rs) throws SQLException{

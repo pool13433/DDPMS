@@ -20,16 +20,20 @@ recordCurrent :: ${pagination.recordCurrent} <br/>
 recordLimit :: ${pagination.recordLimit} <br/>
 pages :: ${page} <br/>
 pageUrl :: ${pagination.pageUrl} <br/>-->
-<nav aria-label="Page navigation pull-right">
-    <ul class="pagination pagination-sm pull-right">
+
+
+<div class="navigation pull-right">
+    <ul class="pagination">
         <li><a href="${pagination.pageUrl}"> First</a></li>
-            <c:if test="${pagination.pageCurrent > 1}">
-            <li>
-                <a href="${pagination.pageUrl}&offset=${pagination.recordCurrent -pagination.recordLimit}" aria-label="Previous">
+
+        <c:if test="${pagination.pageCurrent > 1}">
+            <li class="previous">
+                <a href="${pagination.pageUrl}&offset=${pagination.recordCurrent -pagination.recordLimit}" class="fui-arrow-left">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
         </c:if>
+
         <c:set value="${(pagination.recordLimit  * page )}" var="offsetLast"></c:set>
         <c:forEach begin="${pagination.pageBegin}" end="${pagination.pageEnd}" varStatus="loop">
             <c:set value="${loop.index}" var="index"></c:set>                    
@@ -48,12 +52,12 @@ pageUrl :: ${pagination.pageUrl} <br/>-->
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
-        </c:if>        
+        </c:if>   
         <li><a href="${pagination.pageUrl}&offset=${offsetLast}"> Last</a></li>
-        <li>
-            <a href="#" aria-label="Next">
+        <li class="next">
+            <a href="#" class="fui-arrow-right">
                 <span aria-hidden="true">${pagination.countRecordAll} Record ,${page +1} Pages</span>
             </a>
         </li>
     </ul>
-</nav>
+</div>

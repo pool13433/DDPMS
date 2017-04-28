@@ -70,7 +70,19 @@
     </servlet>
     <servlet>
         <servlet-name>TaskAssignListServlet</servlet-name>
-        <servlet-class>com.ddpms.action.task.TaskAssignListServlet</servlet-class>
+        <servlet-class>com.ddpms.action.taskassign.TaskAssignListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TaskAssignFormServlet</servlet-name>
+        <servlet-class>com.ddpms.action.taskassign.TaskAssignFormServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TaskAssignSaveServlet</servlet-name>
+        <servlet-class>com.ddpms.action.taskassign.TaskAssignSaveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TaskAssignDeleteServlet</servlet-name>
+        <servlet-class>com.ddpms.action.taskassign.TaskAssignDeleteServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
@@ -158,6 +170,18 @@
     <servlet-mapping>
         <servlet-name>TaskAssignListServlet</servlet-name>
         <url-pattern>/TaskAssignListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskAssignFormServlet</servlet-name>
+        <url-pattern>/TaskAssignFormServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskAssignSaveServlet</servlet-name>
+        <url-pattern>/TaskAssignSaveServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskAssignDeleteServlet</servlet-name>
+        <url-pattern>/TaskAssignDeleteServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
