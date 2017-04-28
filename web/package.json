@@ -1,0 +1,26 @@
+{
+  "name": "DDPMS",
+  "version": "1.0.0",
+  "description": "ระบบสารสนเทศเพื่อการจัดการโครงการแผนกสารสนเทศ (Design and development of project management system for IT department) - Technology Java     -- JDK 1.7     -- Servlet     -- Mysql     -- Apache Tomcat 7     -- Log4j     -- Bootstrap 3     -- Jquery ,Jquery-UI",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://pool13433@github.com/pool13433/DDPMS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pool13433/DDPMS/issues"
+  },
+  "homepage": "https://github.com/pool13433/DDPMS#readme",
+  "dependencies": {
+    "flat-ui": "^2.1.1"
+  }
+}
