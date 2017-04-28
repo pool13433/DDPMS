@@ -1,0 +1,1 @@
+ALTER TABLE `task_assign` ADD `taska_assign_date` DATE NOT NULL AFTER `task_userid`, ADD `taska_target_date` DATE NOT NULL AFTER `taska_assign_date`;
