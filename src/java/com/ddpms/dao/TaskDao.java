@@ -2,7 +2,6 @@ package com.ddpms.dao;
 
 import com.ddpms.db.DbConnection;
 import com.ddpms.model.Task;
-import com.ddpms.model.TaskAssign;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

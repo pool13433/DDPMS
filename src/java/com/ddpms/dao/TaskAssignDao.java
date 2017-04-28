@@ -83,8 +83,8 @@ public class TaskAssignDao {
         return task;
     }
 
-    public List<TaskAssign> getTaskAssignsByProject(String projId) {
-        logger.info("..getTaskAssignsByTask");
+    public List<TaskAssign> getTaskAssignsListByProject(String projId) {
+        logger.info("..getTaskAssignsListByProject");
         List<TaskAssign> taskAssignList = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
@@ -110,7 +110,42 @@ public class TaskAssignDao {
                 taskAssignList.add(getEntityTaskAssign(rs));
             }
         } catch (Exception e) {
-            logger.error("error getTaskAssignAll ", e);
+            logger.error("error getTaskAssignsListByProject ", e);
+        } finally {
+            this.close(pstm, rs);
+        }
+        return taskAssignList;
+    }
+    
+    public List<TaskAssign> getTaskAssignListByUser(int userId,int projId) {
+        logger.info("..getTaskAssignListByUser");
+        List<TaskAssign> taskAssignList = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" SELECT `taska_id`,`task_id`,(SELECT t.task_name FROM task t where t.task_id = ta.task_id) as task_name, ");
+            sql.append(" `proj_id`,(SELECT p.proj_name FROM project p where p.proj_id = ta.proj_id) as proj_name, ");
+            sql.append(" `task_userid`,(SELECT CONCAT(e.emp_fname,' ',e.emp_lname) FROM employee e where e.emp_id = ta.task_userid) as task_Username, ");
+            sql.append(" DATE_FORMAT(taska_assign_date," + DATE_TO_STR + ") as taska_assign_date, ");
+            sql.append(" DATE_FORMAT(taska_target_date," + DATE_TO_STR + ") as taska_target_date, ");
+            sql.append(" DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date,`modified_by` ");
+            sql.append(" FROM task_assign ta ");
+            sql.append(" WHERE ta.task_userid = ? AND ta.proj_id = ?");
+            sql.append(" ORDER by ta.proj_id ASC");
+
+            pstm = conn.prepareStatement(sql.toString());
+            pstm.setInt(1, userId);
+            pstm.setInt(2, projId);
+            logger.info("pstm ::==" + sql.toString());
+            rs = pstm.executeQuery();
+            taskAssignList = new ArrayList<TaskAssign>();
+            while (rs.next()) {
+                taskAssignList.add(getEntityTaskAssign(rs));
+            }
+        } catch (Exception e) {
+            logger.error("error getTaskAssignListByUser ", e);
         } finally {
             this.close(pstm, rs);
         }

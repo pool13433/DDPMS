@@ -30,9 +30,9 @@ public class Employee implements Serializable {
     
     private String status;
 
-    private String modified_date;
+    private String modifiedDate;
 
-    private String modified_by;
+    private String modifiedBy;
 
     public Employee() {
     }
@@ -129,21 +129,23 @@ public class Employee implements Serializable {
         this.dept_id = dept_id;
     }
 
-    public String getModified_date() {
-        return modified_date;
+    public String getModifiedDate() {
+        return modifiedDate;
     }
 
-    public void setModified_date(String modified_date) {
-        this.modified_date = modified_date;
+    public void setModifiedDate(String modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 
-    public String getModified_by() {
-        return modified_by;
+    public String getModifiedBy() {
+        return modifiedBy;
     }
 
-    public void setModified_by(String modified_by) {
-        this.modified_by = modified_by;
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
     }
+
+    
 
     public String getStatus() {
         return status;
