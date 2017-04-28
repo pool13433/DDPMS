@@ -1,11 +1,11 @@
 
-package com.ddpms.action.project_working;
+package com.ddpms.action.project_shift;
 
 import com.ddpms.dao.ProjectDao;
-import com.ddpms.dao.ProjectWorkingDao;
+import com.ddpms.dao.ProjectShiftDao;
 import com.ddpms.model.MessageUI;
 import com.ddpms.model.Project;
-import com.ddpms.model.ProjectWorking;
+import com.ddpms.model.ProjectShift;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -15,57 +15,48 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
-public class ProjectWorkingAddServlet extends HttpServlet {
-
-    final static Logger logger = Logger.getLogger(ProjectWorkingAddServlet.class);
-   
+public class ProjectShiftAddServlet extends HttpServlet {
+final static Logger logger = Logger.getLogger(ProjectShiftAddServlet.class);
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.debug("...doGet ProjectWorkingAddServlet");
+        logger.debug("...doGet ProjectShiftAddServlet");
         try {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project-working/project-working-form.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project-shift/project-shift-form.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {
-            logger.error("ProjectWorkingAddServlet Error : "+e.getMessage());
+            logger.error("ProjectShiftAddServlet Error : "+e.getMessage());
         }
-        
     }
 
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.debug("...doPost ProjectWorkingAddServlet");
+        logger.debug("...doPost ProjectShiftAddServlet");
         try {
-            ProjectWorking pw = new ProjectWorking();
-            ProjectWorkingDao dao = new ProjectWorkingDao();
+            ProjectShift ps = new ProjectShift();
+            ProjectShiftDao dao = new  ProjectShiftDao();
             String id = CharacterUtil.removeNull(request.getParameter("id"));
             String proj_id = CharacterUtil.removeNull(request.getParameter("proj_id"));
             request.setAttribute("proj_id", proj_id);
-            String budget_year = CharacterUtil.removeNull(request.getParameter("budget_year"));
-            request.setAttribute("budget_year", budget_year);
-            String budget_request = CharacterUtil.removeNull(request.getParameter("budget_request"));
-            request.setAttribute("budget_request", budget_request);
-            String budget_response = CharacterUtil.removeNull(request.getParameter("budget_response"));
-            request.setAttribute("budget_response", budget_response);
-            String budget_usage = CharacterUtil.removeNull(request.getParameter("budget_usage"));
-            request.setAttribute("budget_usage", budget_usage);
+            String projs_reason = CharacterUtil.removeNull(request.getParameter("projs_reason"));
+            request.setAttribute("projs_reason", projs_reason);
+            String projs_plan = CharacterUtil.removeNull(request.getParameter("projs_plan"));
+            request.setAttribute("projs_plan", projs_plan);
             ProjectDao pjDao = new ProjectDao();
             request.setAttribute("projectList", pjDao.getProject(new Project(), 0, 0));
-            pw.setProjwId(id);
-            pw.setProjId(proj_id);
-            pw.setBudgetYear(budget_year);
-            pw.setBudgetRequest(budget_request);
-            pw.setBudgetResponse(budget_response);
-            pw.setBudgetUsage(budget_usage);
-            pw.setModifiedBy("1");
+            
+            ps.setProjsId(id);
+            ps.setProjId(proj_id);
+            ps.setProjsReason(projs_reason);
+            ps.setProjsPlan(projs_plan);
+            ps.setModifiedBy("1");
             
             int exe = 0;
             if(id.equals("")){
-                exe = dao.createProjectWorking(pw);
+                exe = dao.createProjectShift(ps);
             }else{
-                exe = dao.updateProjectWorking(pw);
+                exe = dao.updateProjectShift(ps);
             }
             MessageUI message = null;
             if (exe == 0) {
@@ -74,10 +65,9 @@ public class ProjectWorkingAddServlet extends HttpServlet {
                 message = new MessageUI(true, "สถานะการบันทีกข้อมูล", "บันทีกข้อมูลสำเร็จ", "info");
             }        
             request.getSession().setAttribute("MessageUI", message);
-            response.sendRedirect(request.getContextPath() + "/ProjectWorkingSearchServlet");
+            response.sendRedirect(request.getContextPath() + "/ProjectShiftSearchServlet");
         } catch (Exception e) {
-            logger.error("ProjectWorkingAddServlet Error : "+e.getMessage());
+            logger.error("ProjectShiftAddServlet Error : "+e.getMessage());
         }
     }
-
 }

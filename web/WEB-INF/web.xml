@@ -84,6 +84,22 @@
         <servlet-name>TaskAssignDeleteServlet</servlet-name>
         <servlet-class>com.ddpms.action.taskassign.TaskAssignDeleteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProjectShiftAddServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project_shift.ProjectShiftAddServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectShiftEditServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project_shift.ProjectShiftEditServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectShiftDeleteServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project_shift.ProjectShiftDeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectShiftSearchServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project_shift.ProjectShiftSearchServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
@@ -170,6 +186,22 @@
     <servlet-mapping>
         <servlet-name>TaskAssignListServlet</servlet-name>
         <url-pattern>/TaskAssignListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectShiftAddServlet</servlet-name>
+        <url-pattern>/ProjectShiftAddServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectShiftEditServlet</servlet-name>
+        <url-pattern>/ProjectShiftEditServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectShiftDeleteServlet</servlet-name>
+        <url-pattern>/ProjectShiftDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectShiftSearchServlet</servlet-name>
+        <url-pattern>/ProjectShiftSearchServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>TaskAssignFormServlet</servlet-name>
