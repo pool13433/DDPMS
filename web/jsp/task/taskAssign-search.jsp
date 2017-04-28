@@ -15,6 +15,57 @@
                 <c:remove var="MessageUI" scope="session" />
             </c:if>            
 
+
+            <form class="form-horizontal" action="${context}/TaskAssignListServlet" method="get">
+                <div class="form-group">
+                    <label for="BudgetPlan" class="col-sm-2 control-label">BudgetPlan</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="budpId" name="budpId">
+                            <option value="" selected>--เลือก--</option>
+                            <c:forEach items="${budgetPlanList}" var="budgetPlan">
+                                <c:choose>
+                                    <c:when test="${criteria.budpId == budgetPlan.budpId}">
+                                        <option value="${budgetPlan.budpId}" selected>${budgetPlan.budpName}</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="${budgetPlan.budpId}">${budgetPlan.budpName}</option>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <label for="plan" class="col-sm-1 control-label">Plan</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" id="planId" name="planId">
+                            <option value="" selected>--เลือก--</option>
+                            <c:forEach items="${planList}" var="plan">
+                                <c:choose>
+                                    <c:when test="${criteria.planId == plan.planId}">
+                                        <option value="${plan.planId}" selected>${plan.planName}</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="${plan.planId}">${plan.planName}</option>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-info">Search</button>
+                        <a href="${context}/TaskAssignListServlet?menu=task_assign" class="btn btn-warning">Reset</a>
+                    </div>
+                </div>
+            </form>
+
+            <c:if test="${empty projectList}">
+                <div class="alert alert-info alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>ไม่พบข้อมูล!</strong> ไม่พบข้อมูลหลังจากทำการค้นหา
+                </div>
+            </c:if>
+
             <c:forEach items="${projectList}" var="project">                
                 <div class="panel panel-ddpms">
                     <div class="panel-heading">
@@ -25,7 +76,7 @@
                     <div class="panel-body">
                         <table id="search_table" class="table table-bordered table-striped">                        
                             <tr>
-                                <th>#</th>
+                                <th style="width: 8%">#</th>
                                 <th>Task Name</th>                                 
                                 <th>Employee</th>
                                 <th>Assign Date</th>

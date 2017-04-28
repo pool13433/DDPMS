@@ -1,4 +1,4 @@
-package com.ddpms.action.taskassign;
+package com.ddpms.action.task;
 
 import com.ddpms.dao.EmployeeDao;
 import com.ddpms.dao.ProjectDao;
@@ -47,7 +47,7 @@ public class TaskAssignFormServlet extends HttpServlet {
         } catch (Exception e) {
             logger.error("TaskAssignFormServlet Error", e);
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/task-assign/taskAssign-form.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/task/taskAssign-form.jsp");
         dispatcher.forward(request, response);
     }
 

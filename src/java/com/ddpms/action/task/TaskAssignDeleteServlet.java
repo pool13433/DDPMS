@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ddpms.action.taskassign;
+package com.ddpms.action.task;
 
 import com.ddpms.dao.TaskAssignDao;
 import com.ddpms.model.MessageUI;

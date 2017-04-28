@@ -91,8 +91,8 @@ public class EmployeeDao {
         employee.setEmpLname(rs.getString("emp_lname"));
         employee.setEmpMobile(rs.getString("emp_mobile"));
         employee.setGender(rs.getString("gender"));
-        employee.setModified_by(rs.getString("modified_date"));
-        employee.setModified_date(rs.getString("modified_date"));
+        employee.setModifiedBy(rs.getString("modified_date"));
+        employee.setModifiedDate(rs.getString("modified_date"));
         employee.setPassword(rs.getString("password"));
         employee.setTitle(rs.getString("title"));
         employee.setUsername(rs.getString("username"));
