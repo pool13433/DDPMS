@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.ddpms.action.strategic;
 
-import com.ddpms.dao.StrategicDao;
+package com.ddpms.action.plan;
+
+import com.ddpms.dao.PlanDao;
 import com.ddpms.model.MessageUI;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
@@ -15,18 +11,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
-public class StrategicDeleteServlet extends HttpServlet {
-final static Logger logger = Logger.getLogger(StrategicDeleteServlet.class);
+public class PlanDeleteServlet extends HttpServlet {
+final static Logger logger = Logger.getLogger(PlanDeleteServlet.class);
  
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.debug("...goGet StrategicDeleteServlet");
+        logger.debug("...goGet PlanDeleteServlet");
         try {
             String id = CharacterUtil.removeNull(request.getParameter("id"));
-            StrategicDao dao = new StrategicDao();
+            PlanDao dao = new PlanDao();
             int exe = 0;
-            exe = dao.deleteStrategic(id);
+            exe = dao.deletePlan(id);
             MessageUI message = null;
             if (exe == 0) {
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
@@ -34,9 +30,9 @@ final static Logger logger = Logger.getLogger(StrategicDeleteServlet.class);
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "ลบข้อมูลสำเร็จ", "info");
             }       
             request.getSession().setAttribute("MessageUI", message);      
-            response.sendRedirect(request.getContextPath() + "/StrategicSearchServlet");
+            response.sendRedirect(request.getContextPath() + "/PlanSearchServlet");
         } catch (Exception e) {
-            logger.error("StrategicDeleteServlet Error : "+e.getMessage());
+            logger.error("PlanDeleteServlet Error : "+e.getMessage());
         }
     }
 }

@@ -82,7 +82,7 @@
                                     <a href="${context}/StrategicSearchServlet?menu=strategic"><i class="glyphicon glyphicon-flag"></i> Manage Strategic</a>
                                 </li>
                                 <li class="<c:out value="${menu == 'plan' ? 'active': ''}"/>">                                
-                                    <a href="#"><i class="glyphicon glyphicon-list-alt"></i> Manage Plan</a>
+                                    <a href="${context}/PlanSearchServlet?menu=plan"><i class="glyphicon glyphicon-list-alt"></i> Manage Plan</a>
                                 </li>
                                 <li class="<c:out value="${menu == 'budget' ? 'active': ''}"/>">                                
                                     <a href="#"><i class="glyphicon glyphicon-usd"></i> Manage Budget</a>

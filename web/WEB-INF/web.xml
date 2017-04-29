@@ -132,6 +132,22 @@
         <servlet-name>StrategicSearchServlet</servlet-name>
         <servlet-class>com.ddpms.action.strategic.StrategicSearchServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PlanAddServlet</servlet-name>
+        <servlet-class>com.ddpms.action.plan.PlanAddServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PlanEditServlet</servlet-name>
+        <servlet-class>com.ddpms.action.plan.PlanEditServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PlanDeleteServlet</servlet-name>
+        <servlet-class>com.ddpms.action.plan.PlanDeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PlanSearchServlet</servlet-name>
+        <servlet-class>com.ddpms.action.plan.PlanSearchServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
@@ -278,6 +294,22 @@
     <servlet-mapping>
         <servlet-name>StrategicSearchServlet</servlet-name>
         <url-pattern>/StrategicSearchServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PlanAddServlet</servlet-name>
+        <url-pattern>/PlanAddServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PlanEditServlet</servlet-name>
+        <url-pattern>/PlanEditServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PlanDeleteServlet</servlet-name>
+        <url-pattern>/PlanDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PlanSearchServlet</servlet-name>
+        <url-pattern>/PlanSearchServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
