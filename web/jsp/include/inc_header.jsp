@@ -79,7 +79,7 @@
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li class="<c:out value="${menu == 'strategic' ? 'active': ''}"/>">                                
-                                    <a href="#"><i class="glyphicon glyphicon-flag"></i> Manage Strategic</a>
+                                    <a href="${context}/StrategicSearchServlet?menu=strategic"><i class="glyphicon glyphicon-flag"></i> Manage Strategic</a>
                                 </li>
                                 <li class="<c:out value="${menu == 'plan' ? 'active': ''}"/>">                                
                                     <a href="#"><i class="glyphicon glyphicon-list-alt"></i> Manage Plan</a>
