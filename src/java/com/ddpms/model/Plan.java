@@ -1,4 +1,3 @@
-
 package com.ddpms.model;
 
 public class Plan {
@@ -38,6 +37,4 @@ public class Plan {
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
-    
-    
 }

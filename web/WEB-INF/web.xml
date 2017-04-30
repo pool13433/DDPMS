@@ -70,19 +70,35 @@
     </servlet>
     <servlet>
         <servlet-name>TaskAssignListServlet</servlet-name>
-        <servlet-class>com.ddpms.action.taskassign.TaskAssignListServlet</servlet-class>
+        <servlet-class>com.ddpms.action.task.TaskAssignListServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>TaskAssignFormServlet</servlet-name>
-        <servlet-class>com.ddpms.action.taskassign.TaskAssignFormServlet</servlet-class>
+        <servlet-class>com.ddpms.action.task.TaskAssignFormServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>TaskAssignSaveServlet</servlet-name>
-        <servlet-class>com.ddpms.action.taskassign.TaskAssignSaveServlet</servlet-class>
+        <servlet-class>com.ddpms.action.task.TaskAssignSaveServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>TaskAssignDeleteServlet</servlet-name>
-        <servlet-class>com.ddpms.action.taskassign.TaskAssignDeleteServlet</servlet-class>
+        <servlet-class>com.ddpms.action.task.TaskAssignDeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TaskWorkListServlet</servlet-name>
+        <servlet-class>com.ddpms.action.task.TaskWorkListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TaskWorkFormServlet</servlet-name>
+        <servlet-class>com.ddpms.action.task.TaskWorkFormServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TaskWorkSaveServlet</servlet-name>
+        <servlet-class>com.ddpms.action.task.TaskWorkSaveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TaskWorkDeleteServlet</servlet-name>
+        <servlet-class>com.ddpms.action.task.TaskWorkDeleteServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ProjectShiftAddServlet</servlet-name>
@@ -310,6 +326,22 @@
     <servlet-mapping>
         <servlet-name>PlanSearchServlet</servlet-name>
         <url-pattern>/PlanSearchServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskWorkListServlet</servlet-name>
+        <url-pattern>/TaskWorkListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskWorkFormServlet</servlet-name>
+        <url-pattern>/TaskWorkFormServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskWorkSaveServlet</servlet-name>
+        <url-pattern>/TaskWorkSaveServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskWorkDeleteServlet</servlet-name>
+        <url-pattern>/TaskWorkDeleteServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

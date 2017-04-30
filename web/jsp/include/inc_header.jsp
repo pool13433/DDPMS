@@ -69,8 +69,8 @@
                                 <li class="<c:out value="${menu == 'task_assign' ? 'active': ''}"/>">                                
                                     <a href="${context}/TaskAssignListServlet?menu=task_assign"><i class="glyphicon glyphicon-import"></i> Manage Task Assign</a>
                                 </li>
-                                <li class="<c:out value="${menu == 'task_working' ? 'active': ''}"/>">                                
-                                    <a href="#"><i class="glyphicon glyphicon-saved"></i> Manage Task Working</a>
+                                <li class="<c:out value="${menu == 'task_work' ? 'active': ''}"/>">                                
+                                    <a href="${context}/TaskWorkListServlet?menu=task_work"><i class="glyphicon glyphicon-saved"></i> Manage Task Working</a>
                                 </li>
                             </ul>
                         </li>

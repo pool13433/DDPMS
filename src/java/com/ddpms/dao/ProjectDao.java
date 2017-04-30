@@ -43,6 +43,8 @@ public class ProjectDao {
 
         } catch (Exception e) {
             logger.error("getProject Error : " + e.getMessage());
+        } finally {
+            this.close(pstm, rs);
         }
         return list;
     }
@@ -56,7 +58,7 @@ public class ProjectDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
-            sql.append(" plan_id,budp_id, ");            
+            sql.append(" plan_id,budp_id, ");
             sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, `modified_by` ");
             sql.append(" FROM `project` p ORDER BY proj_name ASC");
             pstm = conn.prepareStatement(sql.toString());
@@ -68,6 +70,8 @@ public class ProjectDao {
             }
         } catch (Exception e) {
             logger.error("getProjectAll Error", e);
+        } finally {
+            this.close(pstm, rs);
         }
         return list;
     }
@@ -262,7 +266,68 @@ public class ProjectDao {
             }
         } catch (Exception e) {
             logger.error("getProject Error", e);
+        } finally {
+            this.close(pstm, rs);
         }
         return project;
+    }
+
+    public List<Project> getProjectByCriteria(Project criteria) {
+        logger.debug("..getProjectByCriteria");
+        List<Project> list = new ArrayList<Project>();
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
+            sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by` ");
+            sql.append(" FROM `project` ");
+            sql.append(getConditionBuilder(criteria));
+
+            pstm = conn.prepareStatement(sql.toString());
+            logger.info("pstm ::==" + pstm.toString());
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                list.add(getEntityProject(rs));
+            }
+
+        } catch (Exception e) {
+            logger.error("getProjectByCriteria Error : " + e.getMessage());
+        } finally {
+            this.close(pstm, rs);
+        }
+        return list;
+    }
+
+    public List<Project> getProjectListHaveTaskAssign(Integer empId) {
+        logger.debug("..getProjectListHaveTaskAssign");
+        List<Project> list = new ArrayList<Project>();
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
+            sql.append(" plan_id,budp_id, ");
+            sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, `modified_by` ");
+            sql.append(" FROM `project` p ");
+            sql.append(" WHERE p.proj_id IN (SELECT proj_id  FROM `task_assign` WHERE task_userid = ?)");
+            sql.append(" ORDER BY p.proj_name ASC");
+            pstm = conn.prepareStatement(sql.toString());
+            pstm.setInt(1, empId);
+            logger.info("pstm ::==" + pstm.toString());
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                list.add(getEntityProject(rs));
+            }
+        } catch (Exception e) {
+            logger.error("getProjectListHaveTaskAssign Error", e);
+        } finally {
+            this.close(pstm, rs);
+        }
+        return list;
     }
 }
