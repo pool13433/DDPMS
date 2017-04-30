@@ -116,6 +116,54 @@
         <servlet-name>ProjectShiftSearchServlet</servlet-name>
         <servlet-class>com.ddpms.action.project_shift.ProjectShiftSearchServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProjectExpenseAddServlet</servlet-name>
+        <servlet-class>com.ddpms.action.expense.ProjectExpenseAddServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectExpenseEditServlet</servlet-name>
+        <servlet-class>com.ddpms.action.expense.ProjectExpenseEditServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectExpenseDeleteServlet</servlet-name>
+        <servlet-class>com.ddpms.action.expense.ProjectExpenseDeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectExpenseSearchServlet</servlet-name>
+        <servlet-class>com.ddpms.action.expense.ProjectExpenseSearchServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StrategicAddServlet</servlet-name>
+        <servlet-class>com.ddpms.action.strategic.StrategicAddServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StrategicEditServlet</servlet-name>
+        <servlet-class>com.ddpms.action.strategic.StrategicEditServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StrategicDeleteServlet</servlet-name>
+        <servlet-class>com.ddpms.action.strategic.StrategicDeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StrategicSearchServlet</servlet-name>
+        <servlet-class>com.ddpms.action.strategic.StrategicSearchServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PlanAddServlet</servlet-name>
+        <servlet-class>com.ddpms.action.plan.PlanAddServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PlanEditServlet</servlet-name>
+        <servlet-class>com.ddpms.action.plan.PlanEditServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PlanDeleteServlet</servlet-name>
+        <servlet-class>com.ddpms.action.plan.PlanDeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PlanSearchServlet</servlet-name>
+        <servlet-class>com.ddpms.action.plan.PlanSearchServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
@@ -230,6 +278,54 @@
     <servlet-mapping>
         <servlet-name>TaskAssignDeleteServlet</servlet-name>
         <url-pattern>/TaskAssignDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectExpenseAddServlet</servlet-name>
+        <url-pattern>/ProjectExpenseAddServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectExpenseEditServlet</servlet-name>
+        <url-pattern>/ProjectExpenseEditServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectExpenseDeleteServlet</servlet-name>
+        <url-pattern>/ProjectExpenseDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectExpenseSearchServlet</servlet-name>
+        <url-pattern>/ProjectExpenseSearchServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StrategicAddServlet</servlet-name>
+        <url-pattern>/StrategicAddServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StrategicEditServlet</servlet-name>
+        <url-pattern>/StrategicEditServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StrategicDeleteServlet</servlet-name>
+        <url-pattern>/StrategicDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StrategicSearchServlet</servlet-name>
+        <url-pattern>/StrategicSearchServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PlanAddServlet</servlet-name>
+        <url-pattern>/PlanAddServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PlanEditServlet</servlet-name>
+        <url-pattern>/PlanEditServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PlanDeleteServlet</servlet-name>
+        <url-pattern>/PlanDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PlanSearchServlet</servlet-name>
+        <url-pattern>/PlanSearchServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>TaskWorkListServlet</servlet-name>

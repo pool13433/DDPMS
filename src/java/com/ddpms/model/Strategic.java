@@ -1,25 +1,27 @@
+
 package com.ddpms.model;
 
-public class Plan {
-    private String planId;
-    private String planName;
+
+public class Strategic {
+    private String straId;
+    private String straName;
     private String modifiedDate;
     private String modifiedBy;
 
-    public String getPlanId() {
-        return planId;
+    public String getStraId() {
+        return straId;
     }
 
-    public void setPlanId(String planId) {
-        this.planId = planId;
+    public void setStraId(String straId) {
+        this.straId = straId;
     }
 
-    public String getPlanName() {
-        return planName;
+    public String getStraName() {
+        return straName;
     }
 
-    public void setPlanName(String planName) {
-        this.planName = planName;
+    public void setStraName(String straName) {
+        this.straName = straName;
     }
 
     public String getModifiedDate() {
@@ -37,4 +39,6 @@ public class Plan {
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
+    
+    
 }

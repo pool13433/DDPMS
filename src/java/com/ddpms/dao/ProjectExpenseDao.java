@@ -44,19 +44,28 @@ public class ProjectExpenseDao {
         }
         return bpList;
     }
-    public int createProjectExpense(ProjectExpense bp){
+    public int createProjectExpense(ProjectExpense pe){
          logger.debug("..createProjectExpense");
          int exe = 0;
          PreparedStatement pstm = null;
          try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" INSERT INTO budget_plan ");
-            sql.append(" (`budp_name`, `budp_year_begin`, `budp_year_end`, `modified_date`, `modified_by` ) ");
-            sql.append(" VALUES (?,?,?,NOW(),?)");
+            sql.append(" INSERT INTO project_expense ");
+            sql.append(" (`proj_id`, `exp_desc`, `exp_amount`, `exp_voch`, `exp_pr`, "
+                    + "`receipt`, `exp_date`, `vender`, `modified_date`, `modified_by` ) ");
+            sql.append(" VALUES (?,?,?,?,?,?,?,?,NOW(),?)");
             
             pstm = conn.prepareStatement(sql.toString());     
-            //pstm.setString(1, bp.getBudpName());
+            pstm.setString(1, pe.getProjId());
+            pstm.setString(2, pe.getExpDesc());
+            pstm.setString(3, pe.getExpAmount());
+            pstm.setString(4, pe.getExpVoch());
+            pstm.setString(5, pe.getExpPr());
+            pstm.setString(6, pe.getReceipt());
+            pstm.setString(7, pe.getExpDate());
+            pstm.setString(8, pe.getVender());
+            pstm.setString(9, pe.getModifiedBy());
             logger.info("pstm ::=="+pstm.toString());
             exe = pstm.executeUpdate();
              
@@ -68,21 +77,30 @@ public class ProjectExpenseDao {
         return exe;
     }
      
-    public int updateProjectExpense(ProjectExpense bp){
+    public int updateProjectExpense(ProjectExpense pe){
         logger.debug("..updateProjectExpense");
         int exe = 0;
         PreparedStatement pstm = null;
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" UPDATE `budget_plan` SET ");            
-            sql.append(" `budp_name`=?,`budp_year_begin`=?,`budp_year_end`=?, ");
-            sql.append(" `modified_by`=?, ");
+            sql.append(" UPDATE `project_expense` SET ");            
+            sql.append(" `proj_id`=?,`exp_desc`=?,`exp_amount`=?,`exp_voch`=? ");
+            sql.append(" `exp_pr`=?,`receipt`=?,`exp_date`=?,`vender`=?, `modified_by`=?, ");
             sql.append(" `modified_date`=NOW() ");
-            sql.append(" WHERE `budp_id`=?");
+            sql.append(" WHERE `exp_id`=?");
             
             pstm = conn.prepareStatement(sql.toString());     
-            //pstm.setString(1, bp.getBudpName());
+            pstm.setString(1, pe.getProjId());
+            pstm.setString(2, pe.getExpDesc());
+            pstm.setString(3, pe.getExpAmount());
+            pstm.setString(4, pe.getExpVoch());
+            pstm.setString(5, pe.getExpPr());
+            pstm.setString(6, pe.getReceipt());
+            pstm.setString(7, pe.getExpDate());
+            pstm.setString(8, pe.getVender());
+            pstm.setString(9, pe.getModifiedBy());
+            pstm.setString(10, pe.getExpId());
             logger.info("pstm ::=="+pstm.toString());
             exe = pstm.executeUpdate();
         } catch (Exception e) {
@@ -101,7 +119,7 @@ public class ProjectExpenseDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" DELETE FROM `budget_plan` WHERE budp_id=?");
+            sql.append(" DELETE FROM `project_expense` WHERE exp_id=?");
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, id);
@@ -120,7 +138,9 @@ public class ProjectExpenseDao {
         logger.debug("..getConditionBuilder");
         StringBuilder sql = new StringBuilder(" WHERE 1=1 ");
         try {            
-            
+            if (!"".equals(CharacterUtil.removeNull(pe.getProjId()))) {
+                sql.append(" and proj_id='" + pe.getProjId() + "'");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,18 +149,21 @@ public class ProjectExpenseDao {
     
     private ProjectExpense getEntityProjectExpense(ResultSet rs) throws SQLException {
         logger.debug("..getEntityProjectExpense");
-        ProjectExpense bp = new ProjectExpense();
-        /*
-        bp.setBudpId(rs.getString("budp_id"));
-        bp.setBudpName(rs.getString("budp_name"));
-        bp.setBudpYearBegin(rs.getString("budp_year_begin"));
-        bp.setBudpYearEnd(rs.getString("budp_year_end"));
-        bp.setModifiedDate(rs.getString("modified_date"));
-        bp.setModifiedBy(rs.getString("modified_by"));
-        */
+        ProjectExpense pe = new ProjectExpense();
         
+        pe.setExpId(rs.getString("exp_id"));
+        pe.setProjId(rs.getString("proj_id"));
+        pe.setExpDesc(rs.getString("exp_desc"));
+        pe.setExpAmount(rs.getString("exp_amount"));
+        pe.setExpDate(rs.getString("exp_date"));
+        pe.setExpVoch(rs.getString("exp_voch"));
+        pe.setExpPr(rs.getString("exp_pr"));
+        pe.setReceipt(rs.getString("receipt"));
+        pe.setVender(rs.getString("vender"));
+        pe.setModifiedDate(rs.getString("modified_date"));
+        pe.setModifiedBy(rs.getString("modified_by"));
         
-        return bp;
+        return pe;
     }
     
     public int getCountProjectExpense(String conditionBuilder) {
@@ -150,7 +173,7 @@ public class ProjectExpenseDao {
         int countProjectExpense = 0;
         try {
             conn = new DbConnection().open();
-            StringBuilder sql = new StringBuilder("SELECT COUNT(*) as cnt FROM budget_plan bp");
+            StringBuilder sql = new StringBuilder("SELECT COUNT(*) as cnt FROM project_expense pe");
             if (conditionBuilder != null) {
                 sql.append(conditionBuilder);
             }
