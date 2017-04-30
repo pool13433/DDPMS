@@ -9,12 +9,12 @@
             <a href="${context}//TaskWorkListServlet?menu=task_work" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></a>
         </div>        
         <form action="${context}/TaskWorkSaveServlet" method="post" class="form-horizontal" style="padding-right: 100px;" >
-            <input type="hidden" id="taskaId" name="taskwId" value="${taskAssign.taskwId}"/>
+            <input type="hidden" id="taskaId" name="taskwId" value="${taskWork.taskwId}"/>
             <div class="form-group">
                 <label for="taskwDetail" class="col-sm-2 control-label">Detail</label>
                 <div class="col-sm-10">                            
                     <input  type="hidden" name="taskwId"  value="${project.projId}">
-                    <textarea class="form-control" name="taskwDetail"></textarea>
+                    <textarea class="form-control" name="taskwDetail">${taskWork.taskwDetail}</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -26,7 +26,7 @@
                             <optgroup label="${project.projName}">
                                 <c:forEach items="${project.taskAssignList}" var="task">
                                     <c:choose>
-                                        <c:when test="${taskAssign.taskId == task.taskaId}">
+                                        <c:when test="${taskWork.taskaId == task.taskaId}">
                                             <option value="${task.taskaId}" selected>${task.taskName}</option>
                                         </c:when>
                                         <c:otherwise>
@@ -45,7 +45,7 @@
                         <option value="" selected>--เลือก--</option>
                         <c:forEach items="${mandays}" var="man">
                             <c:choose>
-                                <c:when test="${taskAssign.taskId == man}">
+                                <c:when test="${taskWork.taskwManday == man}">
                                     <option value="${man}" selected>${man}</option>
                                 </c:when>
                                 <c:otherwise>
@@ -59,7 +59,7 @@
             <div class="form-group">
                 <label for="taskwDate" class="col-sm-2 control-label">Work Date</label>
                 <div class="col-sm-3">
-                    <input class="form-control datepicker" type="text" name="taskwDate"  value="${taskAssign.taskaAssignDate}" readonly>
+                    <input class="form-control datepicker" type="text" name="taskwDate"  value="${taskWork.taskwDate}" readonly>
                 </div>
             </div>   
             <div class="form-group">
