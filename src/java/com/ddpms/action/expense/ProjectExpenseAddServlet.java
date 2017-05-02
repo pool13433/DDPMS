@@ -5,8 +5,10 @@
  */
 package com.ddpms.action.expense;
 
+import com.ddpms.dao.ProjectDao;
 import com.ddpms.dao.ProjectExpenseDao;
 import com.ddpms.model.MessageUI;
+import com.ddpms.model.Project;
 import com.ddpms.model.ProjectExpense;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
@@ -27,6 +29,11 @@ final static Logger logger = Logger.getLogger(ProjectExpenseAddServlet.class);
             throws ServletException, IOException {
         logger.debug("...goGet ProjectExpenseAddServlet");
         try {
+            ProjectDao pjDao = new ProjectDao();
+            request.setAttribute("projectList", pjDao.getProject(new Project(), 0, 0));
+            String proj_id = CharacterUtil.removeNull(request.getParameter("proj_id"));
+            request.setAttribute("proj_id", proj_id);
+           
             RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/expense/expense-form.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {

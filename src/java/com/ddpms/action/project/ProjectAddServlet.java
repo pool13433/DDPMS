@@ -2,10 +2,15 @@
 package com.ddpms.action.project;
 
 import com.ddpms.dao.ProjectDao;
+import com.ddpms.dao.ProjectExpenseDao;
 import com.ddpms.model.MessageUI;
 import com.ddpms.model.Project;
+import com.ddpms.model.ProjectExpense;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -58,9 +63,29 @@ public class ProjectAddServlet extends HttpServlet {
             p.setBudpId(budp_id);  
             p.setModifiedBy("1");
             
+            ProjectExpenseDao peDao = new ProjectExpenseDao();
             int exe = 0;
             if(id.equals("")){
                 exe = projectDao.createProject(p);          
+                try {
+                    if (exe != 0) {
+                        p = new Project();
+                        p.setProjName(proj_name);
+                        List<Project> pj = projectDao.getProject(p, 1, 0);
+                        
+                        ProjectExpense pe = new ProjectExpense();
+                        if(!pj.isEmpty()){
+                           pe.setProjId(pj.get(0).getProjId());                           
+                            pe.setExpAmount("0");
+                            pe.setModifiedBy("1");
+                            peDao.createProjectExpense(pe);  
+                        }
+                                
+                    }                              
+                } catch (Exception e) {
+                    logger.error("createProjectExpense Error : "+e.getMessage());
+                }
+                
             }else{
                 exe = projectDao.updateProject(p);                
             }

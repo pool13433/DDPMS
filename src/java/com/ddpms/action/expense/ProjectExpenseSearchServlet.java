@@ -7,7 +7,9 @@ import com.ddpms.model.Pagination;
 import com.ddpms.model.Project;
 import com.ddpms.model.ProjectExpense;
 import com.ddpms.util.CharacterUtil;
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,18 +38,34 @@ final static Logger logger = Logger.getLogger(ProjectExpenseSearchServlet.class)
             String sqlConditionBuilder = dao.getConditionBuilder(pe);
             int countRecordAll = dao.getCountProjectExpense(sqlConditionBuilder);
             
-             if("searching".equals(menu)){
+             if("searching".equals(menu) || "list_expense".equals(menu)){
                 pe.setProjId(proj_id);
-                
-                request.setAttribute("expenseList", dao.getProjectExpense(pe, limit, offset));                
-            }else{
-                request.setAttribute("expenseList", dao.getProjectExpense(new ProjectExpense(), limit, offset));
+                request.setAttribute("expenseTotalSumList", dao.listGroupProjectTotalSum(sqlConditionBuilder)); 
+                List<ProjectExpense> peList = dao.getProjectExpense(pe, limit, offset);
+                request.setAttribute("expenseList", peList);
+                if(!peList.isEmpty()){
+                    request.setAttribute("proj_name", peList.get(0).getProjId());
+                }              
+            }else{                 
+                List<ProjectExpense> expenseTotalSumList = dao.listGroupProjectTotalSum(sqlConditionBuilder);                 
+                request.setAttribute("expenseTotalSumList", expenseTotalSumList); 
+                List<ProjectExpense> peList = dao.getProjectExpense(new ProjectExpense(), limit, offset);
+                request.setAttribute("expenseList", peList);
+                if(!peList.isEmpty()){
+                    request.setAttribute("proj_name", peList.get(0).getProjName());
+                }
             }
             Pagination pagination = new Pagination(pageUrl, countRecordAll, limit, offset);
             request.setAttribute("pagination", pagination);
-                
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/expense/expense-search.jsp");
-            dispatcher.forward(request, response);
+            
+            if("list_expense".equals(menu)){
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/expense/expense-list.jsp");
+                dispatcher.forward(request, response);
+            }else{
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/expense/expense-search.jsp");
+                dispatcher.forward(request, response);
+            }
+            
         } catch (Exception e) {
             logger.error("ProjectExpenseSearchServlet Error : "+e.getMessage());
         }

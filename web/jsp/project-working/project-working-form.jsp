@@ -17,7 +17,7 @@
                         <label for="proj_id" class="col-sm-2 control-label">Project</label>
                         <div class="col-sm-3">
                             <select class="form-control" id="proj_id" name="proj_id" placeholder="proj_id" >
-                                <option value="" selected>--เลือก--</option>                                        
+                                <option value="" selected>--select project--</option>                                        
                                 <c:forEach items="${projectList}" var="p">
                                     <c:choose>
                                         <c:when test="${proj_id == p.projId}">

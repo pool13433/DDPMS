@@ -58,7 +58,7 @@
                                     <a href="#"><i class="glyphicon glyphicon-share"></i> Manage Project Shift</a>
                                 </li>
                                 <li class="<c:out value="${menu == 'project_expense' ? 'active': ''}"/>">                                
-                                    <a href="#"><i class="glyphicon glyphicon-usd"></i> Manage Project Expense</a>
+                                    <a href="${context}/ProjectExpenseSearchServlet?menu=expense"><i class="glyphicon glyphicon-usd"></i> Manage Project Expense</a>
                                 </li>
                             </ul>
                         </li>
