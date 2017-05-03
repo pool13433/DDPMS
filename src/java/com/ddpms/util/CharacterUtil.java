@@ -30,4 +30,12 @@ public class CharacterUtil {
             return String.valueOf(data);
         }
     }
+    
+    public static int stringEmptyToInt(String data, int to) throws Exception{
+        if(data.equals("")){
+            return to;
+        }else{
+            throw new Exception("string not empty");
+        }
+    }
 }

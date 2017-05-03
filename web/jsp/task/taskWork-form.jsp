@@ -4,7 +4,7 @@
 <jsp:include page="../include/inc_header.jsp"/>
 <div class="container" style="padding-right: 100px;">    
     <div class="panel panel-ddpms">        
-        <div class="panel-heading">Form Task Assignment</div>
+        <div class="panel-heading">Form Task Working</div>
         <div class="panel-body">               
             <a href="${context}//TaskWorkListServlet?menu=task_work" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></a>
         </div>        
