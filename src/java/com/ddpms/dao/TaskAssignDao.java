@@ -2,12 +2,16 @@ package com.ddpms.dao;
 
 import com.ddpms.db.DbConnection;
 import com.ddpms.model.TaskAssign;
+import com.ddpms.model.TaskWork;
+import com.ddpms.util.CharacterUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.apache.log4j.Logger;
 
 public class TaskAssignDao {
@@ -119,7 +123,7 @@ public class TaskAssignDao {
     
     public List<TaskAssign> getTaskAssignListByUser(int userId,int projId) {
         logger.info("..getTaskAssignListByUser");
-        List<TaskAssign> taskAssignList = null;
+        List<TaskAssign> taskAssignList = null;        
         PreparedStatement pstm = null;
         ResultSet rs = null;
         try {

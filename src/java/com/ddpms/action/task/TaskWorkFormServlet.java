@@ -33,9 +33,9 @@ public class TaskWorkFormServlet extends HttpServlet {
                 taskWork = new TaskWorkDao().getTaskWork(Integer.parseInt(taskwId));
             }
             
-            Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");    
+            Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");             
             List<Project> projectList = new ProjectDao().getProjectListHaveTaskAssign(employee.getEmpId());
-            for (Project project : projectList) {
+            for (Project project : projectList) {                
                 List<TaskAssign> taskAssignList = new TaskAssignDao().getTaskAssignListByUser(employee.getEmpId(),Integer.parseInt(project.getProjId()));
                 project.setTaskAssignList(taskAssignList);
             }            

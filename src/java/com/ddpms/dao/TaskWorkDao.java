@@ -1,14 +1,16 @@
 package com.ddpms.dao;
 
 import com.ddpms.db.DbConnection;
-import com.ddpms.model.TaskAssign;
 import com.ddpms.model.TaskWork;
+import com.ddpms.util.CharacterUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.apache.log4j.Logger;
 
 public class TaskWorkDao {
@@ -50,11 +52,11 @@ public class TaskWorkDao {
         return task;
     }
 
-    public List<TaskWork> getTaskWorkListByUser(int userId) {
-        logger.info("..getTaskAssignsByTask");
+    public List<TaskWork> getTaskWorkListByUser(int userId,TaskWork criteria) {
+        logger.info("..getTaskWorkListByUser");
         List<TaskWork> taskWorkList = null;
         PreparedStatement pstm = null;
-        ResultSet rs = null;
+        ResultSet rs = null;        
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
@@ -65,12 +67,21 @@ public class TaskWorkDao {
             sql.append(" FROM task_work tw ");
             sql.append(" LEFT JOIN task_assign ta ON ta.taska_id =  tw.taska_id");
             sql.append(" LEFT JOIN task t ON t.task_id =  ta.task_id");
-            sql.append("  WHERE ta.task_userid = ?");
-            sql.append(" ORDER BY taskw_date ASC ");
-
+            sql.append("  WHERE ta.task_userid = ").append(userId);            
+                             
+            if(!CharacterUtil.removeNull(criteria.getTaskwDate()).equals("")){
+                sql.append(" AND MONTH(tw.taskw_date) = ").append(criteria.getTaskwDate());                
+            }    
+            if(!CharacterUtil.removeNull(criteria.getTaskwManday()).equals("-1")){
+                sql.append(" AND tw.taskw_manday = ").append(criteria.getTaskwManday());                
+            }         
+              if(!CharacterUtil.removeNull(criteria.getTaskaId()).equals("-1")){
+                sql.append(" AND ta.taska_id = ").append(criteria.getTaskaId());                
+            }       
+            sql.append(" ORDER BY t.task_id,tw.taskw_date ASC ");
+            
             pstm = conn.prepareStatement(sql.toString());
-            pstm.setInt(1, userId);
-            logger.info("pstm ::==" + pstm.toString());
+            logger.info("pstm ::==" + sql.toString());
             rs = pstm.executeQuery();
             taskWorkList = new ArrayList<TaskWork>();
             while (rs.next()) {

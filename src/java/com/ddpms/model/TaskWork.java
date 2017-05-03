@@ -7,10 +7,11 @@ public class TaskWork {
     private int taskwManday;
     private int taskaId;
     private String taskName;
+    private int projId;
     private String projName;
     private String taskwDate;
     private String modifiedDate;
-    private int modifiedBy;
+    private int modifiedBy;        
 
     public String getTaskwId() {
         return taskwId;
@@ -44,6 +45,30 @@ public class TaskWork {
         this.taskaId = taskaId;
     }
 
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public int getProjId() {
+        return projId;
+    }
+
+    public void setProjId(int projId) {
+        this.projId = projId;
+    }
+
+    public String getProjName() {
+        return projName;
+    }
+
+    public void setProjName(String projName) {
+        this.projName = projName;
+    }
+
     public String getTaskwDate() {
         return taskwDate;
     }
@@ -67,24 +92,5 @@ public class TaskWork {
     public void setModifiedBy(int modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
-
-    public String getTaskName() {
-        return taskName;
-    }
-
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
-    public String getProjName() {
-        return projName;
-    }
-
-    public void setProjName(String projName) {
-        this.projName = projName;
-    }
-
-    
-    
     
 }
