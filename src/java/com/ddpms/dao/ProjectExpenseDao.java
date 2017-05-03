@@ -8,7 +8,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.apache.log4j.Logger;
 
@@ -24,16 +26,16 @@ public class ProjectExpenseDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT `exp_id`, `proj_id`, `exp_desc`, `exp_amount`, `exp_voch`, `exp_pr`, ");
+            sql.append(" SELECT `exp_id`, (select p.proj_name from project p where p.proj_id=pe.proj_id) as `proj_id`, `exp_desc`, `exp_amount`, `exp_voch`, `exp_pr`, ");
             sql.append(" `receipt`, `exp_date`, `vender`, `modified_date`, `modified_by` ");
-            sql.append(" FROM `project_expense` ");
+            sql.append(" FROM `project_expense` pe ");
             sql.append(getConditionBuilder(pe));   
             if(offset != 0){
                 sql.append(" limit ").append(limit).append(" offset ").append(offset);
             }            
             
             pstm = conn.prepareStatement(sql.toString());
-            logger.info("pstm ::=="+pstm.toString());
+            //logger.info("pstm ::=="+pstm.toString());
             rs = pstm.executeQuery();
             
             while (rs.next()) {                
@@ -63,10 +65,17 @@ public class ProjectExpenseDao {
             pstm.setString(4, pe.getExpVoch());
             pstm.setString(5, pe.getExpPr());
             pstm.setString(6, pe.getReceipt());
-            pstm.setString(7, pe.getExpDate());
+            if(!"".equals(CharacterUtil.removeNull(pe.getExpDate()))){
+                SimpleDateFormat sd1 = new SimpleDateFormat("dd-mm-yyyy");
+                Date date = sd1.parse(pe.getExpDate());
+                SimpleDateFormat sd2 = new SimpleDateFormat("yyyy-mm-dd");
+                pstm.setString(7, sd2.format(date));
+            }else{
+                pstm.setString(7, null);
+            }
             pstm.setString(8, pe.getVender());
             pstm.setString(9, pe.getModifiedBy());
-            logger.info("pstm ::=="+pstm.toString());
+            //logger.info("pstm ::=="+pstm.toString());
             exe = pstm.executeUpdate();
              
          } catch (Exception e) {
@@ -85,7 +94,7 @@ public class ProjectExpenseDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" UPDATE `project_expense` SET ");            
-            sql.append(" `proj_id`=?,`exp_desc`=?,`exp_amount`=?,`exp_voch`=? ");
+            sql.append(" `proj_id`=?,`exp_desc`=?,`exp_amount`=?,`exp_voch`=?, ");
             sql.append(" `exp_pr`=?,`receipt`=?,`exp_date`=?,`vender`=?, `modified_by`=?, ");
             sql.append(" `modified_date`=NOW() ");
             sql.append(" WHERE `exp_id`=?");
@@ -166,6 +175,18 @@ public class ProjectExpenseDao {
         return pe;
     }
     
+    private ProjectExpense getEntityListTotalSum(ResultSet rs) throws SQLException {
+        logger.debug("..getEntityListTotalSum");
+        ProjectExpense pe = new ProjectExpense();
+        
+        pe.setProjId(rs.getString("proj_id"));
+        pe.setProjName(rs.getString("proj_name"));
+        pe.setExpAmount(rs.getString("exp_amount"));
+        pe.setModifiedDate(rs.getString("modified_date"));
+        
+        return pe;
+    }
+    
     public int getCountProjectExpense(String conditionBuilder) {
         logger.debug("..getCountProjectExpense");
         PreparedStatement pstm = null;
@@ -189,6 +210,34 @@ public class ProjectExpenseDao {
             this.close(pstm, rs);
         }
         return countProjectExpense;
+    }
+    
+    public List<ProjectExpense> listGroupProjectTotalSum(String conditionBuilder) {
+        logger.debug("..listGroupProjectTotalSum");
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        List<ProjectExpense> listProjectGroupTotalSum = new ArrayList<ProjectExpense>();
+        try {
+            conn = new DbConnection().open();
+            // SELECT `proj_id`, `modified_date` , (select sum(exp_amount) from project_expense p where p.proj_id=pe.proj_id) as total_amount FROM `project_expense` pe
+            StringBuilder sql = new StringBuilder("SELECT (select p.proj_name from project p where p.proj_id=pe.proj_id) as proj_name, `proj_id`, `modified_date` , (select sum(exp_amount) from project_expense p where p.proj_id=pe.proj_id) as exp_amount FROM `project_expense` pe ");
+            if (conditionBuilder != null) {
+                sql.append(conditionBuilder);
+                sql.append(" GROUP BY proj_id ");
+            }
+            pstm = conn.prepareStatement(sql.toString());
+            //logger.debug("sql : "+pstm);
+            rs = pstm.executeQuery();
+            while (rs.next()) {                
+                listProjectGroupTotalSum.add(getEntityListTotalSum(rs));
+            }            
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("listGroupProjectTotalSum error", e);
+        } finally {
+            this.close(pstm, rs);
+        }
+        return listProjectGroupTotalSum;
     }
     
     private void close(PreparedStatement pstm, ResultSet rs) {

@@ -6,12 +6,14 @@ public class ProjectExpense {
     
     private String projId;
     
+    private String projName;
+    
     private String expDesc;
     
     private String expAmount;
     
     private String expPr;
-    
+        
     private String expVoch;
     
     private String receipt;
@@ -24,6 +26,14 @@ public class ProjectExpense {
 
     private String modifiedBy;
 
+    public String getProjName() {
+        return projName;
+    }
+
+    public void setProjName(String projName) {
+        this.projName = projName;
+    }
+    
     public String getExpId() {
         return expId;
     }
