@@ -51,10 +51,7 @@
                 <div class="col-md-12">
                     <c:import url="../include/inc_pagination.jsp"/>
                 </div>
-            </div>     
-            <div id="msgBox" class="alert alert-warning" hidden="">
-                <strong>Warning! </strong><text id="msg" name="msg" value=""></text>
-            </div>
+            </div>  
             <form id="budpList" action="${context}/StrategicSearchServlet"   method="post" class="form-horizontal">
                 <input type="hidden" id="menu" name="menu" value="manage"/>
                 <div style="overflow-y: scroll;max-height: 400px;">                    
@@ -103,15 +100,4 @@
         </div>        
     </div>        
 </div>   
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        
-        
-        
-        
-    });
-</script>
-
 <jsp:include page="../include/inc_footer.jsp"/>

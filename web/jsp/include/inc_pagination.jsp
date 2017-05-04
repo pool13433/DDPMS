@@ -4,21 +4,22 @@
 
 <c:set var="page" value="${pagination.pages}" />
 
-pageCurrent :: ${pagination.pageCurrent} <br/>
-paginLimit :: ${pagination.paginLimit} <br/>
-recordCurrent :: ${pagination.recordCurrent} <br/>
-recordLimit :: ${pagination.recordLimit} <br/>
-pages :: ${page} <br/>
-pageUrl :: ${pagination.pageUrl} <br/>
-
+<c:if test="false"> <!-- enable = true ,disable = false -->
+    pageCurrent :: ${pagination.pageCurrent} <br/>
+    paginLimit :: ${pagination.paginLimit} <br/>
+    recordCurrent :: ${pagination.recordCurrent} <br/>
+    recordLimit :: ${pagination.recordLimit} <br/>
+    pages :: ${page} <br/>
+    pageUrl :: ${pagination.pageUrl} <br/>
+    countRecordAll :: ${pagination.countRecordAll} <br/>
+</c:if>
 
 <div class="navigation pull-right">
-    <ul class="pagination">
-        <li><a href="${pagination.pageUrl}"> First</a></li>
-
-        <c:if test="${pagination.pageCurrent > 1}">
+    <ul class="pagination">        
+        <c:if test="${pagination.pageCurrent > 0}">
+            <li><a href="${pagination.pageUrl}"> First</a></li>
             <li class="previous">
-                <a href="${pagination.pageUrl}&offset=${pagination.recordCurrent -pagination.recordLimit}" class="fui-arrow-left">
+                <a href="${pagination.pageUrl}&offset=${pagination.recordCurrent -pagination.recordLimit}">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>

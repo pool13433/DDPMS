@@ -25,7 +25,7 @@ public class DbConnection {
                     .getConnection(prop.getProperty("mysql.db.host"), prop.getProperty("mysql.db.username"), prop.getProperty("mysql.db.password"));
             //System.out.println("MySQL Connection Success!");
             if (connection != null) {
-                logger.info("connection success ");
+                //logger.info("connection success ");
             }
         } catch (SQLException e) {
             logger.error("connection error", e);

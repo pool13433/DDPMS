@@ -1,6 +1,7 @@
-package com.ddpms.action.config;
 
-import com.ddpms.dao.ConfigDao;
+package com.ddpms.action.projecttype;
+
+import com.ddpms.dao.ProjectTypeDao;
 import com.ddpms.model.MessageUI;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
@@ -10,14 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
-public class ConfigDeleteServlet extends HttpServlet {
-
-    final static Logger logger = Logger.getLogger(ConfigDeleteServlet.class);
+public class ProjectTypeDeleteServlet extends HttpServlet {
+    final static Logger logger = Logger.getLogger(ProjectTypeDeleteServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            int exec = new ConfigDao().deleteConfig(Integer.parseInt(CharacterUtil.removeNull(request.getParameter("confId"))));
+            int exec = new ProjectTypeDao().deleteProjectType(Integer.parseInt(CharacterUtil.removeNull(request.getParameter("protId"))));
             MessageUI message = null;
             if (exec == 0) {
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
@@ -26,10 +26,9 @@ public class ConfigDeleteServlet extends HttpServlet {
             }
             request.getSession().setAttribute("MessageUI", message);
         } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("delete sim error", e);
-            request.setAttribute("message", "delete config error");
+            logger.error("ProjectTypeDeleteServlet error", e);
+            request.setAttribute("message", "delete project type error");
         }
-        response.sendRedirect(request.getContextPath() + "/ConfigListServlet?menu=config");
+        response.sendRedirect(request.getContextPath() + "/ProjectTypeListServlet?menu=project-type");
     }
 }

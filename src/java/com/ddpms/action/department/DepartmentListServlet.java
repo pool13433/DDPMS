@@ -1,6 +1,7 @@
-package com.ddpms.action.config;
 
-import com.ddpms.dao.ConfigDao;
+package com.ddpms.action.department;
+
+import com.ddpms.dao.DepartmentDao;
 import com.ddpms.model.Pagination;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
@@ -11,27 +12,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
-public class ConfigListServlet extends HttpServlet {
+public class DepartmentListServlet extends HttpServlet {
 
-    final static Logger logger = Logger.getLogger(ConfigListServlet.class);
+     final static Logger logger = Logger.getLogger(DepartmentListServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int limit = CharacterUtil.removeNullTo(request.getParameter("limit"), 10);
             int offset = CharacterUtil.removeNullTo(request.getParameter("offset"), 0);
-            String pageUrl = request.getContextPath() + "/ConfigListServlet?" + request.getQueryString();
+            String pageUrl = request.getContextPath() + "/DepartmentListServlet?" + request.getQueryString();
             
-            ConfigDao dao = new ConfigDao();
-            int countRecordAll = dao.getCountConfig();            
-            request.setAttribute("configList", dao.getAllConfig(limit, offset));
+            DepartmentDao dao = new DepartmentDao();
+            int countRecordAll = dao.getCountDepartment();
+            request.setAttribute("departmentList", dao.getDepartmentList(limit, offset));
             Pagination pagination = new Pagination(pageUrl, countRecordAll, limit, offset);
             request.setAttribute("pagination", pagination);
         } catch (Exception e) {
-            logger.error("ConfigListServlet error", e);
+            logger.error("DepartmentListServlet error", e);
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/config/config-search.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/department/department-search.jsp");
         dispatcher.forward(request, response);
     }
-
 }
