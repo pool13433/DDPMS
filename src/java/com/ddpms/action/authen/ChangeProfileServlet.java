@@ -5,7 +5,11 @@
  */
 package com.ddpms.action.authen;
 
+import com.ddpms.dao.DepartmentDao;
+import com.ddpms.model.Department;
+import com.ddpms.model.Employee;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +28,10 @@ public class ChangeProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-
+            List<Department> departmentList = new DepartmentDao().getDepartmentAll();
+            Employee profile = (Employee) request.getSession().getAttribute("EMPLOYEE");
+            request.setAttribute("departmentList", departmentList);
+            request.setAttribute("profile", profile);
         } catch (Exception e) {
             logger.error("change profile error", e);
         }

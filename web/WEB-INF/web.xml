@@ -164,6 +164,22 @@
         <servlet-name>PlanSearchServlet</servlet-name>
         <servlet-class>com.ddpms.action.plan.PlanSearchServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ConfigListServlet</servlet-name>
+        <servlet-class>com.ddpms.action.config.ConfigListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConfigFormServlet</servlet-name>
+        <servlet-class>com.ddpms.action.config.ConfigFormServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConfigSaveServlet</servlet-name>
+        <servlet-class>com.ddpms.action.config.ConfigSaveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConfigDeleteServlet</servlet-name>
+        <servlet-class>com.ddpms.action.config.ConfigDeleteServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
@@ -342,6 +358,22 @@
     <servlet-mapping>
         <servlet-name>TaskWorkDeleteServlet</servlet-name>
         <url-pattern>/TaskWorkDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfigListServlet</servlet-name>
+        <url-pattern>/ConfigListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfigFormServlet</servlet-name>
+        <url-pattern>/ConfigFormServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfigSaveServlet</servlet-name>
+        <url-pattern>/ConfigSaveServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfigDeleteServlet</servlet-name>
+        <url-pattern>/ConfigDeleteServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

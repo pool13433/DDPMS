@@ -5,6 +5,7 @@
  */
 package com.ddpms.dao;
 
+import static com.ddpms.dao.PlanDao.logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 import com.ddpms.db.DbConnection;
 import com.ddpms.model.Employee;
+import com.ddpms.model.Plan;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +81,32 @@ public class EmployeeDao {
             this.close(pstm, rs);
         }
         return employeeList;
+    }
+    
+    public int updatePassword(String passsword,int modifiedBy,int id) {
+        logger.debug("..updatePassword");
+        int exe = 0;
+        PreparedStatement pstm = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" UPDATE `employee` SET ");
+            sql.append(" `password`=md5(?), `modified_by`=?, ");
+            sql.append(" `modified_date`=NOW() ");
+            sql.append(" WHERE `emp_id`=?");
+
+            pstm = conn.prepareStatement(sql.toString());
+            pstm.setString(1, passsword);
+            pstm.setInt(2,modifiedBy);
+            pstm.setInt(3, id);
+            logger.info("pstm ::==" + pstm.toString());
+            exe = pstm.executeUpdate();
+        } catch (Exception e) {            
+            logger.error("updatePassword error", e);
+        } finally {
+            this.close(pstm, null);
+        }
+        return exe;
     }
     
     private Employee getEntityEmployee(ResultSet rs) throws SQLException{
