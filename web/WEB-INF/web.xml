@@ -180,6 +180,40 @@
         <servlet-name>ConfigDeleteServlet</servlet-name>
         <servlet-class>com.ddpms.action.config.ConfigDeleteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProjectTypeListServlet</servlet-name>
+        <servlet-class>com.ddpms.action.projecttype.ProjectTypeListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectTypeFormServlet</servlet-name>
+        <servlet-class>com.ddpms.action.projecttype.ProjectTypeFormServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectTypeDeleteServlet</servlet-name>
+        <servlet-class>com.ddpms.action.projecttype.ProjectTypeDeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectTypeSaveServlet</servlet-name>
+        <servlet-class>com.ddpms.action.projecttype.ProjectTypeSaveServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>DepartmentListServlet</servlet-name>
+        <servlet-class>com.ddpms.action.department.DepartmentListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DepartmentFormServlet</servlet-name>
+        <servlet-class>com.ddpms.action.department.DepartmentFormServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DepartmentDeleteServlet</servlet-name>
+        <servlet-class>com.ddpms.action.department.DepartmentDeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DepartmentSaveServlet</servlet-name>
+        <servlet-class>com.ddpms.action.department.DepartmentSaveServlet</servlet-class>
+    </servlet>
+    
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
@@ -375,6 +409,41 @@
         <servlet-name>ConfigDeleteServlet</servlet-name>
         <url-pattern>/ConfigDeleteServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectTypeListServlet</servlet-name>
+        <url-pattern>/ProjectTypeListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectTypeFormServlet</servlet-name>
+        <url-pattern>/ProjectTypeFormServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectTypeDeleteServlet</servlet-name>
+        <url-pattern>/ProjectTypeDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectTypeSaveServlet</servlet-name>
+        <url-pattern>/ProjectTypeSaveServlet</url-pattern>
+    </servlet-mapping>
+    
+    
+    <servlet-mapping>
+        <servlet-name>DepartmentListServlet</servlet-name>
+        <url-pattern>/DepartmentListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DepartmentFormServlet</servlet-name>
+        <url-pattern>/DepartmentFormServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DepartmentDeleteServlet</servlet-name>
+        <url-pattern>/DepartmentDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DepartmentSaveServlet</servlet-name>
+        <url-pattern>/DepartmentSaveServlet</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30

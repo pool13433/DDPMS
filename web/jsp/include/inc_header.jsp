@@ -84,14 +84,14 @@
                                 <li class="<c:out value="${menu == 'plan' ? 'active': ''}"/>">                                
                                     <a href="${context}/PlanSearchServlet?menu=plan"><i class="glyphicon glyphicon-list-alt"></i> Manage Plan</a>
                                 </li>
-                                <li class="<c:out value="${menu == 'budget' ? 'active': ''}"/>">                                
-                                    <a href="#"><i class="glyphicon glyphicon-usd"></i> Manage Budget</a>
+                                <li class="<c:out value="${menu == 'project-type' ? 'active': ''}"/>">                                
+                                    <a href="${context}/ProjectTypeListServlet?menu=project-type"><i class="glyphicon glyphicon-usd"></i> Manage Project Type</a>
                                 </li>
                                 <li class="<c:out value="${menu == 'config' ? 'active': ''}"/>">                                
                                     <a href="${context}/ConfigListServlet?menu=config"><i class="glyphicon glyphicon-cog"></i> Manage Config</a>
                                 </li>
                                 <li class="<c:out value="${menu == 'department' ? 'active': ''}"/>">                                
-                                    <a href="#"><i class="glyphicon glyphicon-oil"></i> Manage Department</a>
+                                    <a href="${context}/DepartmentListServlet?menu=department"><i class="glyphicon glyphicon-oil"></i> Manage Department</a>
                                 </li>
                                 <li class="<c:out value="${menu == 'task' ? 'active': ''}"/>">                                
                                     <a href="#"><i class="glyphicon glyphicon-hourglass"></i> Manage Task</a>

@@ -1,6 +1,7 @@
-package com.ddpms.action.config;
 
-import com.ddpms.dao.ConfigDao;
+package com.ddpms.action.projecttype;
+
+import com.ddpms.dao.ProjectTypeDao;
 import com.ddpms.model.Pagination;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
@@ -11,27 +12,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
-public class ConfigListServlet extends HttpServlet {
+public class ProjectTypeListServlet extends HttpServlet {
 
-    final static Logger logger = Logger.getLogger(ConfigListServlet.class);
+     final static Logger logger = Logger.getLogger(ProjectTypeListServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int limit = CharacterUtil.removeNullTo(request.getParameter("limit"), 10);
             int offset = CharacterUtil.removeNullTo(request.getParameter("offset"), 0);
-            String pageUrl = request.getContextPath() + "/ConfigListServlet?" + request.getQueryString();
+            String pageUrl = request.getContextPath() + "/ProjectTypeListServlet?" + request.getQueryString();
             
-            ConfigDao dao = new ConfigDao();
-            int countRecordAll = dao.getCountConfig();            
-            request.setAttribute("configList", dao.getAllConfig(limit, offset));
+            ProjectTypeDao dao = new ProjectTypeDao();
+            int countRecordAll = dao.getCountProjectType();
+            request.setAttribute("projectTypeList", dao.getProjectTypeAll(limit, offset));
             Pagination pagination = new Pagination(pageUrl, countRecordAll, limit, offset);
             request.setAttribute("pagination", pagination);
         } catch (Exception e) {
-            logger.error("ConfigListServlet error", e);
+            logger.error("ProjectTypeListServlet error", e);
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/config/config-search.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project-type/projectType-search.jsp");
         dispatcher.forward(request, response);
     }
-
 }
