@@ -1,25 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:if test="${pagination.pages > 1}">
-    <c:if test="${pagination.paginLimit - pagination.pages == 1}">
-        <c:set var="page" value="${pagination.pages - 1}" />
-    </c:if>
-    <c:if test="${pagination.paginLimit - pagination.pages != 1}">
-        <c:set var="page" value="${pagination.pages}" />
-    </c:if>
-</c:if>
 
-<c:if test="${pagination.pages == 1}">
-    <c:set var="page" value="${pagination.pages}" />
-</c:if>
+<c:set var="page" value="${pagination.pages}" />
 
-<!--pageCurrent :: ${pagination.pageCurrent} <br/>
+pageCurrent :: ${pagination.pageCurrent} <br/>
 paginLimit :: ${pagination.paginLimit} <br/>
 recordCurrent :: ${pagination.recordCurrent} <br/>
 recordLimit :: ${pagination.recordLimit} <br/>
 pages :: ${page} <br/>
-pageUrl :: ${pagination.pageUrl} <br/>-->
+pageUrl :: ${pagination.pageUrl} <br/>
 
 
 <div class="navigation pull-right">
@@ -46,17 +36,18 @@ pageUrl :: ${pagination.pageUrl} <br/>-->
             <c:if test="${pagination.recordCurrent == offsetLast}">
             <li class="${(pagination.recordCurrent == offsetLast ? 'active' : '')}"><a href="${pagination.pageUrl}">${page+1}</a></li>      
             </c:if>          
-            <c:if test="${pagination.pageCurrent < page}">
+            <c:if test="${pagination.pageCurrent < (page-1)}">
             <li>
                 <a href="${pagination.pageUrl}&offset=${pagination.recordCurrent + pagination.recordLimit}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
-        </c:if>   
-        <li><a href="${pagination.pageUrl}&offset=${offsetLast}"> Last</a></li>
+            <li><a href="${pagination.pageUrl}&offset=${offsetLast}"> Last</a></li>
+            </c:if>   
+
         <li class="next">
             <a href="#" class="fui-arrow-right">
-                <span aria-hidden="true">${pagination.countRecordAll} Record ,${page +1} Pages</span>
+                <span aria-hidden="true">${pagination.countRecordAll} Record ,${page} Pages</span>
             </a>
         </li>
     </ul>

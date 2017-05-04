@@ -17,6 +17,8 @@ public class ConfigDao {
     final static Logger logger = Logger.getLogger(ConfigDao.class);
 
     private Connection conn = null;
+    private final String STR_TO_DATE = " '%d-%m-%Y' ";
+    private final String DATE_TO_STR = " '%d-%m-%Y' ";
 
     public Map<String, String> getConfigMap(String configCode) {
         ResultSet rs = null;
@@ -68,6 +70,8 @@ public class ConfigDao {
         return configList;
     }
 
+    
+
     public Config getConfig(String configId) {
         ResultSet rs = null;
         PreparedStatement pstm = null;
@@ -94,7 +98,7 @@ public class ConfigDao {
         }
         return config;
     }
-    
+
     public Config getConfigUnique(String configName) {
         ResultSet rs = null;
         PreparedStatement pstm = null;
@@ -102,7 +106,7 @@ public class ConfigDao {
         try {
             conn = new DbConnection().open();
             String sql = "SELECT c.* FROM config c WHERE c.conf_name = ? ";
-            logger.info("sql ::=="+sql);
+            logger.info("sql ::==" + sql);
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, configName);
             rs = pstm.executeQuery();
@@ -128,18 +132,14 @@ public class ConfigDao {
         List<Config> configList = null;
         try {
             conn = new DbConnection().open();
-            String sql = "SELECT c.* FROM config c ORDER BY c.conf_id limit " + limit + " offset " + offset;
+            String sql = "SELECT `conf_id`, `conf_code`, `conf_name`, `conf_value`,modified_by ";
+            sql += " ,DATE_FORMAT(modified_date,"+DATE_TO_STR+") as modified_date  FROM config c ORDER BY c.conf_id limit " + limit + " offset " + offset;
             //logger.info("sql ::=="+sql);
             pstm = conn.prepareStatement(sql);
             rs = pstm.executeQuery();
             configList = new ArrayList<Config>();
             while (rs.next()) {
-                Config config = new Config();
-                config.setConfId(rs.getString("conf_id"));
-                config.setConfCode(rs.getString("conf_code"));
-                config.setConfName(rs.getString("conf_name"));
-                config.setConfValue(rs.getString("conf_value"));
-                configList.add(config);
+                configList.add(this.getEntityConfig(rs));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -157,14 +157,15 @@ public class ConfigDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" INSERT INTO `config` ");
-            sql.append(" ( `conf_code`, `conf_name`, `conf_value` ) ");
+            sql.append(" ( `conf_code`, `conf_name`, `conf_value`,modified_date,modified_by ) ");
             sql.append(" VALUES ");
-            sql.append(" (?,?,?)");
+            sql.append(" (?,?,?,NOW(),?)");
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, config.getConfCode());
             pstm.setString(2, config.getConfName());
             pstm.setString(3, config.getConfValue());
+            pstm.setString(4, config.getModifiedBy());
             exe = pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -182,14 +183,15 @@ public class ConfigDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" UPDATE `config` SET ");
-            sql.append(" `conf_code`=?,`conf_name`=?,`conf_value`=? ");
+            sql.append(" `conf_code`=?,`conf_name`=?,`conf_value`=?,modified_date=NOW(),modified_by=? ");
             sql.append(" WHERE `conf_id`=?");
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, config.getConfCode());
             pstm.setString(2, config.getConfName());
             pstm.setString(3, config.getConfValue());
-            pstm.setString(4, config.getConfId());
+            pstm.setString(4, config.getModifiedBy());
+            pstm.setString(5, config.getConfId());
 
             exe = pstm.executeUpdate();
         } catch (Exception e) {
@@ -256,5 +258,16 @@ public class ConfigDao {
             this.close(pstm, rs);
         }
         return countRecord;
+    }
+
+    private Config getEntityConfig(ResultSet rs) throws SQLException {
+        Config config = new Config();
+        config.setConfCode(rs.getString("conf_code"));
+        config.setConfId(rs.getString("conf_id"));
+        config.setConfName(rs.getString("conf_name"));
+        config.setConfValue(rs.getString("conf_value"));        
+        config.setModifiedDate(rs.getString("modified_date"));      
+        config.setModifiedBy(rs.getString("modified_by"));      
+        return config;
     }
 }

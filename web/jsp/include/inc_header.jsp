@@ -34,7 +34,7 @@
         <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #FB7B55;">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">DDPMD</a>
+                    <a class="navbar-brand" href="#">DDPMS</a>
                 </div>
                 <ul class="nav navbar-nav">           
                     <li class="<c:out value="${menu == 'dashboard' ? 'active': ''}"/>">
@@ -88,7 +88,7 @@
                                     <a href="#"><i class="glyphicon glyphicon-usd"></i> Manage Budget</a>
                                 </li>
                                 <li class="<c:out value="${menu == 'config' ? 'active': ''}"/>">                                
-                                    <a href="#"><i class="glyphicon glyphicon-cog"></i> Manage Config</a>
+                                    <a href="${context}/ConfigListServlet?menu=config"><i class="glyphicon glyphicon-cog"></i> Manage Config</a>
                                 </li>
                                 <li class="<c:out value="${menu == 'department' ? 'active': ''}"/>">                                
                                     <a href="#"><i class="glyphicon glyphicon-oil"></i> Manage Department</a>
@@ -108,8 +108,8 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #0B0F00;">ยินดีต้อนรับคุณ ${EMPLOYEE.username} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="${context}/jsp/authen/password.jsp">เปลี่ยนรหัสผ่าน</a></li>
-                                <li><a href="${context}/ChangeProfileServlet">แก้ไขข้อมูลส่วนตัว</a></li>
+                                <li><a href="${context}/jsp/authen/password.jsp">Change Password</a></li>
+                                <li><a href="${context}/ChangeProfileServlet">Change Profile</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="${context}/LogoutServlet">Sign Out</a></li>
                             </ul>

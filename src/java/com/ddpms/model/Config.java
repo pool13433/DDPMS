@@ -11,6 +11,8 @@ public class Config {
     private String confCode;
     private String confName;
     private String confValue;
+    private String modifiedDate;
+    private String modifiedBy;
 
     public String getConfId() {
         return confId;
@@ -43,5 +45,22 @@ public class Config {
     public void setConfValue(String confValue) {
         this.confValue = confValue;
     }
+
+    public String getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(String modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+    
 
 }
