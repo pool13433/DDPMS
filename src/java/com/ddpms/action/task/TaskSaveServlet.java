@@ -1,9 +1,10 @@
-package com.ddpms.action.department;
+package com.ddpms.action.task;
 
-import com.ddpms.dao.DepartmentDao;
-import com.ddpms.model.Department;
+import com.ddpms.action.department.DepartmentSaveServlet;
+import com.ddpms.dao.TaskDao;
 import com.ddpms.model.Employee;
 import com.ddpms.model.MessageUI;
+import com.ddpms.model.Task;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
-public class DepartmentSaveServlet extends HttpServlet {
+public class TaskSaveServlet extends HttpServlet {
 
     final static Logger logger = Logger.getLogger(DepartmentSaveServlet.class);
 
@@ -20,20 +21,18 @@ public class DepartmentSaveServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");
-            String depId=  CharacterUtil.removeNull(request.getParameter("depId"));
-            String depName = CharacterUtil.removeNull(request.getParameter("depName"));
-            String depAccount = CharacterUtil.removeNull(request.getParameter("depAccount"));            
-            Department department = new Department();
-            department.setDepAccount(depAccount);            
-            department.setDepName(depName);
-            department.setModifiedBy(String.valueOf(employee.getEmpId()));
-            DepartmentDao dao = new DepartmentDao();
+            String taskId = CharacterUtil.removeNull(request.getParameter("taskId"));
+            String taskName = CharacterUtil.removeNull(request.getParameter("taskName"));            
+            Task task = new Task();
+            task.setTaskName(taskName);
+            task.setModifiedBy(String.valueOf(employee.getEmpId()));
+            TaskDao dao = new TaskDao();
             int exec = 0;
-            if (depId.equals("")) {
-                exec = dao.createDepartment(department);
+            if (taskId.equals("")) {
+                exec = dao.createTask(task);
             } else {
-                department.setDepId(depId);
-                exec = dao.updateDepartment(department);
+                task.setTaskId(taskId);
+                exec = dao.updateTask(task);
             }
             MessageUI message = null;
             if (exec == 0) {
@@ -43,9 +42,8 @@ public class DepartmentSaveServlet extends HttpServlet {
             }
             request.getSession().setAttribute("MessageUI", message);
         } catch (Exception e) {
-            logger.error("DepartmentSaveServlet", e);
+            logger.error("TaskSaveServlet error", e);
         }
-        response.sendRedirect(request.getContextPath() + "/DepartmentListServlet?menu=department");
+        response.sendRedirect(request.getContextPath() + "/TaskListServlet?menu=task");
     }
-
 }

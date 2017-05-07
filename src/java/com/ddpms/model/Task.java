@@ -4,21 +4,23 @@ import java.util.List;
 
 public class Task {
 
-    private int taskId;
+    private String taskId;
     private String taskName;
     private String modifiedDate;
     private String modifiedBy;
     
     private List<TaskAssign> taskAssignList;
 
-    public int getTaskId() {
+    public String getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(int taskId) {
+    public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
 
+   
+    
     
 
     public String getTaskName() {

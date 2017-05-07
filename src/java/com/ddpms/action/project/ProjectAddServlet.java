@@ -8,8 +8,6 @@ import com.ddpms.model.Project;
 import com.ddpms.model.ProjectExpense;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
