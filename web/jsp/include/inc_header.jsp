@@ -94,7 +94,7 @@
                                     <a href="${context}/DepartmentListServlet?menu=department"><i class="glyphicon glyphicon-oil"></i> Manage Department</a>
                                 </li>
                                 <li class="<c:out value="${menu == 'task' ? 'active': ''}"/>">                                
-                                    <a href="#"><i class="glyphicon glyphicon-hourglass"></i> Manage Task</a>
+                                    <a href="${context}/TaskListServlet?menu=task"><i class="glyphicon glyphicon-hourglass"></i> Manage Task</a>
                                 </li>
                             </ul>
                         </li>

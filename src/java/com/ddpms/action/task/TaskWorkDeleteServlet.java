@@ -16,20 +16,19 @@ public class TaskWorkDeleteServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        MessageUI message = null;
         try {
-            int exec = new TaskWorkDao().deleteTaskWork(Integer.parseInt(CharacterUtil.removeNull(request.getParameter("taskwId"))));
-            MessageUI message = null;
+            int exec = new TaskWorkDao().deleteTaskWork(Integer.parseInt(CharacterUtil.removeNull(request.getParameter("taskwId"))));            
             if (exec == 0) {
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
             } else {
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "ลบข้อมูลสำเร็จ", "info");
-            }
-            request.getSession().setAttribute("MessageUI", message);
+            }            
         } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("delete sim error", e);
-            request.setAttribute("message", "delete config error");
+            logger.error("TaskWorkDeleteServlet error", e);
+            message = new MessageUI(false, "สถานะการลบข้อมูล", e.getMessage(), "danger");
         }
+        request.getSession().setAttribute("MessageUI", message);
         response.sendRedirect(request.getContextPath() + "/TaskWorkListServlet?menu=task_work");
     }
 }

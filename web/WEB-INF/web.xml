@@ -196,7 +196,6 @@
         <servlet-name>ProjectTypeSaveServlet</servlet-name>
         <servlet-class>com.ddpms.action.projecttype.ProjectTypeSaveServlet</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>DepartmentListServlet</servlet-name>
         <servlet-class>com.ddpms.action.department.DepartmentListServlet</servlet-class>
@@ -213,7 +212,22 @@
         <servlet-name>DepartmentSaveServlet</servlet-name>
         <servlet-class>com.ddpms.action.department.DepartmentSaveServlet</servlet-class>
     </servlet>
-    
+    <servlet>
+        <servlet-name>TaskListServlet</servlet-name>
+        <servlet-class>com.ddpms.action.task.TaskListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TaskFormServlet</servlet-name>
+        <servlet-class>com.ddpms.action.task.TaskFormServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TaskSaveServlet</servlet-name>
+        <servlet-class>com.ddpms.action.task.TaskSaveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TaskDeleteServlet</servlet-name>
+        <servlet-class>com.ddpms.action.task.TaskDeleteServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
@@ -425,8 +439,6 @@
         <servlet-name>ProjectTypeSaveServlet</servlet-name>
         <url-pattern>/ProjectTypeSaveServlet</url-pattern>
     </servlet-mapping>
-    
-    
     <servlet-mapping>
         <servlet-name>DepartmentListServlet</servlet-name>
         <url-pattern>/DepartmentListServlet</url-pattern>
@@ -443,7 +455,22 @@
         <servlet-name>DepartmentSaveServlet</servlet-name>
         <url-pattern>/DepartmentSaveServlet</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>TaskListServlet</servlet-name>
+        <url-pattern>/TaskListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskFormServlet</servlet-name>
+        <url-pattern>/TaskFormServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskSaveServlet</servlet-name>
+        <url-pattern>/TaskSaveServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskDeleteServlet</servlet-name>
+        <url-pattern>/TaskDeleteServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
