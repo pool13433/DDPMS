@@ -21,7 +21,17 @@ public class Project {
 
     private String modifiedBy;
     
-     private List<TaskAssign> taskAssignList;
+    private String projRemark;
+    
+    private String projVerifyDate;
+    
+    private String projVerifyBy;
+    
+    private String protId;
+    
+    private List<TaskAssign> taskAssignList;
+    
+    
 
     public String getProjId() {
         return projId;
@@ -93,6 +103,38 @@ public class Project {
 
     public void setTaskAssignList(List<TaskAssign> taskAssignList) {
         this.taskAssignList = taskAssignList;
+    }
+
+    public String getProjRemark() {
+        return projRemark;
+    }
+
+    public void setProjRemark(String projRemark) {
+        this.projRemark = projRemark;
+    }
+
+    public String getProjVerifyDate() {
+        return projVerifyDate;
+    }
+
+    public void setProjVerifyDate(String projVerifyDate) {
+        this.projVerifyDate = projVerifyDate;
+    }
+
+    public String getProjVerifyBy() {
+        return projVerifyBy;
+    }
+
+    public void setProjVerifyBy(String projVerifyBy) {
+        this.projVerifyBy = projVerifyBy;
+    }
+
+    public String getProtId() {
+        return protId;
+    }
+
+    public void setProtId(String protId) {
+        this.protId = protId;
     }
     
     

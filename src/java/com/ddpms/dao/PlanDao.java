@@ -1,6 +1,5 @@
 package com.ddpms.dao;
 
-import static com.ddpms.dao.ProjectDao.logger;
 import com.ddpms.db.DbConnection;
 import com.ddpms.model.Plan;
 import com.ddpms.util.CharacterUtil;
