@@ -26,7 +26,8 @@ public class ProjectDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
-            sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by` ");
+            sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by`, ");
+            sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by` ");
             sql.append(" FROM `project` ");
             sql.append(getConditionBuilder(p));
             if (offset != 0) {
@@ -199,6 +200,11 @@ public class ProjectDao {
         p.setBudpId(rs.getString("budp_id"));
         p.setModifiedDate(rs.getString("modified_date"));
         p.setModifiedBy(rs.getString("modified_by"));
+        
+        p.setProtId(rs.getString("prot_id"));
+        p.setProjRemark(rs.getString("proj_remark"));
+        p.setProjVerifyBy(rs.getString("proj_verify_by"));
+        p.setProjVerifyDate(rs.getString("proj_verify_date"));
 
         return p;
     }
@@ -281,7 +287,8 @@ public class ProjectDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
-            sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by` ");
+            sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by`, ");
+            sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by` ");
             sql.append(" FROM `project` ");
             sql.append(getConditionBuilder(criteria));
 
