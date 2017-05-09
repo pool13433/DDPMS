@@ -1,6 +1,7 @@
 package com.ddpms.action.config;
 
 import com.ddpms.dao.ConfigDao;
+import com.ddpms.model.Config;
 import com.ddpms.model.Pagination;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
@@ -22,11 +23,21 @@ public class ConfigListServlet extends HttpServlet {
             int offset = CharacterUtil.removeNullTo(request.getParameter("offset"), 0);
             String pageUrl = request.getContextPath() + "/ConfigListServlet?" + request.getQueryString();
             
+            String confCode = CharacterUtil.removeNull(request.getParameter("confCode"));
+            String confName = CharacterUtil.removeNull(request.getParameter("confName"));
+            String confValue = CharacterUtil.removeNull(request.getParameter("confValue"));
+            Config config = new Config();
+            config.setConfCode(confCode);
+            config.setConfName(confName);
+            config.setConfValue(confValue);
+            
             ConfigDao dao = new ConfigDao();
-            int countRecordAll = dao.getCountConfig();            
-            request.setAttribute("configList", dao.getAllConfig(limit, offset));
+            String sqlCondition = dao.getConditionBuilder(config);
+            int countRecordAll = dao.getCountConfig(sqlCondition);            
+            request.setAttribute("configList", dao.getAllConfig(limit, offset,sqlCondition));
             Pagination pagination = new Pagination(pageUrl, countRecordAll, limit, offset);
             request.setAttribute("pagination", pagination);
+            request.setAttribute("criteria", config);
         } catch (Exception e) {
             logger.error("ConfigListServlet error", e);
         }

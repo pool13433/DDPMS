@@ -51,10 +51,22 @@
                         </div>
                         <div class="form-group">
                             <label for="empGender" class="col-sm-2 control-label">Gender</label>
-                            <div class="col-sm-4">                                
-                                <input type="text" class="form-control" id="empGender" name="empGender" placeholder="Employee Gender" required>
+                            <div class="col-sm-2">                                                                
+                                <select class="form-control" name="empGender" required>
+                                    <option value="" selected>--เลือก--</option>
+                                    <c:forEach items="${genderList}" var="gender">
+                                        <c:choose>
+                                            <c:when test="${empGender.gender == gender.key}">
+                                                <option value="${gender.key}" selected>${gender.value}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="${gender.key}">${gender.value}</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </select>
                             </div>
-                            <label for="empTitle" class="col-sm-2 control-label">Title</label>
+                            <label for="empTitle" class="col-sm-2 col-sm-offset-2 control-label">Title</label>
                             <div class="col-sm-4">                                
                                 <input type="text" class="form-control" id="empCode" name="empTitle" placeholder="Employee Title" required>
                             </div>

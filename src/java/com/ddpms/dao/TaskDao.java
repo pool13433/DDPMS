@@ -54,7 +54,7 @@ public class TaskDao {
             StringBuilder sql = new StringBuilder();
             sql.append("SELECT `task_id`, `task_name`,`modified_by` ");
             sql.append(" ,DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date  ");
-            sql.append(" FROM task c  WHERE 1=1 ");
+            sql.append(" FROM task c ");
             sql.append(condition);
             sql.append(" ORDER BY c.task_id limit " + limit + " offset " + offset);
             logger.info("sql ::=="+sql.toString());
@@ -160,7 +160,7 @@ public class TaskDao {
         int countRecord = 0;
         try {
             conn = new DbConnection().open();
-            String sql = "SELECT COUNT(*) as cnt FROM task c WHERE 1=1 " + condition;
+            String sql = "SELECT COUNT(*) as cnt FROM task c " + condition;
 
             pstm = conn.prepareStatement(sql);
             rs = pstm.executeQuery();
@@ -176,7 +176,7 @@ public class TaskDao {
     }
 
     public String getConditionBuilder(String taskName) {
-        String sql = " ";
+        String sql = " WHERE 1=1 ";
         if (!CharacterUtil.removeNull(taskName).equals("")) {
             sql += " AND task_name LIKE '%" + taskName + "%' ";
         }

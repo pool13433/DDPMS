@@ -4,8 +4,8 @@
 
 <jsp:include page="../include/inc_header.jsp"/>
 <div class="container">    
-    <div class="panel panel-ddpms">        
-        <div class="panel-heading ">Manage Task</div>
+    <div class="panel panel-ddpms">                
+        <div class="container-fluid text-center"><h4>Manage Task</h4></div>
         <div class="panel-body">
 
             <!-- Alert Message -->
@@ -18,7 +18,7 @@
             </c:if>            
             <!-- Alert Message -->
 
-            <form method="post" action="${context}/TaskListServlet" class="form-horizontal">          
+            <form method="get" action="${context}/TaskListServlet" class="form-horizontal">          
                 <input type="hidden" id="menu" name="menu" value="task"/>
                 <div class="container">
                     <div class="row">
@@ -38,7 +38,7 @@
                                 <button type="submit" class="btn btn-success">
                                     <i class="glyphicon glyphicon-search"></i> Search
                                 </button>
-                                <a href="${context}/StrategictSearchServlet?menu=strategic" class="btn btn-warning">
+                                <a href="${context}/TaskListServlet?menu=task" class="btn btn-warning">
                                     <i class="glyphicon glyphicon-erase"></i> Reset
                                 </a>
                                 <a href="${context}/TaskFormServlet?menu=task-form" class="btn btn-default btn-primary">
