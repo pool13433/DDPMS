@@ -4,9 +4,9 @@
 <jsp:include page="../include/inc_header.jsp"/>
 <div class="container" style="padding-right: 100px;">    
     <div class="panel panel-ddpms">        
-        <div class="panel-heading ">Manage Plan</div>
+        <div class="container-fluid text-center"><h4>Manage Config</h4></div>
         <div class="panel-body">
-            
+
             <!-- Alert Message -->
             <c:if test="${!empty MessageUI}">
                 <div class="alert alert-${MessageUI.cssClass} alert-dismissible" role="alert">
@@ -17,9 +17,48 @@
             </c:if>            
             <!-- Alert Message -->
 
-            <a href="${context}/ConfigFormServlet?menu=config-form" class="btn btn-default btn-primary">
-                <i class="glyphicon glyphicon-plus"></i> Add
-            </a>
+            <form method="get" action="${context}/ConfigListServlet" class="form-horizontal">          
+                <input type="hidden" id="menu" name="menu" value="config"/>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-10" >
+                            <div class="form-group">
+                                <label for="confCode" class="col-sm-2 control-label">Config Code</label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" type="text" name="confCode" value="${criteria.confCode}" >
+                                </div>
+                                <label for="confName" class="col-sm-2 control-label">Config Name</label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" type="text" name="confName" value="${criteria.confName}" >
+                                </div>
+                            </div>
+                                <div class="form-group">
+                                <label for="confValue" class="col-sm-2 control-label">Config Value</label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" type="text" name="confValue" value="${criteria.confValue}" >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-sm-offset-6">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="glyphicon glyphicon-search"></i> Search
+                                </button>
+                                <a href="${context}/ConfigListServlet?menu=config" class="btn btn-warning">
+                                    <i class="glyphicon glyphicon-erase"></i> Reset
+                                </a>
+                                <a href="${context}/ConfigFormServlet?menu=config-form" class="btn btn-default btn-primary">
+                                    <i class="glyphicon glyphicon-plus"></i> Add
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </form>
 
             <table id="search_table" class="table table-responsive">                        
                 <tr>

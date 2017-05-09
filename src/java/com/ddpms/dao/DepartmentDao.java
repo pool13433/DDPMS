@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 import com.ddpms.db.DbConnection;
 import com.ddpms.model.Department;
+import com.ddpms.util.CharacterUtil;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +44,16 @@ public class DepartmentDao {
         return department;
     }
 
-    public List<Department> getDepartmentList(int limit, int offset) {
+    public List<Department> getDepartmentList(int limit, int offset,String sqlCondition) {
         ResultSet rs = null;
         PreparedStatement pstm = null;
         List<Department> departmentList = null;
         try {
             conn = new DbConnection().open();
             String sql = "SELECT `dep_id`, `dep_name`, `dep_account`, `modified_by` ";
-            sql += " ,DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date  FROM department c ORDER BY c.dep_id limit " + limit + " offset " + offset;
+            sql += " ,DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date  FROM department c ";
+            sql += sqlCondition;
+            sql += " ORDER BY c.dep_id limit " + limit + " offset " + offset;
             //logger.info("sql ::=="+sql);
             pstm = conn.prepareStatement(sql);
             rs = pstm.executeQuery();
@@ -150,14 +153,14 @@ public class DepartmentDao {
         }
     }
 
-    public int getCountDepartment() {
+    public int getCountDepartment(String sqlCondition) {
         PreparedStatement pstm = null;
         ResultSet rs = null;
         int countRecord = 0;
         try {
             conn = new DbConnection().open();
-            StringBuilder sql = new StringBuilder("SELECT COUNT(*) as cnt FROM department c");
-            pstm = conn.prepareStatement(sql.toString());
+            String sql = " SELECT COUNT(*) as cnt FROM department c "+sqlCondition;
+            pstm = conn.prepareStatement(sql);
             rs = pstm.executeQuery();
             if (rs.next()) {
                 countRecord = rs.getInt("cnt");
@@ -202,6 +205,14 @@ public class DepartmentDao {
         department.setModifiedBy(rs.getString("modified_by"));
         department.setModifiedDate(rs.getString("modified_date"));
         return department;
+    }
+
+    public String getConditionBuilder(String depName) {
+        String sql = " WHERE 1=1 ";
+        if (!CharacterUtil.removeNull(depName).equals("")) {
+            sql += " AND dep_name LIKE '%" + depName + "%' ";
+        }
+        return sql;
     }
 
 }

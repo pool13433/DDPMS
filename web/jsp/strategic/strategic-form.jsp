@@ -4,8 +4,8 @@
 
 <jsp:include page="../include/inc_header.jsp"/>
 <div class="container">
-    <div class="panel panel-ddpms">        
-        <div class="panel-heading">ฟอร์มกรอกข้อมูล ยุธศาสตร์ (Strategic)</div>
+    <div class="panel panel-ddpms">                
+        <div class="container-fluid text-center"><h4>Form Strategic</h4></div>
         <div class="panel-body">
             <a href="${context}/StrategicSearchServlet" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></a>
         </div>

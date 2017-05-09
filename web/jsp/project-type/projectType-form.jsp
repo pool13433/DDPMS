@@ -5,7 +5,7 @@
 <jsp:include page="../include/inc_header.jsp"/>
 <div class="container">
     <div class="panel panel-ddpms">        
-        <div class="panel-heading">ฟอร์มกรอกข้อมูล ประเภทของโปรเจค (Project Type)</div>
+        <div class="container-fluid text-center"><h4>Manage Project Type</h4></div>
         <div class="panel-body">
             <a href="${context}/ProjectTypeListServlet?menu=project-type" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></a>
         </div>

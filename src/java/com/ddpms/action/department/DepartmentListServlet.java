@@ -18,16 +18,20 @@ public class DepartmentListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+        try {            
             int limit = CharacterUtil.removeNullTo(request.getParameter("limit"), 10);
             int offset = CharacterUtil.removeNullTo(request.getParameter("offset"), 0);
             String pageUrl = request.getContextPath() + "/DepartmentListServlet?" + request.getQueryString();
             
+            String depName = CharacterUtil.removeNull(request.getParameter("depName"));
+            
             DepartmentDao dao = new DepartmentDao();
-            int countRecordAll = dao.getCountDepartment();
-            request.setAttribute("departmentList", dao.getDepartmentList(limit, offset));
+            String sqlCondition = dao.getConditionBuilder(depName);
+            int countRecordAll = dao.getCountDepartment(sqlCondition);
+            request.setAttribute("departmentList", dao.getDepartmentList(limit, offset,sqlCondition));
             Pagination pagination = new Pagination(pageUrl, countRecordAll, limit, offset);
             request.setAttribute("pagination", pagination);
+            request.setAttribute("depName", depName);
         } catch (Exception e) {
             logger.error("DepartmentListServlet error", e);
         }

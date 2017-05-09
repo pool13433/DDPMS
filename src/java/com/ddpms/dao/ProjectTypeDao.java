@@ -2,6 +2,7 @@ package com.ddpms.dao;
 
 import com.ddpms.db.DbConnection;
 import com.ddpms.model.ProjectType;
+import com.ddpms.util.CharacterUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,14 +41,16 @@ public class ProjectTypeDao {
         return projectType;
     }
 
-    public List<ProjectType> getProjectTypeAll(int limit, int offset) {
+    public List<ProjectType> getProjectTypeAll(int limit, int offset,String sqlCondition) {
         ResultSet rs = null;
         PreparedStatement pstm = null;
         List<ProjectType> projectTypeList = null;
         try {
             conn = new DbConnection().open();
             String sql = "SELECT `prot_id`, `prot_code`, `prot_name`, `prot_type`, `modified_by` ";
-            sql += " ,DATE_FORMAT(modified_date,"+DATE_TO_STR+") as modified_date  FROM project_type c ORDER BY c.prot_id limit " + limit + " offset " + offset;
+            sql += " ,DATE_FORMAT(modified_date,"+DATE_TO_STR+") as modified_date  FROM project_type c ";
+            sql += sqlCondition;
+            sql += " ORDER BY c.prot_id limit " + limit + " offset " + offset;
             //logger.info("sql ::=="+sql);
             pstm = conn.prepareStatement(sql);
             rs = pstm.executeQuery();
@@ -151,14 +154,14 @@ public class ProjectTypeDao {
         }
     }
 
-    public int getCountProjectType() {
+    public int getCountProjectType(String sqlCondition) {
         PreparedStatement pstm = null;
         ResultSet rs = null;
         int countRecord = 0;
         try {
             conn = new DbConnection().open();
-            StringBuilder sql = new StringBuilder("SELECT COUNT(*) as cnt FROM project_type c");
-            pstm = conn.prepareStatement(sql.toString());
+            String sql = " SELECT COUNT(*) as cnt FROM project_type c "+sqlCondition;
+            pstm = conn.prepareStatement(sql);
             rs = pstm.executeQuery();
             if (rs.next()) {
                 countRecord = rs.getInt("cnt");
@@ -181,5 +184,19 @@ public class ProjectTypeDao {
         projectType.setModifiedDate(rs.getString("modified_date"));      
         projectType.setModifiedBy(rs.getString("modified_by"));      
         return projectType;
+    }
+
+    public String getConditionBuilder(ProjectType condition) {
+        String sql = " WHERE 1=1 ";
+        if (!CharacterUtil.removeNull(condition.getProtCode()).equals("")) {
+            sql += " AND prot_code LIKE '%" + condition.getProtCode() + "%' ";
+        }
+        if (!CharacterUtil.removeNull(condition.getProtName()).equals("")) {
+            sql += " AND prot_name LIKE '%" + condition.getProtName() + "%' ";
+        }
+        if (!CharacterUtil.removeNull(condition.getProtType()).equals("")) {
+            sql += " AND prot_type LIKE '%" + condition.getProtType() + "%' ";
+        }
+        return sql;
     }
 }
