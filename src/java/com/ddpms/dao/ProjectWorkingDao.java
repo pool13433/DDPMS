@@ -27,9 +27,15 @@ public class ProjectWorkingDao {
         ResultSet rs = null;
         try {
             conn = new DbConnection().open();
-            StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT `projw_id`, (select p.proj_name from project p where pw.proj_id=p.proj_id) as `proj_id`, `budget_year`, `budget_request`,  ");
-            sql.append(" `budget_response`, `budget_usage`, `modified_date`, `modified_by` ");
+            StringBuilder sql = new StringBuilder();            
+            sql.append(" SELECT `projw_id`, (select p.proj_name from project p where pw.proj_id=p.proj_id) as `proj_id`, `budget_year`,"
+                     + " `budget_request_m1`, `budget_request_m2`, `budget_request_m3`, `budget_request_m4`,"
+                     + " `budget_request_m5`, `budget_request_m6`, `budget_request_m7`, `budget_request_m8`, "
+                     + "`budget_request_m9`, `budget_request_m10`, `budget_request_m11`, `budget_request_m12`, "
+                     + "`budget_response_m1`, `budget_response_m2`, `budget_response_m3`, `budget_response_m4`, "
+                     + " `budget_response_m5`, `budget_response_m6`, `budget_response_m7`, `budget_response_m8`,"
+                     + " `budget_response_m9`, `budget_response_m10`, `budget_response_m11`, `budget_response_m12`, ");
+            sql.append(" `budget_usage`, DATE_FORMAT(modified_date,"+DATE_TO_STR+") as modified_date, `modified_by` ");
             sql.append(" FROM `project_working` pw ");
             sql.append(getConditionBuilder(pw));
             if (offset != 0) {
@@ -59,16 +65,46 @@ public class ProjectWorkingDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" INSERT INTO project_working ");
-            sql.append(" (`proj_id`, `budget_year`, `budget_request`, `budget_response`, `budget_usage`, `modified_date`, `modified_by` ) ");
-            sql.append(" VALUES (?,?,?,?,?,NOW(),?)");
+            sql.append(" (`proj_id`, `budget_year`, `budget_usage`,"
+                    + " `budget_request_m1`, `budget_request_m2`, `budget_request_m3`, `budget_request_m4`, "
+                    + " `budget_request_m5`, `budget_request_m6`, `budget_request_m7`, `budget_request_m8`, "
+                    + " `budget_request_m9`, `budget_request_m10`, `budget_request_m11`, `budget_request_m12`, "
+                    + " `budget_response_m1`, `budget_response_m2`, `budget_response_m3`, `budget_response_m4`, "
+                    + " `budget_response_m5`, `budget_response_m6`, `budget_response_m7`, `budget_response_m8`, "
+                    + " `budget_response_m9`, `budget_response_m10`, `budget_response_m11`, `budget_response_m12`, "
+                    + " `modified_date`, `modified_by` ) ");            
+            sql.append(" VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)");
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, pw.getProjId());
-            pstm.setString(2, pw.getBudgetYear());
-            pstm.setString(3, pw.getBudgetRequest());
-            pstm.setString(4, pw.getBudgetResponse());
-            pstm.setString(5, pw.getBudgetUsage());
-            pstm.setString(6, pw.getModifiedBy());
+            pstm.setString(2, pw.getBudgetYear());            
+            pstm.setString(3, pw.getBudgetUsage());
+            
+            pstm.setString(4, pw.getBudgetRequestM1());
+            pstm.setString(5, pw.getBudgetRequestM2());
+            pstm.setString(6, pw.getBudgetRequestM3());
+            pstm.setString(7, pw.getBudgetRequestM4());
+            pstm.setString(8, pw.getBudgetRequestM5());
+            pstm.setString(9, pw.getBudgetRequestM6());
+            pstm.setString(10, pw.getBudgetRequestM7());
+            pstm.setString(11, pw.getBudgetRequestM8());
+            pstm.setString(12, pw.getBudgetRequestM9());
+            pstm.setString(13, pw.getBudgetRequestM10());
+            pstm.setString(14, pw.getBudgetRequestM11());
+            pstm.setString(15, pw.getBudgetRequestM12());
+            pstm.setString(16, pw.getBudgetApproveM1());
+            pstm.setString(17, pw.getBudgetApproveM2());
+            pstm.setString(18, pw.getBudgetApproveM3());
+            pstm.setString(19, pw.getBudgetApproveM4());
+            pstm.setString(20, pw.getBudgetApproveM5());
+            pstm.setString(21, pw.getBudgetApproveM6());
+            pstm.setString(22, pw.getBudgetApproveM7());
+            pstm.setString(23, pw.getBudgetApproveM8());
+            pstm.setString(24, pw.getBudgetApproveM9());
+            pstm.setString(25, pw.getBudgetApproveM10());
+            pstm.setString(26, pw.getBudgetApproveM11());
+            pstm.setString(27, pw.getBudgetApproveM12());
+            pstm.setString(28, pw.getModifiedBy());
             logger.info("pstm ::==" + pstm.toString());
             exe = pstm.executeUpdate();
 
@@ -88,7 +124,15 @@ public class ProjectWorkingDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" UPDATE `project_working` SET ");
-            sql.append(" `proj_id`=?, `budget_year`=?,`budget_request`=?,`budget_response`=?, ");
+            sql.append(" `proj_id`=?, `budget_year`=?,"
+                     + " `budget_request_m1`=?,`budget_request_m2`=?,`budget_request_m3`=?,"
+                     + " `budget_request_m4`=?,`budget_request_m5`=?,`budget_request_m6`=?,"
+                     + " `budget_request_m7`=?,`budget_request_m8`=?,`budget_request_m9`=?,"
+                     + " `budget_request_m10`=?,`budget_request_m11`=?,`budget_request_m12`=?,"
+                     + " `budget_response_m1`=?,`budget_response_m2`=?,`budget_response_m3`=?,"
+                     + " `budget_response_m4`=?,`budget_response_m5`=?,`budget_response_m6`=?,"
+                     + " `budget_response_m7`=?,`budget_response_m8`=?,`budget_response_m9`=?,"
+                     + " `budget_response_m10`=?,`budget_response_m11`=?,`budget_response_m12`=?, ");
             sql.append(" `budget_usage`=?, `modified_by`=?, ");
             sql.append(" `modified_date`=NOW() ");
             sql.append(" WHERE `projw_id`=?");
@@ -96,11 +140,35 @@ public class ProjectWorkingDao {
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, pw.getProjId());
             pstm.setString(2, pw.getBudgetYear());
-            pstm.setString(3, pw.getBudgetRequest());
-            pstm.setString(4, pw.getBudgetResponse());
-            pstm.setString(5, pw.getBudgetUsage());
-            pstm.setString(6, pw.getModifiedBy());
-            pstm.setString(7, pw.getProjwId());
+            
+            pstm.setString(3, pw.getBudgetRequestM1());
+            pstm.setString(4, pw.getBudgetRequestM2());
+            pstm.setString(5, pw.getBudgetRequestM3());
+            pstm.setString(6, pw.getBudgetRequestM4());
+            pstm.setString(7, pw.getBudgetRequestM5());
+            pstm.setString(8, pw.getBudgetRequestM6());
+            pstm.setString(9, pw.getBudgetRequestM7());
+            pstm.setString(10, pw.getBudgetRequestM8());
+            pstm.setString(11, pw.getBudgetRequestM9());
+            pstm.setString(11, pw.getBudgetRequestM10());
+            pstm.setString(13, pw.getBudgetRequestM11());
+            pstm.setString(14, pw.getBudgetRequestM12());
+            pstm.setString(15, pw.getBudgetApproveM1());
+            pstm.setString(16, pw.getBudgetApproveM2());
+            pstm.setString(17, pw.getBudgetApproveM3());
+            pstm.setString(18, pw.getBudgetApproveM4());
+            pstm.setString(19, pw.getBudgetApproveM5());
+            pstm.setString(20, pw.getBudgetApproveM6());
+            pstm.setString(21, pw.getBudgetApproveM7());
+            pstm.setString(22, pw.getBudgetApproveM8());
+            pstm.setString(23, pw.getBudgetApproveM9());
+            pstm.setString(24, pw.getBudgetApproveM10());
+            pstm.setString(25, pw.getBudgetApproveM11());
+            pstm.setString(26, pw.getBudgetApproveM12());            
+            
+            pstm.setString(27, pw.getBudgetUsage());
+            pstm.setString(28, pw.getModifiedBy());
+            pstm.setString(29, pw.getProjwId());
             logger.info("pstm ::==" + pstm.toString());
             exe = pstm.executeUpdate();
         } catch (Exception e) {
@@ -161,8 +229,33 @@ public class ProjectWorkingDao {
         pw.setProjwId(rs.getString("projw_id"));
         pw.setProjId(rs.getString("proj_id"));
         pw.setBudgetYear(rs.getString("budget_year"));
-        pw.setBudgetRequest(rs.getString("budget_request"));
-        pw.setBudgetResponse(rs.getString("budget_response"));
+        
+        pw.setBudgetRequestM1(rs.getString("budget_request_m1"));
+        pw.setBudgetRequestM2(rs.getString("budget_request_m2"));
+        pw.setBudgetRequestM3(rs.getString("budget_request_m3"));
+        pw.setBudgetRequestM4(rs.getString("budget_request_m4"));
+        pw.setBudgetRequestM5(rs.getString("budget_request_m5"));
+        pw.setBudgetRequestM6(rs.getString("budget_request_m6"));
+        pw.setBudgetRequestM7(rs.getString("budget_request_m7"));
+        pw.setBudgetRequestM8(rs.getString("budget_request_m8"));
+        pw.setBudgetRequestM9(rs.getString("budget_request_m9"));
+        pw.setBudgetRequestM10(rs.getString("budget_request_m10"));
+        pw.setBudgetRequestM11(rs.getString("budget_request_m11"));
+        pw.setBudgetRequestM12(rs.getString("budget_request_m12"));
+        
+        pw.setBudgetApproveM1(rs.getString("budget_approve_m1"));
+        pw.setBudgetApproveM2(rs.getString("budget_approve_m2"));
+        pw.setBudgetApproveM3(rs.getString("budget_approve_m3"));
+        pw.setBudgetApproveM4(rs.getString("budget_approve_m4"));
+        pw.setBudgetApproveM5(rs.getString("budget_approve_m5"));
+        pw.setBudgetApproveM6(rs.getString("budget_approve_m6"));
+        pw.setBudgetApproveM7(rs.getString("budget_approve_m7"));
+        pw.setBudgetApproveM8(rs.getString("budget_approve_m8"));
+        pw.setBudgetApproveM9(rs.getString("budget_approve_m9"));
+        pw.setBudgetApproveM10(rs.getString("budget_approve_m10"));
+        pw.setBudgetApproveM11(rs.getString("budget_approve_m11"));
+        pw.setBudgetApproveM12(rs.getString("budget_approve_m12"));        
+        
         pw.setBudgetUsage(rs.getString("budget_usage"));
         pw.setModifiedDate(rs.getString("modified_date"));
         pw.setModifiedBy(rs.getString("modified_by"));
@@ -219,8 +312,14 @@ public class ProjectWorkingDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT `projw_id`, (select p.proj_name from project p where pw.proj_id=p.proj_id) as `proj_id`, `budget_year`, `budget_request`,  ");
-            sql.append(" `budget_response`, `budget_usage`, DATE_FORMAT(modified_date,"+DATE_TO_STR+") as modified_date, `modified_by` ");
+            sql.append(" SELECT `projw_id`, (select p.proj_name from project p where pw.proj_id=p.proj_id) as `proj_id`, `budget_year`,"
+                     + " `budget_request_m1`, `budget_request_m2`, `budget_request_m3`, `budget_request_m4`,"
+                     + " `budget_request_m5`, `budget_request_m6`, `budget_request_m7`, `budget_request_m8`, "
+                     + "`budget_request_m9`, `budget_request_m10`, `budget_request_m11`, `budget_request_m12`, "
+                     + "`budget_response_m1`, `budget_response_m2`, `budget_response_m3`, `budget_response_m4`, "
+                     + " `budget_response_m5`, `budget_response_m6`, `budget_response_m7`, `budget_response_m8`,"
+                     + " `budget_response_m9`, `budget_response_m10`, `budget_response_m11`, `budget_response_m12`, ");
+            sql.append(" `budget_usage`, DATE_FORMAT(modified_date,"+DATE_TO_STR+") as modified_date, `modified_by` ");
             sql.append(" FROM `project_working` pw ");
 
             pstm = conn.prepareStatement(sql.toString());

@@ -2,6 +2,7 @@
 package com.ddpms.action.strategic;
 
 import com.ddpms.dao.StrategicDao;
+import com.ddpms.model.Employee;
 import com.ddpms.model.MessageUI;
 import com.ddpms.model.Strategic;
 import com.ddpms.util.CharacterUtil;
@@ -40,10 +41,11 @@ final static Logger logger = Logger.getLogger(StrategicAddServlet.class);
             String id = CharacterUtil.removeNull(request.getParameter("id"));
             String stra_name = CharacterUtil.removeNull(request.getParameter("stra_name"));
             request.setAttribute("stra_name", stra_name);
+            Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE"); 
             
             s.setStraId(id);
             s.setStraName(stra_name);
-            s.setModifiedBy("1");
+            s.setModifiedBy(String.valueOf(employee.getEmpId()));
             
             int exe = 0;
             if(id.equals("")){

@@ -51,8 +51,8 @@ final static Logger logger = Logger.getLogger(ProjectWorkingSearchServlet.class)
             if("searching".equals(menu)){
                 pw.setProjId(proj_id);
                 pw.setBudgetYear(budget_year);
-                pw.setBudgetRequest(budget_request);
-                pw.setBudgetResponse(budget_response);
+                //pw.setBudgetRequest(budget_request);
+                //pw.setBudgetResponse(budget_response);
                 pw.setBudgetUsage(budget_usage);                  
                 
                 request.setAttribute("projectWorkingList", dao.getProjectWorking(pw, limit, offset));                

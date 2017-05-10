@@ -3,6 +3,7 @@ package com.ddpms.action.budgetplan;
 
 import com.ddpms.dao.BudgetPlanDao;
 import com.ddpms.model.BudgetPlan;
+import com.ddpms.model.Employee;
 import com.ddpms.model.MessageUI;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
@@ -44,11 +45,13 @@ final static Logger logger = Logger.getLogger(BudgetplanAddServlet.class);
             request.setAttribute("budp_begin", budp_begin);
             String budp_end = CharacterUtil.removeNull(request.getParameter("budp_end"));
             request.setAttribute("budp_end", budp_end);
+            Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");  
+            
             bp.setBudpId(id);
             bp.setBudpName(budp_name);
             bp.setBudpYearBegin(budp_begin);
             bp.setBudpYearEnd(budp_end);
-            bp.setModifiedBy("1");
+            bp.setModifiedBy(String.valueOf(employee.getEmpId()));
             int exe = 0;
             if(id.equals("")){
                 exe = bpDao.createBudgetPlan(bp);

@@ -8,6 +8,7 @@ public class ProjectType {
     private String protType;
     private String modifiedDate;
     private String modifiedBy;
+    private String depId;
 
     public String getProtId() {
         return protId;
@@ -56,5 +57,14 @@ public class ProjectType {
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
+
+    public String getDepId() {
+        return depId;
+    }
+
+    public void setDepId(String depId) {
+        this.depId = depId;
+    }
+    
     
 }

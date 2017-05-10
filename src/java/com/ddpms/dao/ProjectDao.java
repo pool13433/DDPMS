@@ -27,7 +27,7 @@ public class ProjectDao {
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
             sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by`, ");
-            sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by` ");
+            sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by`, account_code ");
             sql.append(" FROM `project` ");
             sql.append(getConditionBuilder(p));
             if (offset != 0) {
@@ -59,7 +59,7 @@ public class ProjectDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
-            sql.append(" plan_id,budp_id, ");
+            sql.append(" plan_id,budp_id, account_code, ");
             sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, `modified_by` ");
             sql.append(" FROM `project` p ORDER BY proj_name ASC");
             pstm = conn.prepareStatement(sql.toString());
@@ -85,8 +85,8 @@ public class ProjectDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" INSERT INTO project ");
-            sql.append(" (`proj_name`, `proj_details`, `proj_status`,`plan_id`, `budp_id`, `modified_date`, `modified_by` ) ");
-            sql.append(" VALUES (?,?,?,?,?,NOW(),?)");
+            sql.append(" (`proj_name`, `proj_details`, `proj_status`,`plan_id`, `budp_id`, prot_id, account_code, `modified_date`, `modified_by` ) ");
+            sql.append(" VALUES (?,?,?,?,?,?,?,NOW(),?)");
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, p.getProjName());
@@ -94,7 +94,9 @@ public class ProjectDao {
             pstm.setString(3, p.getProjStatus());
             pstm.setString(4, p.getPlanId());
             pstm.setString(5, p.getBudpId());
-            pstm.setString(6, p.getModifiedBy());
+            pstm.setString(6, p.getProtId());
+            pstm.setString(7, p.getAccountCode());
+            pstm.setString(8, p.getModifiedBy());
 
             logger.info("pstm ::==" + pstm.toString());
             exe = pstm.executeUpdate();
@@ -116,7 +118,7 @@ public class ProjectDao {
             StringBuilder sql = new StringBuilder();
             sql.append(" UPDATE `project` SET ");
             sql.append(" `proj_name`=?,`proj_details`=?,`proj_status`=?,`budp_id`=?,`plan_id`=?, ");
-            sql.append(" `modified_by`=?, ");
+            sql.append(" `modified_by`=?, account_code=?, ");
             sql.append(" `modified_date`=NOW() ");
             sql.append(" WHERE `proj_id`=?");
 
@@ -127,7 +129,8 @@ public class ProjectDao {
             pstm.setString(4, p.getPlanId());
             pstm.setString(5, p.getBudpId());
             pstm.setString(6, p.getModifiedBy());
-            pstm.setString(7, p.getProjId());
+            pstm.setString(7, p.getAccountCode());
+            pstm.setString(8, p.getProjId());
             logger.info("pstm ::==" + pstm.toString());
             exe = pstm.executeUpdate();
         } catch (Exception e) {
@@ -205,6 +208,7 @@ public class ProjectDao {
         p.setProjRemark(rs.getString("proj_remark"));
         p.setProjVerifyBy(rs.getString("proj_verify_by"));
         p.setProjVerifyDate(rs.getString("proj_verify_date"));
+        p.setAccountCode(rs.getString("account_code"));
 
         return p;
     }
@@ -288,7 +292,7 @@ public class ProjectDao {
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
             sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by`, ");
-            sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by` ");
+            sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by` , account_code ");
             sql.append(" FROM `project` ");
             sql.append(getConditionBuilder(criteria));
 

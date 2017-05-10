@@ -41,8 +41,8 @@ public class ProjectWorkingEditServlet extends HttpServlet {
                 request.setAttribute("projw_id", list.get(0).getProjwId());
                 request.setAttribute("proj_id",list.get(0).getProjId());
                 request.setAttribute("budget_year",list.get(0).getBudgetYear());
-                request.setAttribute("budget_request",list.get(0).getBudgetRequest());
-                request.setAttribute("budget_response",list.get(0).getBudgetResponse());
+                //request.setAttribute("budget_request",list.get(0).getBudgetRequest());
+                //request.setAttribute("budget_response",list.get(0).getBudgetResponse());
                 request.setAttribute("budget_usage",list.get(0).getBudgetUsage());
             }
             RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project-working/project-working-form.jsp");

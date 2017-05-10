@@ -2,6 +2,7 @@
 package com.ddpms.action.plan;
 
 import com.ddpms.dao.PlanDao;
+import com.ddpms.model.Employee;
 import com.ddpms.model.MessageUI;
 import com.ddpms.model.Plan;
 import com.ddpms.util.CharacterUtil;
@@ -39,10 +40,11 @@ final static Logger logger = Logger.getLogger(PlanAddServlet.class);
             String id = CharacterUtil.removeNull(request.getParameter("id"));
             String plan_name = CharacterUtil.removeNull(request.getParameter("plan_name"));
             request.setAttribute("plan_name", plan_name);
+            Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");  
             
             p.setPlanId(id);
             p.setPlanName(plan_name);
-            p.setModifiedBy("1");
+            p.setModifiedBy(String.valueOf(employee.getEmpId()));
             
             int exe = 0;
             if(id.equals("")){

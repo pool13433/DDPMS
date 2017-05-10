@@ -3,6 +3,7 @@ package com.ddpms.action.project_shift;
 
 import com.ddpms.dao.ProjectDao;
 import com.ddpms.dao.ProjectShiftDao;
+import com.ddpms.model.Employee;
 import com.ddpms.model.MessageUI;
 import com.ddpms.model.Project;
 import com.ddpms.model.ProjectShift;
@@ -45,12 +46,13 @@ final static Logger logger = Logger.getLogger(ProjectShiftAddServlet.class);
             request.setAttribute("projs_plan", projs_plan);
             ProjectDao pjDao = new ProjectDao();
             request.setAttribute("projectList", pjDao.getProject(new Project(), 0, 0));
+            Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE"); 
             
             ps.setProjsId(id);
             ps.setProjId(proj_id);
             ps.setProjsReason(projs_reason);
             ps.setProjsPlan(projs_plan);
-            ps.setModifiedBy("1");
+            ps.setModifiedBy(String.valueOf(employee.getEmpId()));
             
             int exe = 0;
             if(id.equals("")){
