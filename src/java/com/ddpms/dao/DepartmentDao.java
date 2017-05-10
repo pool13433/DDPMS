@@ -26,7 +26,7 @@ public class DepartmentDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT `dep_id`, `dep_name`,dep_account, `modified_date`, `modified_by`, dep_code  FROM `department`");
+            sql.append(" SELECT `dep_id`, `dep_name`,`modified_date`, `modified_by`, dep_code  FROM `department`");
             sql.append(" WHERE dep_id = ?");
 
             pstm = conn.prepareStatement(sql.toString());
@@ -50,7 +50,7 @@ public class DepartmentDao {
         List<Department> departmentList = null;
         try {
             conn = new DbConnection().open();
-            String sql = "SELECT `dep_id`, `dep_name`, `dep_account`, `modified_by` ";
+            String sql = "SELECT `dep_id`, dep_code,`dep_name`, `modified_by` ";
             sql += " ,DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date  FROM department c ";
             sql += sqlCondition;
             sql += " ORDER BY c.dep_id limit " + limit + " offset " + offset;
@@ -76,13 +76,13 @@ public class DepartmentDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" INSERT INTO `department` ");
-            sql.append(" ( `dep_name`, `dep_account`, dep_code, modified_date,modified_by ) ");
+            sql.append(" ( dep_code,`dep_name`, dep_code, modified_date,modified_by ) ");
             sql.append(" VALUES ");
-            sql.append(" (?,?,?,NOW(),?)");
+            sql.append(" (??,?,?,NOW(),?)");
 
             pstm = conn.prepareStatement(sql.toString());
-            pstm.setString(1, department.getDepName());
-            pstm.setString(2, department.getDepAccount());
+            pstm.setString(1, department.getDepCode());           
+            pstm.setString(2, department.getDepName());       
             pstm.setString(3, department.getDepCode());
             pstm.setString(4, department.getModifiedBy());
             exe = pstm.executeUpdate();
@@ -101,15 +101,14 @@ public class DepartmentDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" UPDATE `department` SET ");
-            sql.append("  `dep_name`=?,`dep_account`=?, dep_code=?,");
+            sql.append("  `dep_code`=?, dep_name=?,");
             sql.append(" `modified_date`=NOW(),`modified_by`=? WHERE `dep_id`=?");
 
             pstm = conn.prepareStatement(sql.toString());
-            pstm.setString(1, department.getDepName());
-            pstm.setString(2, department.getDepAccount());
-            pstm.setString(3, department.getDepCode());
-            pstm.setString(4, department.getModifiedBy());
-            pstm.setString(5, department.getDepId());
+            pstm.setString(1, department.getDepCode());            
+            pstm.setString(2, department.getDepName());
+            pstm.setString(3, department.getModifiedBy());
+            pstm.setString(4, department.getDepId());
 
             exe = pstm.executeUpdate();
         } catch (Exception e) {
@@ -182,7 +181,7 @@ public class DepartmentDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT `dep_id`, `dep_name`,dep_account, dep_code, `modified_date`, `modified_by` FROM `department`");
+            sql.append(" SELECT `dep_id`, `dep_name`, dep_code, `modified_date`, `modified_by` FROM `department`");
 
             pstm = conn.prepareStatement(sql.toString());
             rs = pstm.executeQuery();
@@ -202,18 +201,20 @@ public class DepartmentDao {
     private Department getEntityDepartment(ResultSet rs) throws SQLException {
         Department department = new Department();
         department.setDepId(rs.getString("dep_id"));
-        department.setDepName(rs.getString("dep_name"));
-        department.setDepAccount(rs.getString("dep_account"));
+        department.setDepName(rs.getString("dep_name"));        
         department.setDepCode(rs.getString("dep_code"));
         department.setModifiedBy(rs.getString("modified_by"));
         department.setModifiedDate(rs.getString("modified_date"));
         return department;
     }
 
-    public String getConditionBuilder(String depName) {
+    public String getConditionBuilder(Department condition) {
         String sql = " WHERE 1=1 ";
-        if (!CharacterUtil.removeNull(depName).equals("")) {
-            sql += " AND dep_name LIKE '%" + depName + "%' ";
+         if (!CharacterUtil.removeNull(condition.getDepCode()).equals("")) {
+            sql += " AND dep_code LIKE '%" + condition.getDepCode() + "%' ";
+        }
+        if (!CharacterUtil.removeNull(condition.getDepName()).equals("")) {
+            sql += " AND dep_name LIKE '%" + condition.getDepName() + "%' ";
         }
         return sql;
     }

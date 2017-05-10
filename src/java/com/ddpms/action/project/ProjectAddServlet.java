@@ -34,8 +34,8 @@ public class ProjectAddServlet extends HttpServlet {
             PlanDao planDao = new PlanDao();
             request.setAttribute("planList", planDao.getPlan(new Plan(), 0, 0));
             ProjectTypeDao dao = new ProjectTypeDao();
-            int countRecordAll = dao.getCountProjectType();
-            request.setAttribute("projectTypeList", dao.getProjectTypeAll(countRecordAll, 0));
+            int countRecordAll = dao.getCountProjectType("");
+            request.setAttribute("projectTypeList", dao.getProjectTypeAll(countRecordAll, 0,""));
             BudgetPlanDao bpDao = new BudgetPlanDao();
             request.setAttribute("budgetPlanList", bpDao.getBudgetPlan(new BudgetPlan(), 0, 0));
             request.setAttribute("planList", planDao.getPlan(new Plan(), 0, 0));

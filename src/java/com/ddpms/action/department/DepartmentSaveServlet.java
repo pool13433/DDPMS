@@ -21,11 +21,11 @@ public class DepartmentSaveServlet extends HttpServlet {
         try {
             Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");
             String depId=  CharacterUtil.removeNull(request.getParameter("depId"));
-            String depName = CharacterUtil.removeNull(request.getParameter("depName"));
-            String depAccount = CharacterUtil.removeNull(request.getParameter("depAccount"));            
-            Department department = new Department();
-            department.setDepAccount(depAccount);            
+            String depName = CharacterUtil.removeNull(request.getParameter("depName"));       
+            String depCode = CharacterUtil.removeNull(request.getParameter("depCode"));       
+            Department department = new Department();                    
             department.setDepName(depName);
+            department.setDepCode(depCode);
             department.setModifiedBy(String.valueOf(employee.getEmpId()));
             DepartmentDao dao = new DepartmentDao();
             int exec = 0;
