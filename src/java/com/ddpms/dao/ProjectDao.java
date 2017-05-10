@@ -322,6 +322,7 @@ public class ProjectDao {
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
             sql.append(" plan_id,budp_id, ");
+            sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by`, ");
             sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, `modified_by` ");
             sql.append(" FROM `project` p ");
             sql.append(" WHERE p.proj_id IN (SELECT proj_id  FROM `task_assign` WHERE task_userid = ?)");

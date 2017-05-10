@@ -17,12 +17,13 @@ public class TaskListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {            
-            String taskName = CharacterUtil.removeNull(request.getParameter("taskName"));            
-            logger.info(" taskName ::=="+taskName);
+        try {                        
             int limit = CharacterUtil.removeNullTo(request.getParameter("limit"), 10);
             int offset = CharacterUtil.removeNullTo(request.getParameter("offset"), 0);
             String pageUrl = request.getContextPath() + "/TaskListServlet?" + request.getQueryString();
+            
+            String taskName = CharacterUtil.removeNull(request.getParameter("taskName"));            
+            logger.info(" taskName ::=="+taskName);
 
             TaskDao dao = new TaskDao();
             String sqlCondition = dao.getConditionBuilder(taskName);

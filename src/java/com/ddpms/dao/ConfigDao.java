@@ -2,6 +2,7 @@ package com.ddpms.dao;
 
 import com.ddpms.db.DbConnection;
 import com.ddpms.model.Config;
+import com.ddpms.util.CharacterUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -70,8 +71,6 @@ public class ConfigDao {
         return configList;
     }
 
-    
-
     public Config getConfig(String configId) {
         ResultSet rs = null;
         PreparedStatement pstm = null;
@@ -126,14 +125,16 @@ public class ConfigDao {
         return config;
     }
 
-    public List<Config> getAllConfig(int limit, int offset) {
+    public List<Config> getAllConfig(int limit, int offset,String sqlCondition) {
         ResultSet rs = null;
         PreparedStatement pstm = null;
         List<Config> configList = null;
         try {
             conn = new DbConnection().open();
             String sql = "SELECT `conf_id`, `conf_code`, `conf_name`, `conf_value`,modified_by ";
-            sql += " ,DATE_FORMAT(modified_date,"+DATE_TO_STR+") as modified_date  FROM config c ORDER BY c.conf_id limit " + limit + " offset " + offset;
+            sql += " ,DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date  FROM config c ";
+            sql += sqlCondition;
+            sql += " ORDER BY c.conf_id limit " + limit + " offset " + offset;
             //logger.info("sql ::=="+sql);
             pstm = conn.prepareStatement(sql);
             rs = pstm.executeQuery();
@@ -239,14 +240,14 @@ public class ConfigDao {
         }
     }
 
-    public int getCountConfig() {
+    public int getCountConfig(String sqlCondition) {
         PreparedStatement pstm = null;
         ResultSet rs = null;
         int countRecord = 0;
         try {
             conn = new DbConnection().open();
-            StringBuilder sql = new StringBuilder("SELECT COUNT(*) as cnt FROM config c");
-            pstm = conn.prepareStatement(sql.toString());
+            String sql = " SELECT COUNT(*) as cnt FROM config c "+sqlCondition;
+            pstm = conn.prepareStatement(sql);
             rs = pstm.executeQuery();
             if (rs.next()) {
                 countRecord = rs.getInt("cnt");
@@ -265,9 +266,23 @@ public class ConfigDao {
         config.setConfCode(rs.getString("conf_code"));
         config.setConfId(rs.getString("conf_id"));
         config.setConfName(rs.getString("conf_name"));
-        config.setConfValue(rs.getString("conf_value"));        
-        config.setModifiedDate(rs.getString("modified_date"));      
-        config.setModifiedBy(rs.getString("modified_by"));      
+        config.setConfValue(rs.getString("conf_value"));
+        config.setModifiedDate(rs.getString("modified_date"));
+        config.setModifiedBy(rs.getString("modified_by"));
         return config;
+    }
+
+    public String getConditionBuilder(Config condition) {
+        String sql = " WHERE 1=1 ";
+        if (!CharacterUtil.removeNull(condition.getConfCode()).equals("")) {
+            sql += " AND conf_code LIKE '%" + condition.getConfCode() + "%' ";
+        }
+        if (!CharacterUtil.removeNull(condition.getConfName()).equals("")) {
+            sql += " AND conf_name LIKE '%" + condition.getConfName() + "%' ";
+        }
+        if (!CharacterUtil.removeNull(condition.getConfValue()).equals("")) {
+            sql += " AND conf_value LIKE '%" + condition.getConfValue() + "%' ";
+        }
+        return sql;
     }
 }
