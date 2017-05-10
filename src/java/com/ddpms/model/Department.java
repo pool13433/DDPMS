@@ -5,6 +5,7 @@ public class Department {
     private String depId;
     private String depName;
     private String depAccount;
+    private String depCode;
     private String modifiedDate;
     private String modifiedBy;
 
@@ -22,6 +23,14 @@ public class Department {
 
     public void setDepName(String depName) {
         this.depName = depName;
+    }
+
+    public String getDepCode() {
+        return depCode;
+    }
+
+    public void setDepCode(String depCode) {
+        this.depCode = depCode;
     }
 
     public String getModifiedDate() {

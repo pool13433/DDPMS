@@ -29,6 +29,8 @@ public class Project {
     
     private String protId;
     
+    private String accountCode;
+    
     private List<TaskAssign> taskAssignList;
     
     
@@ -135,6 +137,14 @@ public class Project {
 
     public void setProtId(String protId) {
         this.protId = protId;
+    }
+
+    public String getAccountCode() {
+        return accountCode;
+    }
+
+    public void setAccountCode(String accountCode) {
+        this.accountCode = accountCode;
     }
     
     

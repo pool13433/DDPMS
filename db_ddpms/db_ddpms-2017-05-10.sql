@@ -1,0 +1,678 @@
+-- phpMyAdmin SQL Dump
+-- version 4.5.1
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: May 10, 2017 at 03:59 PM
+-- Server version: 10.1.16-MariaDB
+-- PHP Version: 5.6.24
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `db_ddpms`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `budget_plan`
+--
+
+CREATE TABLE `budget_plan` (
+  `budp_id` int(11) NOT NULL,
+  `budp_name` varchar(255) NOT NULL,
+  `budp_year_begin` int(4) NOT NULL,
+  `budp_year_end` int(4) NOT NULL,
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `budget_plan`
+--
+
+INSERT INTO `budget_plan` (`budp_id`, `budp_name`, `budp_year_begin`, `budp_year_end`, `modified_date`, `modified_by`) VALUES
+(1, 'เงินปีงบประมาณ 2556 - 2559', 2556, 2559, '2017-04-27', 1),
+(2, 'เงินปีงบประมาณ 2559 - 2564', 2559, 2564, '2017-04-27', 1),
+(3, 'เงินปีงบประมาณ 2552 - 2555', 2552, 2555, '2017-04-27', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `config`
+--
+
+CREATE TABLE `config` (
+  `conf_id` int(11) NOT NULL,
+  `conf_code` varchar(100) NOT NULL,
+  `conf_name` varchar(100) NOT NULL,
+  `conf_value` varchar(255) NOT NULL,
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `config`
+--
+
+INSERT INTO `config` (`conf_id`, `conf_code`, `conf_name`, `conf_value`, `modified_date`, `modified_by`) VALUES
+(1, 'GENDER', 'MALE', 'ชาย', '2017-04-24', 1),
+(2, 'GENDER', 'FEMALE', 'หญิง', '2017-04-24', 1),
+(3, 'EMPLOYEE_STATUS', 'ONWER', 'เจ้าของโครงการ', '2017-04-24', 1),
+(4, 'EMPLOYEE_STATUS', 'STAFF', 'บุคลากร, ลูกน้อง', '2017-04-24', 1),
+(5, 'EMPLOYEE_STATUS', 'ADMIN', 'เจ้าหน้าที่ดูแลระบบ', '2017-04-24', 1),
+(6, 'DATE', 'MONTHS', 'มกราคม,กุมภาพันธ์,มีนาคม,เมษายน,พฤษภาคม,มิถุนายน,กรกฎาคม,สิงหาคม,กันยายน,ตุลาคม,พฤศจิกายน,ธันวาคม', '2017-04-24', 1),
+(7, 'TASK', 'MANDAYS', '1,2,3,4,5,6,7,8', '2017-04-24', 1),
+(8, 'PROJECT_STATUS', 'COMPLETE', 'ดำเนินการเรียบร้อย', '2017-05-03', 1),
+(9, 'PROJECT_STATUS', 'ADJUST', 'ปรับแผนดำเนินการ', '2017-05-03', 1),
+(10, 'PROJECT_STATUS', 'CANCEL', 'ยกเลิกการดำเนินการ', '2017-05-03', 1),
+(11, 'PROJECT_STATUS', 'SUPPORT', 'งานสนับสนุน', '2017-05-03', 1),
+(12, 'PROJECT_STATUS', 'INPLAN', 'อยู่ในแผนดำเนินการ', '2017-05-03', 1),
+(13, 'PROJECT_STATUS', 'PROCESSING', 'อยู่ระหว่างดำเนินการ', '2017-05-03', 1),
+(14, 'PROJECT_GROUP', 'CAPEX', 'ค่าใช้จ่ายด้านงบลงทุน (CAPEX)', '2017-05-03', 1),
+(15, 'PROJECT_GROUP', 'OPEX', 'ค่าใช้จ่ายด้านการดำเนินงาน (OPEX)', '2017-05-03', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `department`
+--
+
+CREATE TABLE `department` (
+  `dep_id` int(11) NOT NULL,
+  `dep_name` varchar(100) NOT NULL,
+  `dep_account` varchar(100) DEFAULT NULL,
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL,
+  `dep_code` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `department`
+--
+
+INSERT INTO `department` (`dep_id`, `dep_name`, `dep_account`, `modified_date`, `modified_by`, `dep_code`) VALUES
+(1, 'ผู้อำนวยการฝ่าย \n', '', '2017-04-24', 1, NULL),
+(2, 'แผนกดูแลระบบงานสารสนเทศ\n', '', '2017-04-24', 1, NULL),
+(3, 'แผนกบริหารระบบงานทรัพยากรองค์กร\r\n', '', '2017-04-24', 1, NULL),
+(4, 'แผนกงานพัฒนาระบบงานสารสนเทศ\r\n\r\n', '', '2017-04-24', 1, NULL),
+(5, 'แผนกสนับสนุนระบบงานสารสนเทศ', '', '2017-04-24', 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee`
+--
+
+CREATE TABLE `employee` (
+  `emp_id` int(11) NOT NULL,
+  `emp_code` varchar(20) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `emp_fname` varchar(255) NOT NULL,
+  `emp_lname` varchar(255) NOT NULL,
+  `emp_email` varchar(50) NOT NULL,
+  `emp_mobile` varchar(15) NOT NULL,
+  `gender` varchar(20) NOT NULL,
+  `title` varchar(20) NOT NULL,
+  `dept_id` int(11) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `employee`
+--
+
+INSERT INTO `employee` (`emp_id`, `emp_code`, `username`, `password`, `emp_fname`, `emp_lname`, `emp_email`, `emp_mobile`, `gender`, `title`, `dept_id`, `status`, `modified_date`, `modified_by`) VALUES
+(1, 'EMP001', 'admin', '81dc9bdb52d04dc20036dbd8313ed055', 'admin', 'admin', 'admin@gmail.com', '0800000000', 'MALE', 'admin', 1, 'ADMIN', '2017-04-24', 1),
+(2, 'EMP002', 'emp02', '81dc9bdb52d04dc20036dbd8313ed055', 'emp02', 'emp02', 'emp02@gmail.com', '0800000000', 'MALE', 'emp02', 1, 'STAFF', '2017-04-24', 1),
+(3, 'EMP003', 'emp03', '81dc9bdb52d04dc20036dbd8313ed055', 'emp03', 'emp03', 'emp03@gmail.com', '0800000000', 'MALE', 'emp03', 1, 'STAFF', '2017-04-24', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `plan`
+--
+
+CREATE TABLE `plan` (
+  `plan_id` int(11) NOT NULL,
+  `plan_name` varchar(250) NOT NULL,
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `plan`
+--
+
+INSERT INTO `plan` (`plan_id`, `plan_name`, `modified_date`, `modified_by`) VALUES
+(1, 'แผนการพัฒนาเทคโนโลยีสารสนเทศของบริษัท (Company Information Technology)', '2017-04-27', 1),
+(2, 'แผนการพัฒนาระบบงานสารสนเทศและฐานข้อมูล (Application Development and Database Management)', '2017-04-27', 1),
+(3, 'แผนการพัฒนาระบบคอมพิวเตอร์และงานสนับสนุนการบริการ (Infrastructure and Service Support)', '2017-04-27', 1),
+(4, 'แผนการพัฒนาระบบเครือข่ายและการสื่อสารข้อมูล (Networking)', '2017-04-27', 1),
+(5, 'แผนการพัฒนาระบบสนับสนุนระบบงานสารสนเทศ (Application Support)', '2017-04-27', 1),
+(6, 'แผนการพัฒนาความมั่นคงปลอดภัยเทคโนโลยีสารสนเทศ (Information Technology Security)', '2017-04-27', 1),
+(7, 'แผนการพัฒนาบุคลากรด้านเทคโนโลยีสารสนเทศ', '2017-04-27', 1),
+(8, 'งบประมาณอื่นๆ', '2017-04-27', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project`
+--
+
+CREATE TABLE `project` (
+  `proj_id` int(11) NOT NULL,
+  `proj_name` varchar(255) NOT NULL,
+  `proj_details` varchar(255) NOT NULL,
+  `proj_status` varchar(255) NOT NULL,
+  `plan_id` int(11) NOT NULL,
+  `prot_id` int(11) NOT NULL,
+  `budp_id` int(11) NOT NULL,
+  `proj_budg_approve` int(11) DEFAULT NULL COMMENT 'เงินที่อนุมัติครั้งแรกสุด',
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL,
+  `proj_remark` varchar(250) DEFAULT NULL,
+  `proj_verify_date` date DEFAULT NULL,
+  `proj_verify_by` int(11) DEFAULT NULL,
+  `account_code` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `project`
+--
+
+INSERT INTO `project` (`proj_id`, `proj_name`, `proj_details`, `proj_status`, `plan_id`, `prot_id`, `budp_id`, `proj_budg_approve`, `modified_date`, `modified_by`, `proj_remark`, `proj_verify_date`, `proj_verify_by`, `account_code`) VALUES
+(1, 'โครงการสร้างรูปแบบและมาตรฐาน ส่วนต่อประสานผู้ใช้งานให้มีเอกลักษณ์เป็นรูปแบบเดียวกัน', 'โครงการสร้างรูปแบบและมาตรฐาน ส่วนต่อประสานผู้ใช้งานให้มีเอกลักษณ์เป็นรูปแบบเดียวกัน', '1', 1, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(2, 'โครงการสร้างและประกาศนโยบาย มาตรฐาน วิธีปฏิบัติต่าง เพื่อให้สารสนเทศเป็นมาตรฐานเดียวกัน', 'โครงการสร้างและประกาศนโยบาย มาตรฐาน วิธีปฏิบัติต่าง เพื่อให้สารสนเทศเป็นมาตรฐานเดียวกัน', '1', 1, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(3, 'โครงการศึกษา ประเมิน และวางแนวทาง การปฏิบัติใช้มาตรฐาน ISO/IEC 27001', 'โครงการศึกษา ประเมิน และวางแนวทาง การปฏิบัติใช้มาตรฐาน ISO/IEC 27001', '1', 1, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(4, 'โครงการศึกษา ประเมิน และวางแนวทาง การจำแนกชั้นความสำคัญของข้อมูลที่มีอยู่ในบริษัท (Data Serverity Classification)', 'โครงการศึกษา ประเมิน และวางแนวทาง การจำแนกชั้นความสำคัญของข้อมูลที่มีอยู่ในบริษัท (Data Serverity Classification)', '1', 1, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(5, 'โครงการพัฒนาระบบงาน BI (Business Intelligence)', 'โครงการพัฒนาระบบงาน BI (Business Intelligence)', '1', 2, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(6, 'โครงการพัฒนาระบบงานสารสนเทศเพื่อสนับสนุนส่วนงานทรัพยากรมนุษย์ (HR)', 'โครงการพัฒนาระบบงานสารสนเทศเพื่อสนับสนุนส่วนงานทรัพยากรมนุษย์ (HR)', '1', 2, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(7, 'โครงการพัฒนาระบบงาน CRM (Customer Relationship Management)(ไปรวมเป็นโครงการที่ 11)', 'โครงการพัฒนาระบบงาน CRM (Customer Relationship Management)(ไปรวมเป็นโครงการที่ 11)', '1', 2, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(8, 'โครงการพัฒนาระบบงาน CCB(ไปรวมเป็นโครงการที่ 11)', 'โครงการพัฒนาระบบงาน CCB(ไปรวมเป็นโครงการที่ 11)', '1', 2, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(9, 'โครงการพัฒนาระบบงาน Netka', 'โครงการพัฒนาระบบงาน Netka', '1', 2, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(10, 'โครงการพัฒนาระบบงาน Investment System(ไปรวมเป็นโครงการที่ 11)', 'โครงการพัฒนาระบบงาน Investment System(ไปรวมเป็นโครงการที่ 11)', '1', 2, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(11, 'โครงการพัฒนาระบบงานใหม่รองรับการทำงานของฝ่ายขาย(โครงการปี 2560)', 'โครงการพัฒนาระบบงานใหม่รองรับการทำงานของฝ่ายขาย(โครงการปี 2560)', '1', 2, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(12, 'โครงการพัฒนาระบบงาน Job Management (ไปรวมเป็นโครงการที่ 18)', 'โครงการพัฒนาระบบงาน Job Management (ไปรวมเป็นโครงการที่ 18)', '1', 2, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(13, 'โครงการพัฒนาระบบงานใหม่รองรับการทำงานของฝ่ายวิศวกรรม(โครงการปี 2560)', 'โครงการพัฒนาระบบงานใหม่รองรับการทำงานของฝ่ายวิศวกรรม(โครงการปี 2560)', '1', 2, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(14, 'โครงการพัฒนาระบบงาน  ERP (Enterprise Resource Planning)', 'โครงการพัฒนาระบบงาน  ERP (Enterprise Resource Planning)', '1', 2, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(15, 'โครงการบริหารจัดการผู้เชี่ยวชาญและผู้พัฒนาระบบงานจากภายนอก (Outsourcing)', 'โครงการบริหารจัดการผู้เชี่ยวชาญและผู้พัฒนาระบบงานจากภายนอก (Outsourcing)', '1', 2, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(16, 'โครงการ Broadband 4.0 (MA & Mobile) (โครงการปี 2560)', 'โครงการ Broadband 4.0 (MA & Mobile) (โครงการปี 2560)', '1', 2, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(17, 'โครงการระบบ JOB for IP Service (โครงการปี 2560)', 'โครงการระบบ JOB for IP Service (โครงการปี 2560)', '1', 2, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(18, 'โครงการระบบสำรองข้อมูล (Backup System) แบบ Disk-to-Disk', 'โครงการระบบสำรองข้อมูล (Backup System) แบบ Disk-to-Disk', '1', 3, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(19, 'โครงการระบบ IT Service Desk (iServiceD)', 'โครงการระบบ IT Service Desk (iServiceD)', '1', 3, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(20, 'โครงการระบบแผนสำรองฉุกเฉินในการทำ Fail-Over และ Fail-Back', 'โครงการระบบแผนสำรองฉุกเฉินในการทำ Fail-Over และ Fail-Back', '1', 3, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(21, 'โครงการเพิ่มประสิทธิภาพเครื่องให้บริการไฟล์ที่ใช้งานร่วมกัน (File Sharing)', 'โครงการเพิ่มประสิทธิภาพเครื่องให้บริการไฟล์ที่ใช้งานร่วมกัน (File Sharing)', '1', 3, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(22, 'โครงการบริหารการจัดการเวอร์ชั่นโปรแกรมที่ใช้งาน', 'โครงการบริหารการจัดการเวอร์ชั่นโปรแกรมที่ใช้งาน', '1', 3, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(23, 'โครงการระบบเฝ้าดูแล และแจ้งเตือนการทำงานของระบบคอมพิวเตอร์ (Infrastructure Monitoring System)', 'โครงการระบบเฝ้าดูแล และแจ้งเตือนการทำงานของระบบคอมพิวเตอร์ (Infrastructure Monitoring System)', '1', 3, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(24, 'โครงการพัฒนาประสิทธิภาพระบบ Active Directory และ ระบบอีเมล์ให้สามารถรองรับ SLA ได้ 99.9%', 'โครงการพัฒนาประสิทธิภาพระบบ Active Directory และ ระบบอีเมล์ให้สามารถรองรับ SLA ได้ 99.9%', '1', 3, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(25, 'โครงการศึกษา และประเมิน การนำระบบคลาวด์ และเทคโนโลยีและนวัตกรรมใหม่ๆ เข้ามาประยุกต์ใช้งาน', 'โครงการศึกษา และประเมิน การนำระบบคลาวด์ และเทคโนโลยีและนวัตกรรมใหม่ๆ เข้ามาประยุกต์ใช้งาน', '1', 3, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(26, 'โครงการจัดการฝึกอบรมการใช้งานโปรแกรมประยุกต์', 'โครงการจัดการฝึกอบรมการใช้งานโปรแกรมประยุกต์', '1', 3, 0, 0, NULL, '2017-05-03', 1, NULL, NULL, NULL, NULL),
+(27, 'โครงการปรับปรุงระบบการใช้งานจากระยะไกล (Remote Access)', 'โครงการปรับปรุงระบบการใช้งานจากระยะไกล (Remote Access)', '1', 4, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(28, 'โครงการปรับปรุงความพร้อมใช้งานของอุปกรณ์ไฟร์วอล (Firewall High Availability)', 'โครงการปรับปรุงความพร้อมใช้งานของอุปกรณ์ไฟร์วอล (Firewall High Availability)', '1', 4, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(29, 'โครงการปรับปรุงความพร้อมใช้งานของอุปกรณ์สวิทช์เครือข่าย (Network Switch High Availability)', 'โครงการปรับปรุงความพร้อมใช้งานของอุปกรณ์สวิทช์เครือข่าย (Network Switch High Availability)', '1', 4, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(30, 'โครงการปรับปรุงการใช้งานเครือข่ายของศูนย์สำรอง', 'โครงการปรับปรุงการใช้งานเครือข่ายของศูนย์สำรอง', '1', 4, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(31, 'โครงการจัดระเบียบโซนของระบบเครือข่าย', 'โครงการจัดระเบียบโซนของระบบเครือข่าย', '1', 4, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(32, 'โครงการศึกษาความเป็นไปได้ที่จะนำ IPv6 มาใช้งาน', 'โครงการศึกษาความเป็นไปได้ที่จะนำ IPv6 มาใช้งาน', '1', 4, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(33, 'โครงการถ่ายโอนการดูแลสนับสนุนระบบต่างๆ', 'โครงการถ่ายโอนการดูแลสนับสนุนระบบต่างๆ', '1', 5, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(34, 'โครงการประมวลผลข้อมูลที่ได้จากงานสนับสนุนระบบงานสารสนเทศ', 'โครงการประมวลผลข้อมูลที่ได้จากงานสนับสนุนระบบงานสารสนเทศ', '1', 5, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(35, 'โครงการจัดหาโปรแกรมเครื่องมือเพื่อสนันสนุนงานสนับสนุนระบบงาน', 'โครงการจัดหาโปรแกรมเครื่องมือเพื่อสนันสนุนงานสนับสนุนระบบงาน', '1', 5, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(36, 'โครงการจัดทำมาตรฐานรายการเสริมสร้างความมั่นคงปลอดภัยสำหรับระบบคอมพิวเตอร์และระบบงาน', 'โครงการจัดทำมาตรฐานรายการเสริมสร้างความมั่นคงปลอดภัยสำหรับระบบคอมพิวเตอร์และระบบงาน', '1', 6, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(37, 'โครงการจัดทำระบบเก็บข้อมูลล็อก และระบบตรวจสอบเหตุการณ์ทางด้านความมั่นคงปลอดภัยเทคโนโลยีสารสนเทศ (Security Log and Monitoring)', 'โครงการจัดทำระบบเก็บข้อมูลล็อก และระบบตรวจสอบเหตุการณ์ทางด้านความมั่นคงปลอดภัยเทคโนโลยีสารสนเทศ (Security Log and Monitoring)', '1', 6, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(38, 'โครงการจัดทำ Certificate Authority (CA) ภายในบริษัท และจัดทำใบรับรอง (Certificate) สำหรับระบบงานภายนอก', 'โครงการจัดทำ Certificate Authority (CA) ภายในบริษัท และจัดทำใบรับรอง (Certificate) สำหรับระบบงานภายนอก', '1', 6, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(39, 'โครงการติดตั้งใช้งาน HTTPS สำหรับระบบงานทั้งภายในและภายนอก', 'โครงการติดตั้งใช้งาน HTTPS สำหรับระบบงานทั้งภายในและภายนอก', '1', 6, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(40, 'โครงการทดสอบระบบป้องกัน ระงับ และบรรเทาการเกิดเหตุการณ์ทางด้านความมั่นคงปลอดภัยเทคโนโลยีสารสนเทศ', 'โครงการทดสอบระบบป้องกัน ระงับ และบรรเทาการเกิดเหตุการณ์ทางด้านความมั่นคงปลอดภัยเทคโนโลยีสารสนเทศ', '1', 6, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(41, 'โครงการจัดทำ ปรับปรุง แก้ไข นโยบาย มาตรฐาน และระเบียบวิธีปฏิบัติด้านความมั่นคงปลอดภัยเทคโนโลยีสารสนเทศ', 'โครงการจัดทำ ปรับปรุง แก้ไข นโยบาย มาตรฐาน และระเบียบวิธีปฏิบัติด้านความมั่นคงปลอดภัยเทคโนโลยีสารสนเทศ', '1', 6, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(42, 'โครงการจัดทำแผนงาน และดำเนินการการตรวจสอบด้านความมั่นคงปลอดภัย', 'โครงการจัดทำแผนงาน และดำเนินการการตรวจสอบด้านความมั่นคงปลอดภัย', '1', 6, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(43, 'โครงการจัดสัมมนาในเรื่องการบริหารจัดการความมั่นคงปลอดภัยด้านสารสนเทศในบริษัท การเสริมสร้างความตระหนักรู้และเข้าใจในเรื่องความมั่นคงปลอดภัยของข้อมูลและเทคโนโลยี', 'โครงการจัดสัมมนาในเรื่องการบริหารจัดการความมั่นคงปลอดภัยด้านสารสนเทศในบริษัท การเสริมสร้างความตระหนักรู้และเข้าใจในเรื่องความมั่นคงปลอดภัยของข้อมูลและเทคโนโลยี', '1', 6, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(44, 'โครงการพัฒนาบุคลากรและการฝึกอบรม', 'โครงการพัฒนาบุคลากรและการฝึกอบรม', '1', 7, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(45, 'โครงการหมุนเวียนหน้าที่การปฏิบัติงาน', 'โครงการหมุนเวียนหน้าที่การปฏิบัติงาน', '1', 7, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(46, 'ค่าใช้จ่ายด้านงบลงทุน (CAPEX)', 'ค่าใช้จ่ายด้านงบลงทุน (CAPEX)', '1', 8, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL),
+(47, 'ค่าใช้จ่ายด้านการดำเนินงาน (OPEX)', 'ค่าใช้จ่ายด้านการดำเนินงาน (OPEX)', '1', 8, 0, 0, NULL, '2017-04-27', 1, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_budget`
+--
+
+CREATE TABLE `project_budget` (
+  `prob_id` int(11) NOT NULL,
+  `proj_id` int(11) NOT NULL,
+  `budp_id` int(11) NOT NULL,
+  `prob_req_budget` int(11) NOT NULL COMMENT 'เงินที่ขอก้อนใหญ่รวมทุกปี',
+  `prob_appr_budget` int(11) DEFAULT NULL COMMENT 'เงินที่อนุมัติก้อนใหญ่รวมทุกปี'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_expense`
+--
+
+CREATE TABLE `project_expense` (
+  `exp_id` int(11) NOT NULL,
+  `proj_id` int(11) NOT NULL,
+  `exp_desc` text NOT NULL,
+  `exp_amount` int(11) NOT NULL,
+  `exp_voch` varchar(100) NOT NULL,
+  `exp_pr` varchar(100) NOT NULL,
+  `receipt` varchar(255) NOT NULL,
+  `exp_date` date NOT NULL,
+  `vender` varchar(255) NOT NULL,
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_shift`
+--
+
+CREATE TABLE `project_shift` (
+  `projs_id` int(11) NOT NULL,
+  `proj_id` int(11) NOT NULL,
+  `projs_reason` varchar(255) NOT NULL,
+  `projs_plan` varchar(255) NOT NULL,
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_strategic`
+--
+
+CREATE TABLE `project_strategic` (
+  `projs_id` int(11) NOT NULL,
+  `proj_id` int(11) NOT NULL,
+  `stra_id` int(11) NOT NULL,
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_type`
+--
+
+CREATE TABLE `project_type` (
+  `prot_id` int(11) NOT NULL,
+  `prot_code` varchar(50) DEFAULT NULL,
+  `prot_name` varchar(250) NOT NULL,
+  `prot_type` enum('CAPEX','OPEX') DEFAULT NULL,
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL,
+  `dep_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `project_type`
+--
+
+INSERT INTO `project_type` (`prot_id`, `prot_code`, `prot_name`, `prot_type`, `modified_date`, `modified_by`, `dep_id`) VALUES
+(1, 'B2001', 'Application & Software', 'CAPEX', '2017-05-03', 1, NULL),
+(2, 'B2002', 'Network', 'CAPEX', '2017-05-03', 1, NULL),
+(3, 'B2003', 'Hardware', 'CAPEX', '2017-05-03', 1, NULL),
+(4, 'B2004', 'Security', 'CAPEX', '2017-05-03', 1, NULL),
+(5, 'B2005', 'IT Outsource', 'CAPEX', '2017-05-03', 1, NULL),
+(6, 'B2006', 'Internet & Firewall', 'OPEX', '2017-05-03', 1, NULL),
+(7, 'B2007', 'Maintenance', 'CAPEX', '2017-05-03', 1, NULL),
+(8, 'B2008', 'Fare', 'OPEX', '2017-05-03', 1, NULL),
+(9, 'B2008', 'PC & Notebook', 'OPEX', '2017-05-03', 1, NULL),
+(10, 'B2009', 'Travelling -Domestic', 'OPEX', '2017-05-03', 1, NULL),
+(11, 'B2010', 'SBM&BSS Integration', 'OPEX', '2017-05-03', 1, NULL),
+(12, 'B2011', 'NO BUDGET', 'OPEX', '2017-05-03', 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_working`
+--
+
+CREATE TABLE `project_working` (
+  `projw_id` int(11) NOT NULL,
+  `proj_id` int(11) NOT NULL,
+  `budget_year` int(4) NOT NULL,
+  `budget_request_m1` varchar(50) DEFAULT NULL,
+  `budget_request_m2` varchar(50) DEFAULT NULL,
+  `budget_request_m3` varchar(50) DEFAULT NULL,
+  `budget_request_m4` varchar(50) DEFAULT NULL,
+  `budget_request_m5` varchar(50) DEFAULT NULL,
+  `budget_request_m6` varchar(50) DEFAULT NULL,
+  `budget_request_m7` varchar(50) DEFAULT NULL,
+  `budget_request_m8` varchar(50) DEFAULT NULL,
+  `budget_request_m9` varchar(50) DEFAULT NULL,
+  `budget_request_m10` varchar(50) DEFAULT NULL,
+  `budget_request_m11` varchar(50) DEFAULT NULL,
+  `budget_request_m12` varchar(50) DEFAULT NULL,
+  `budget_response_m1` varchar(50) DEFAULT NULL,
+  `budget_response_m2` varchar(50) DEFAULT NULL,
+  `budget_response_m3` varchar(50) DEFAULT NULL,
+  `budget_response_m4` varchar(50) DEFAULT NULL,
+  `budget_response_m5` varchar(50) DEFAULT NULL,
+  `budget_response_m6` varchar(50) DEFAULT NULL,
+  `budget_response_m7` varchar(50) DEFAULT NULL,
+  `budget_response_m8` varchar(50) DEFAULT NULL,
+  `budget_response_m9` varchar(50) DEFAULT NULL,
+  `budget_response_m10` varchar(50) DEFAULT NULL,
+  `budget_response_m11` varchar(50) DEFAULT NULL,
+  `budget_response_m12` varchar(50) DEFAULT NULL,
+  `budget_usage` varchar(50) DEFAULT NULL,
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `strategic`
+--
+
+CREATE TABLE `strategic` (
+  `stra_id` int(11) NOT NULL,
+  `stra_name` varchar(100) NOT NULL,
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `strategic`
+--
+
+INSERT INTO `strategic` (`stra_id`, `stra_name`, `modified_date`, `modified_by`) VALUES
+(1, 'ด้านการพัฒนาเทคโนโลยีสารสนเทศของบริษัท', '2017-05-03', 1),
+(2, 'ด้านการพัฒนาระบบงานสารสนเทศและฐานข้อมูล', '2017-05-03', 1),
+(3, 'ด้านการพัฒนาระบบคอมพิวเตอร์และงานสนับสนุนการบริการ', '2017-05-03', 1),
+(4, 'ด้านการพัฒนาระบบเครือข่ายและการสื่อสารข้อมูล', '2017-05-03', 1),
+(5, 'ด้านการพัฒนาระบบสนับสนุนระบบงานสารสนเทศ', '2017-05-03', 1),
+(6, 'ด้านการพัฒนาความมั่นคงปลอดภัยเทคโนโลยีสารสนเทศ', '2017-05-03', 1),
+(7, 'ด้านการพัฒนาศักยภาพบุคลากรด้านเทคโนโลยีสารสนเทศ', '2017-05-03', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task`
+--
+
+CREATE TABLE `task` (
+  `task_id` int(11) NOT NULL,
+  `task_name` varchar(250) NOT NULL,
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `task`
+--
+
+INSERT INTO `task` (`task_id`, `task_name`, `modified_date`, `modified_by`) VALUES
+(1, 'จัดงานเลี้ยงอำลาผู้อำนวยการ', '2017-04-27', 1),
+(2, 'เลี้ยงอาหารวันเด็ก', '2017-04-27', 1),
+(3, 'ฝึกอบรมหนักงานใหม่', '2017-04-27', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task_assign`
+--
+
+CREATE TABLE `task_assign` (
+  `taska_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
+  `proj_id` int(11) NOT NULL,
+  `task_userid` int(11) NOT NULL,
+  `taska_assign_date` date NOT NULL,
+  `taska_target_date` date NOT NULL,
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `task_assign`
+--
+
+INSERT INTO `task_assign` (`taska_id`, `task_id`, `proj_id`, `task_userid`, `taska_assign_date`, `taska_target_date`, `modified_date`, `modified_by`) VALUES
+(10, 3, 3, 1, '2017-04-05', '2017-04-20', '2017-04-28', 1),
+(12, 1, 2, 1, '2017-04-07', '2017-04-28', '2017-04-28', 1),
+(13, 1, 1, 1, '2017-04-04', '2017-04-11', '2017-04-28', 1),
+(14, 1, 4, 1, '2017-04-01', '2017-04-30', '2017-04-28', 1),
+(15, 3, 5, 1, '2017-04-04', '2017-04-21', '2017-04-28', 1),
+(16, 1, 1, 1, '2017-04-19', '2017-04-27', '2017-04-28', 1),
+(17, 1, 6, 1, '2017-04-05', '2017-04-26', '2017-04-28', 1),
+(18, 2, 1, 1, '2017-04-10', '2017-04-03', '2017-04-29', 1),
+(19, 3, 5, 3, '2017-04-01', '2017-04-30', '2017-04-30', 1),
+(20, 3, 6, 2, '2017-04-03', '2017-04-26', '2017-04-30', 1),
+(21, 2, 6, 3, '2017-04-06', '2017-04-18', '2017-04-30', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task_work`
+--
+
+CREATE TABLE `task_work` (
+  `taskw_id` int(11) NOT NULL,
+  `taskw_detail` text NOT NULL,
+  `taskw_manday` int(11) NOT NULL,
+  `taska_id` int(11) NOT NULL,
+  `taskw_date` date NOT NULL,
+  `modified_date` date NOT NULL,
+  `modified_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `task_work`
+--
+
+INSERT INTO `task_work` (`taskw_id`, `taskw_detail`, `taskw_manday`, `taska_id`, `taskw_date`, `modified_date`, `modified_by`) VALUES
+(4, 'xxxx', 1, 13, '2017-04-28', '2017-04-28', 1),
+(11, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 2, 14, '2017-04-30', '2017-05-03', 1),
+(12, 'ติดต่อร้านโต๊ะจีน', 2, 12, '2017-04-05', '2017-05-03', 1),
+(13, 'จ้างร้านดอกไม้สดเพื่อใช้ตกแต่งงาน', 6, 12, '2017-04-20', '2017-05-03', 1),
+(14, '1', 1, 17, '2017-04-13', '2017-04-30', 1),
+(15, 'ติดต่อร้านขายอาหาร', 3, 12, '2017-05-10', '2017-05-03', 1),
+(17, 'ดำเนินการให้เรียบร้อยแล้วครับ', 8, 17, '2017-04-06', '2017-05-03', 1),
+(18, 'zzzzz', 8, 17, '2017-05-09', '2017-05-03', 1);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `budget_plan`
+--
+ALTER TABLE `budget_plan`
+  ADD PRIMARY KEY (`budp_id`);
+
+--
+-- Indexes for table `config`
+--
+ALTER TABLE `config`
+  ADD PRIMARY KEY (`conf_id`);
+
+--
+-- Indexes for table `department`
+--
+ALTER TABLE `department`
+  ADD PRIMARY KEY (`dep_id`);
+
+--
+-- Indexes for table `employee`
+--
+ALTER TABLE `employee`
+  ADD PRIMARY KEY (`emp_id`);
+
+--
+-- Indexes for table `plan`
+--
+ALTER TABLE `plan`
+  ADD PRIMARY KEY (`plan_id`);
+
+--
+-- Indexes for table `project`
+--
+ALTER TABLE `project`
+  ADD PRIMARY KEY (`proj_id`);
+
+--
+-- Indexes for table `project_budget`
+--
+ALTER TABLE `project_budget`
+  ADD PRIMARY KEY (`prob_id`);
+
+--
+-- Indexes for table `project_expense`
+--
+ALTER TABLE `project_expense`
+  ADD PRIMARY KEY (`exp_id`);
+
+--
+-- Indexes for table `project_shift`
+--
+ALTER TABLE `project_shift`
+  ADD PRIMARY KEY (`projs_id`);
+
+--
+-- Indexes for table `project_strategic`
+--
+ALTER TABLE `project_strategic`
+  ADD PRIMARY KEY (`projs_id`);
+
+--
+-- Indexes for table `project_type`
+--
+ALTER TABLE `project_type`
+  ADD PRIMARY KEY (`prot_id`);
+
+--
+-- Indexes for table `project_working`
+--
+ALTER TABLE `project_working`
+  ADD PRIMARY KEY (`projw_id`);
+
+--
+-- Indexes for table `strategic`
+--
+ALTER TABLE `strategic`
+  ADD PRIMARY KEY (`stra_id`);
+
+--
+-- Indexes for table `task`
+--
+ALTER TABLE `task`
+  ADD PRIMARY KEY (`task_id`);
+
+--
+-- Indexes for table `task_assign`
+--
+ALTER TABLE `task_assign`
+  ADD PRIMARY KEY (`taska_id`);
+
+--
+-- Indexes for table `task_work`
+--
+ALTER TABLE `task_work`
+  ADD PRIMARY KEY (`taskw_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `budget_plan`
+--
+ALTER TABLE `budget_plan`
+  MODIFY `budp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `config`
+--
+ALTER TABLE `config`
+  MODIFY `conf_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT for table `department`
+--
+ALTER TABLE `department`
+  MODIFY `dep_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `employee`
+--
+ALTER TABLE `employee`
+  MODIFY `emp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `plan`
+--
+ALTER TABLE `plan`
+  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `project`
+--
+ALTER TABLE `project`
+  MODIFY `proj_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+--
+-- AUTO_INCREMENT for table `project_budget`
+--
+ALTER TABLE `project_budget`
+  MODIFY `prob_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `project_expense`
+--
+ALTER TABLE `project_expense`
+  MODIFY `exp_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `project_shift`
+--
+ALTER TABLE `project_shift`
+  MODIFY `projs_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `project_strategic`
+--
+ALTER TABLE `project_strategic`
+  MODIFY `projs_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `project_type`
+--
+ALTER TABLE `project_type`
+  MODIFY `prot_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `project_working`
+--
+ALTER TABLE `project_working`
+  MODIFY `projw_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `strategic`
+--
+ALTER TABLE `strategic`
+  MODIFY `stra_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `task`
+--
+ALTER TABLE `task`
+  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `task_assign`
+--
+ALTER TABLE `task_assign`
+  MODIFY `taska_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+--
+-- AUTO_INCREMENT for table `task_work`
+--
+ALTER TABLE `task_work`
+  MODIFY `taskw_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -47,7 +47,7 @@ public class ProjectTypeDao {
         List<ProjectType> projectTypeList = null;
         try {
             conn = new DbConnection().open();
-            String sql = "SELECT `prot_id`, `prot_code`, `prot_name`, `prot_type`, `modified_by` ";
+            String sql = "SELECT `prot_id`, `prot_code`, `prot_name`, `prot_type`, dep_id, `modified_by` ";
             sql += " ,DATE_FORMAT(modified_date,"+DATE_TO_STR+") as modified_date  FROM project_type c ";
             sql += sqlCondition;
             sql += " ORDER BY c.prot_id limit " + limit + " offset " + offset;
@@ -73,15 +73,16 @@ public class ProjectTypeDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" INSERT INTO `project_type` ");
-            sql.append(" ( `prot_code`, `prot_name`, `prot_type`,modified_date,modified_by ) ");
+            sql.append(" ( `prot_code`, `prot_name`, `prot_type`, dep_id, modified_date,modified_by ) ");
             sql.append(" VALUES ");
-            sql.append(" (?,?,?,NOW(),?)");
+            sql.append(" (?,?,?,?,NOW(),?)");
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, projectType.getProtCode());
             pstm.setString(2, projectType.getProtName());
             pstm.setString(3, projectType.getProtType());
-            pstm.setString(4, projectType.getModifiedBy());
+            pstm.setString(4, projectType.getDepId());
+            pstm.setString(5, projectType.getModifiedBy());
             exe = pstm.executeUpdate();
         } catch (Exception e) {
             logger.error("createProjectType error", e);
@@ -98,15 +99,16 @@ public class ProjectTypeDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" UPDATE `project_type` SET ");
-            sql.append(" `prot_code`=?,`prot_name`=?,`prot_type`=?,modified_date=NOW(),modified_by=? ");
+            sql.append(" `prot_code`=?,`prot_name`=?,`prot_type`=?, dep_id=?, modified_date=NOW(),modified_by=? ");
             sql.append(" WHERE `prot_id`=?");
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, projectType.getProtCode());
             pstm.setString(2, projectType.getProtName());
             pstm.setString(3, projectType.getProtType());
-            pstm.setString(4, projectType.getModifiedBy());
-            pstm.setString(5, projectType.getProtId());
+            pstm.setString(4, projectType.getDepId());
+            pstm.setString(5, projectType.getModifiedBy());
+            pstm.setString(6, projectType.getProtId());
 
             exe = pstm.executeUpdate();
         } catch (Exception e) {
@@ -180,7 +182,8 @@ public class ProjectTypeDao {
         projectType.setProtCode(rs.getString("prot_code"));
         projectType.setProtId(rs.getString("prot_id"));
         projectType.setProtName(rs.getString("prot_name"));
-        projectType.setProtType(rs.getString("prot_type"));        
+        projectType.setProtType(rs.getString("prot_type"));       
+        projectType.setDepId(rs.getString("dep_id")); 
         projectType.setModifiedDate(rs.getString("modified_date"));      
         projectType.setModifiedBy(rs.getString("modified_by"));      
         return projectType;

@@ -7,6 +7,7 @@ package com.ddpms.action.expense;
 
 import com.ddpms.dao.ProjectDao;
 import com.ddpms.dao.ProjectExpenseDao;
+import com.ddpms.model.Employee;
 import com.ddpms.model.MessageUI;
 import com.ddpms.model.Project;
 import com.ddpms.model.ProjectExpense;
@@ -66,6 +67,7 @@ final static Logger logger = Logger.getLogger(ProjectExpenseAddServlet.class);
             request.setAttribute("receipt", receipt);
             String vender = CharacterUtil.removeNull(request.getParameter("vender"));
             request.setAttribute("vender", vender);
+            Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");  
             
             pe.setExpId(id);
             pe.setProjId(proj_id);
@@ -76,7 +78,7 @@ final static Logger logger = Logger.getLogger(ProjectExpenseAddServlet.class);
             pe.setExpPr(exp_pr);
             pe.setReceipt(receipt);
             pe.setVender(vender);
-            pe.setModifiedBy("1");
+            pe.setModifiedBy(String.valueOf(employee.getEmpId()));
             
             int exe = 0;
             if(id.equals("")){

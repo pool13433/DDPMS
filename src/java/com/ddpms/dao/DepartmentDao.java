@@ -26,7 +26,7 @@ public class DepartmentDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT `dep_id`, `dep_name`,dep_account, `modified_date`, `modified_by` FROM `department`");
+            sql.append(" SELECT `dep_id`, `dep_name`,dep_account, `modified_date`, `modified_by`, dep_code  FROM `department`");
             sql.append(" WHERE dep_id = ?");
 
             pstm = conn.prepareStatement(sql.toString());
@@ -76,14 +76,15 @@ public class DepartmentDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" INSERT INTO `department` ");
-            sql.append(" ( `dep_name`, `dep_account`, modified_date,modified_by ) ");
+            sql.append(" ( `dep_name`, `dep_account`, dep_code, modified_date,modified_by ) ");
             sql.append(" VALUES ");
-            sql.append(" (?,?,NOW(),?)");
+            sql.append(" (?,?,?,NOW(),?)");
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, department.getDepName());
             pstm.setString(2, department.getDepAccount());
-            pstm.setString(3, department.getModifiedBy());
+            pstm.setString(3, department.getDepCode());
+            pstm.setString(4, department.getModifiedBy());
             exe = pstm.executeUpdate();
         } catch (Exception e) {
             logger.error("createDepartment error", e);
@@ -100,14 +101,15 @@ public class DepartmentDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" UPDATE `department` SET ");
-            sql.append("  `dep_name`=?,`dep_account`=?,");
+            sql.append("  `dep_name`=?,`dep_account`=?, dep_code=?,");
             sql.append(" `modified_date`=NOW(),`modified_by`=? WHERE `dep_id`=?");
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, department.getDepName());
             pstm.setString(2, department.getDepAccount());
-            pstm.setString(3, department.getModifiedBy());
-            pstm.setString(4, department.getDepId());
+            pstm.setString(3, department.getDepCode());
+            pstm.setString(4, department.getModifiedBy());
+            pstm.setString(5, department.getDepId());
 
             exe = pstm.executeUpdate();
         } catch (Exception e) {
@@ -180,7 +182,7 @@ public class DepartmentDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT `dep_id`, `dep_name`,dep_account, `modified_date`, `modified_by` FROM `department`");
+            sql.append(" SELECT `dep_id`, `dep_name`,dep_account, dep_code, `modified_date`, `modified_by` FROM `department`");
 
             pstm = conn.prepareStatement(sql.toString());
             rs = pstm.executeQuery();
@@ -202,6 +204,7 @@ public class DepartmentDao {
         department.setDepId(rs.getString("dep_id"));
         department.setDepName(rs.getString("dep_name"));
         department.setDepAccount(rs.getString("dep_account"));
+        department.setDepCode(rs.getString("dep_code"));
         department.setModifiedBy(rs.getString("modified_by"));
         department.setModifiedDate(rs.getString("modified_date"));
         return department;
