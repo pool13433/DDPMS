@@ -2,6 +2,7 @@
 package com.ddpms.action.department;
 
 import com.ddpms.dao.DepartmentDao;
+import com.ddpms.model.Department;
 import com.ddpms.model.Pagination;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
@@ -23,15 +24,18 @@ public class DepartmentListServlet extends HttpServlet {
             int offset = CharacterUtil.removeNullTo(request.getParameter("offset"), 0);
             String pageUrl = request.getContextPath() + "/DepartmentListServlet?" + request.getQueryString();
             
+            String depCode = CharacterUtil.removeNull(request.getParameter("depCode"));
             String depName = CharacterUtil.removeNull(request.getParameter("depName"));
-            
+            Department criteria = new Department();
+            criteria.setDepCode(depCode);
+            criteria.setDepName(depName);            
             DepartmentDao dao = new DepartmentDao();
-            String sqlCondition = dao.getConditionBuilder(depName);
+            String sqlCondition = dao.getConditionBuilder(criteria);
             int countRecordAll = dao.getCountDepartment(sqlCondition);
             request.setAttribute("departmentList", dao.getDepartmentList(limit, offset,sqlCondition));
             Pagination pagination = new Pagination(pageUrl, countRecordAll, limit, offset);
             request.setAttribute("pagination", pagination);
-            request.setAttribute("depName", depName);
+            request.setAttribute("criteria", criteria);
         } catch (Exception e) {
             logger.error("DepartmentListServlet error", e);
         }

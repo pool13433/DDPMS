@@ -14,15 +14,13 @@
             <div class="row">
                 <div class="col-sm-10" >
                     <div class="form-group">
+                        <label for="depCode" class="col-sm-2 control-label">Code</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="depCode" value="${department.depCode}"/>
+                        </div>
                         <label for="depName" class="col-sm-2 control-label">Name</label>
                         <div class="col-sm-4">
                             <input type="text" class="form-control" name="depName" value="${department.depName}"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="depAccount" class="col-sm-2 control-label">Account</label>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" name="depAccount" value="${department.depAccount}"/>
                         </div>
                     </div>
                 </div>

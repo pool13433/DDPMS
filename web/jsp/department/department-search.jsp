@@ -23,9 +23,13 @@
                     <div class="row">
                         <div class="col-sm-10" >
                             <div class="form-group">
+                                <label for="depCode" class="col-sm-2 control-label">Department Code</label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" type="text" name="depCode" value="${criteria.depCode}" >
+                                </div>
                                 <label for="depName" class="col-sm-2 control-label">Department Name</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="depName" value="${depName}" >
+                                <div class="col-sm-4">
+                                    <input class="form-control" type="text" name="depName" value="${criteria.depName}" >
                                 </div>
                             </div>
                         </div>
@@ -54,8 +58,8 @@
             <table id="search_table" class="table table-responsive">                        
                 <tr>
                     <th>#</th>
+                    <th>Code</th>
                     <th>Name</th>
-                    <th>Account</th>
                     <th>Modified By</th>
                     <th>Modified Date</th>
                 </tr>
@@ -67,8 +71,8 @@
                                 <a href="${context}/DepartmentFormServlet?menu=department-form&depId=${department.depId}" class="btn btn-default btn-info"><i class="glyphicon glyphicon-pencil"></i></a>
                                 <a href="${context}/DepartmentDeleteServlet?depId=${department.depId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>
                             </td>
-                            <td>${department.depName}</td> 
-                            <td>${department.depAccount}</td>
+                            <td>${department.depCode}</td> 
+                            <td>${department.depName}</td>
                             <td>${department.modifiedBy}</td> 
                             <td>${department.modifiedDate}</td>
                         </tr>
