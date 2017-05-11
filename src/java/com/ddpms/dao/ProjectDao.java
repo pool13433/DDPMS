@@ -262,8 +262,8 @@ public class ProjectDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
-            sql.append(" plan_id,budp_id, ");
+            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`,(SELECT prot_name FROM project_type pt WHERE pt.prot_id = p.prot_id ) as prot_id, ");
+            sql.append(" proj_remark,proj_verify_by,proj_verify_date,account_code,plan_id,budp_id, ");
             sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, `modified_by` ");
             sql.append(" FROM `project` p WHERE proj_id = ?");
             pstm = conn.prepareStatement(sql.toString());

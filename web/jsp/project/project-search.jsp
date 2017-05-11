@@ -85,7 +85,7 @@
                     <c:forEach var="p" items="${projectList}">
                         <tr>
                             <td  nowrap>        
-                                <a href="${context}/jsp/project/project-approve.jsp" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-bold"></i></a>
+                                <a href="${context}/ProjectVerifyServlet?id=${p.projId}" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-bold"></i></a>
                                 <a href="${context}/ProjectEditServlet?id=${p.projId}" class="btn btn-default btn-info"><i class="glyphicon glyphicon-pencil"></i></a>
                                 <a href="${context}/ProjectDeleteServlet?id=${p.projId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>                                
                             </td>
