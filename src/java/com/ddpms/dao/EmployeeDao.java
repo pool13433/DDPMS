@@ -28,6 +28,7 @@ public class EmployeeDao {
     private Connection conn = null;
     
     public Employee getEmployee(String username, String password) {
+        logger.info(" getEmployee ..");
         PreparedStatement pstm = null;
         ResultSet rs = null;
         Employee user = null;
@@ -38,7 +39,7 @@ public class EmployeeDao {
             sql.append(" `emp_email`,`emp_mobile`, `gender`, `title`, `dept_id`, status, `modified_date`, `modified_by` ");
             sql.append(" FROM `employee`  ");
             sql.append(" WHERE username = ? and password = md5(?)");
-            
+            logger.info("sql ::=="+sql.toString());
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, username);
             pstm.setString(2, password);
@@ -48,7 +49,35 @@ public class EmployeeDao {
                 user = this.getEntityEmployee(rs);
             }
         } catch (Exception e) {
-            logger.error("getUser error", e);
+            logger.error("getEmployee error", e);
+        } finally {
+            this.close(pstm, rs);
+        }
+        return user;
+    }
+    
+    public Employee getEmployee(int empId) {
+        logger.info(" getEmployee ..");
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        Employee user = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" SELECT `emp_id`, `emp_code`,  `username`, `password`,`emp_fname`, `emp_lname`,  ");
+            sql.append(" `emp_email`,`emp_mobile`, `gender`, `title`, `dept_id`, status, `modified_date`, `modified_by` ");
+            sql.append(" FROM `employee`  ");
+            sql.append(" WHERE emp_id = ?");
+            logger.info("sql ::=="+sql.toString());
+            pstm = conn.prepareStatement(sql.toString());
+            pstm.setInt(1, empId);
+            
+            rs = pstm.executeQuery();
+            if(rs.next()){
+                user = this.getEntityEmployee(rs);
+            }
+        } catch (Exception e) {
+            logger.error("getEmployee error", e);
         } finally {
             this.close(pstm, rs);
         }
@@ -111,7 +140,7 @@ public class EmployeeDao {
     
     private Employee getEntityEmployee(ResultSet rs) throws SQLException{
         Employee employee = new Employee();
-        employee.setDept_id(rs.getInt("dept_id"));
+        employee.setDepId(rs.getInt("dept_id"));
         employee.setEmpCode(rs.getString("emp_code"));
         employee.setEmpEmail(rs.getString("emp_email"));
         employee.setEmpFname(rs.getString("emp_fname"));
@@ -142,6 +171,39 @@ public class EmployeeDao {
         } catch (SQLException ex) {
             logger.error("close db error", ex);
         }
+    }
+
+    public int updateProfile(Employee employee) {
+        logger.debug("..updateProfile");
+        int exe = 0;
+        PreparedStatement pstm = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" UPDATE `employee` SET ");
+            sql.append(" `emp_fname`=?,`emp_lname`=?,`emp_email`=?,");
+            sql.append(" `emp_mobile`=?,`gender`=?,`title`=?,");
+            sql.append(" `dept_id`=?,`modified_date`=NOW(),`modified_by`=? ");
+            sql.append(" WHERE `emp_id`=?");
+
+            pstm = conn.prepareStatement(sql.toString());
+            pstm.setString(1, employee.getEmpFname());
+            pstm.setString(2, employee.getEmpLname());
+            pstm.setString(3, employee.getEmpEmail());
+            pstm.setString(4, employee.getEmpMobile());
+            pstm.setString(5, employee.getGender());
+            pstm.setString(6, employee.getTitle());
+            pstm.setInt(7, employee.getDepId());
+            pstm.setString(8, employee.getModifiedBy());
+            pstm.setInt(9, employee.getEmpId());
+            logger.info("pstm ::==" + pstm.toString());
+            exe = pstm.executeUpdate();
+        } catch (Exception e) {            
+            logger.error("updateProfile error", e);
+        } finally {
+            this.close(pstm, null);
+        }
+        return exe;
     }
     
 }

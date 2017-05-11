@@ -16,7 +16,7 @@ public class ProjectWorkingDao {
     final static Logger logger = Logger.getLogger(ProjectWorkingDao.class);
 
     private Connection conn = null;
-    
+
     private final String STR_TO_DATE = " '%d-%m-%Y' ";
     private final String DATE_TO_STR = " '%d-%m-%Y' ";
 
@@ -27,15 +27,12 @@ public class ProjectWorkingDao {
         ResultSet rs = null;
         try {
             conn = new DbConnection().open();
-            StringBuilder sql = new StringBuilder();            
+            StringBuilder sql = new StringBuilder();
             sql.append(" SELECT `projw_id`, (select p.proj_name from project p where pw.proj_id=p.proj_id) as `proj_id`, `budget_year`,"
-                     + " `budget_request_m1`, `budget_request_m2`, `budget_request_m3`, `budget_request_m4`,"
-                     + " `budget_request_m5`, `budget_request_m6`, `budget_request_m7`, `budget_request_m8`, "
-                     + "`budget_request_m9`, `budget_request_m10`, `budget_request_m11`, `budget_request_m12`, "
-                     + "`budget_response_m1`, `budget_response_m2`, `budget_response_m3`, `budget_response_m4`, "
-                     + " `budget_response_m5`, `budget_response_m6`, `budget_response_m7`, `budget_response_m8`,"
-                     + " `budget_response_m9`, `budget_response_m10`, `budget_response_m11`, `budget_response_m12`, ");
-            sql.append(" `budget_usage`, DATE_FORMAT(modified_date,"+DATE_TO_STR+") as modified_date, `modified_by` ");
+                    + " `budget_request_m1`, `budget_request_m2`, `budget_request_m3`, `budget_request_m4`,"
+                    + " `budget_request_m5`, `budget_request_m6`, `budget_request_m7`, `budget_request_m8`, "
+                    + "`budget_request_m9`, `budget_request_m10`, `budget_request_m11`, `budget_request_m12`, ");
+            sql.append(" `budget_usage`, DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date, `modified_by` ");
             sql.append(" FROM `project_working` pw ");
             sql.append(getConditionBuilder(pw));
             if (offset != 0) {
@@ -72,14 +69,14 @@ public class ProjectWorkingDao {
                     + " `budget_response_m1`, `budget_response_m2`, `budget_response_m3`, `budget_response_m4`, "
                     + " `budget_response_m5`, `budget_response_m6`, `budget_response_m7`, `budget_response_m8`, "
                     + " `budget_response_m9`, `budget_response_m10`, `budget_response_m11`, `budget_response_m12`, "
-                    + " `modified_date`, `modified_by` ) ");            
+                    + " `modified_date`, `modified_by` ) ");
             sql.append(" VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)");
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, pw.getProjId());
-            pstm.setString(2, pw.getBudgetYear());            
+            pstm.setString(2, pw.getBudgetYear());
             pstm.setString(3, pw.getBudgetUsage());
-            
+
             pstm.setString(4, pw.getBudgetRequestM1());
             pstm.setString(5, pw.getBudgetRequestM2());
             pstm.setString(6, pw.getBudgetRequestM3());
@@ -109,13 +106,13 @@ public class ProjectWorkingDao {
             exe = pstm.executeUpdate();
 
         } catch (Exception e) {
-            logger.error("Error saveProjectWorking:" + e.getMessage());
+            logger.error("Error saveProjectWorking:" ,e);
         } finally {
             this.close(pstm, null);
         }
         return exe;
     }
-    
+
     public int updateProjectWorking(ProjectWorking pw) {
         logger.debug("..updateProjectWorking");
         int exe = 0;
@@ -125,14 +122,14 @@ public class ProjectWorkingDao {
             StringBuilder sql = new StringBuilder();
             sql.append(" UPDATE `project_working` SET ");
             sql.append(" `proj_id`=?, `budget_year`=?,"
-                     + " `budget_request_m1`=?,`budget_request_m2`=?,`budget_request_m3`=?,"
-                     + " `budget_request_m4`=?,`budget_request_m5`=?,`budget_request_m6`=?,"
-                     + " `budget_request_m7`=?,`budget_request_m8`=?,`budget_request_m9`=?,"
-                     + " `budget_request_m10`=?,`budget_request_m11`=?,`budget_request_m12`=?,"
-                     + " `budget_response_m1`=?,`budget_response_m2`=?,`budget_response_m3`=?,"
-                     + " `budget_response_m4`=?,`budget_response_m5`=?,`budget_response_m6`=?,"
-                     + " `budget_response_m7`=?,`budget_response_m8`=?,`budget_response_m9`=?,"
-                     + " `budget_response_m10`=?,`budget_response_m11`=?,`budget_response_m12`=?, ");
+                    + " `budget_request_m1`=?,`budget_request_m2`=?,`budget_request_m3`=?,"
+                    + " `budget_request_m4`=?,`budget_request_m5`=?,`budget_request_m6`=?,"
+                    + " `budget_request_m7`=?,`budget_request_m8`=?,`budget_request_m9`=?,"
+                    + " `budget_request_m10`=?,`budget_request_m11`=?,`budget_request_m12`=?,"
+                    + " `budget_response_m1`=?,`budget_response_m2`=?,`budget_response_m3`=?,"
+                    + " `budget_response_m4`=?,`budget_response_m5`=?,`budget_response_m6`=?,"
+                    + " `budget_response_m7`=?,`budget_response_m8`=?,`budget_response_m9`=?,"
+                    + " `budget_response_m10`=?,`budget_response_m11`=?,`budget_response_m12`=?, ");
             sql.append(" `budget_usage`=?, `modified_by`=?, ");
             sql.append(" `modified_date`=NOW() ");
             sql.append(" WHERE `projw_id`=?");
@@ -140,7 +137,7 @@ public class ProjectWorkingDao {
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, pw.getProjId());
             pstm.setString(2, pw.getBudgetYear());
-            
+
             pstm.setString(3, pw.getBudgetRequestM1());
             pstm.setString(4, pw.getBudgetRequestM2());
             pstm.setString(5, pw.getBudgetRequestM3());
@@ -164,8 +161,8 @@ public class ProjectWorkingDao {
             pstm.setString(23, pw.getBudgetApproveM9());
             pstm.setString(24, pw.getBudgetApproveM10());
             pstm.setString(25, pw.getBudgetApproveM11());
-            pstm.setString(26, pw.getBudgetApproveM12());            
-            
+            pstm.setString(26, pw.getBudgetApproveM12());
+
             pstm.setString(27, pw.getBudgetUsage());
             pstm.setString(28, pw.getModifiedBy());
             pstm.setString(29, pw.getProjwId());
@@ -229,7 +226,7 @@ public class ProjectWorkingDao {
         pw.setProjwId(rs.getString("projw_id"));
         pw.setProjId(rs.getString("proj_id"));
         pw.setBudgetYear(rs.getString("budget_year"));
-        
+
         pw.setBudgetRequestM1(rs.getString("budget_request_m1"));
         pw.setBudgetRequestM2(rs.getString("budget_request_m2"));
         pw.setBudgetRequestM3(rs.getString("budget_request_m3"));
@@ -242,7 +239,7 @@ public class ProjectWorkingDao {
         pw.setBudgetRequestM10(rs.getString("budget_request_m10"));
         pw.setBudgetRequestM11(rs.getString("budget_request_m11"));
         pw.setBudgetRequestM12(rs.getString("budget_request_m12"));
-        
+
         pw.setBudgetApproveM1(rs.getString("budget_approve_m1"));
         pw.setBudgetApproveM2(rs.getString("budget_approve_m2"));
         pw.setBudgetApproveM3(rs.getString("budget_approve_m3"));
@@ -254,8 +251,8 @@ public class ProjectWorkingDao {
         pw.setBudgetApproveM9(rs.getString("budget_approve_m9"));
         pw.setBudgetApproveM10(rs.getString("budget_approve_m10"));
         pw.setBudgetApproveM11(rs.getString("budget_approve_m11"));
-        pw.setBudgetApproveM12(rs.getString("budget_approve_m12"));        
-        
+        pw.setBudgetApproveM12(rs.getString("budget_approve_m12"));
+
         pw.setBudgetUsage(rs.getString("budget_usage"));
         pw.setModifiedDate(rs.getString("modified_date"));
         pw.setModifiedBy(rs.getString("modified_by"));
@@ -313,13 +310,13 @@ public class ProjectWorkingDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT `projw_id`, (select p.proj_name from project p where pw.proj_id=p.proj_id) as `proj_id`, `budget_year`,"
-                     + " `budget_request_m1`, `budget_request_m2`, `budget_request_m3`, `budget_request_m4`,"
-                     + " `budget_request_m5`, `budget_request_m6`, `budget_request_m7`, `budget_request_m8`, "
-                     + "`budget_request_m9`, `budget_request_m10`, `budget_request_m11`, `budget_request_m12`, "
-                     + "`budget_response_m1`, `budget_response_m2`, `budget_response_m3`, `budget_response_m4`, "
-                     + " `budget_response_m5`, `budget_response_m6`, `budget_response_m7`, `budget_response_m8`,"
-                     + " `budget_response_m9`, `budget_response_m10`, `budget_response_m11`, `budget_response_m12`, ");
-            sql.append(" `budget_usage`, DATE_FORMAT(modified_date,"+DATE_TO_STR+") as modified_date, `modified_by` ");
+                    + " `budget_request_m1`, `budget_request_m2`, `budget_request_m3`, `budget_request_m4`,"
+                    + " `budget_request_m5`, `budget_request_m6`, `budget_request_m7`, `budget_request_m8`, "
+                    + "`budget_request_m9`, `budget_request_m10`, `budget_request_m11`, `budget_request_m12`, "
+                    + "`budget_response_m1`, `budget_response_m2`, `budget_response_m3`, `budget_response_m4`, "
+                    + " `budget_response_m5`, `budget_response_m6`, `budget_response_m7`, `budget_response_m8`,"
+                    + " `budget_response_m9`, `budget_response_m10`, `budget_response_m11`, `budget_response_m12`, ");
+            sql.append(" `budget_usage`, DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date, `modified_by` ");
             sql.append(" FROM `project_working` pw ");
 
             pstm = conn.prepareStatement(sql.toString());
@@ -336,6 +333,48 @@ public class ProjectWorkingDao {
             this.close(pstm, rs);
         }
         return pwList;
+    }
+
+    public List<ProjectWorking> getProjectWorkingByProject(int projId) {
+        logger.debug("..getProjectWorkingByProject");
+        List<ProjectWorking> projectWorkingList = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" SELECT `projw_id`, pw.proj_id, `budget_year`, (budget_request_m1+budget_request_m2+budget_request_m3 ");
+            sql.append(" +budget_request_m4+budget_request_m5+budget_request_m6+budget_request_m7+budget_request_m8 ");
+            sql.append(" +budget_request_m9+budget_request_m10+budget_request_m11+budget_request_m12) as sum_request , ");
+            sql.append(" (budget_response_m1+budget_response_m2+budget_response_m3+budget_response_m4+budget_response_m5 ");
+            sql.append(" +budget_response_m6+budget_response_m7+budget_response_m8+budget_response_m9+budget_response_m10 ");
+            sql.append(" +budget_response_m11+budget_response_m12 ) as sum_repsonse,`budget_usage`, pw.modified_date, pw.modified_by FROM `project_working` pw");
+            sql.append(" LEFT JOIN project p ON p.proj_id = pw.proj_id ");
+            sql.append(" WHERE  pw.proj_id = ? ORDER BY pw.budget_year ASC ");
+            logger.info("sql.toString() ::=="+sql.toString());
+            pstm = conn.prepareStatement(sql.toString());
+            pstm.setInt(1, projId);
+            logger.info("pstm ::==" + pstm.toString());
+            rs = pstm.executeQuery();
+            projectWorkingList = new ArrayList<ProjectWorking>();
+            while (rs.next()) {
+                ProjectWorking working = new ProjectWorking();
+                working.setBudgetUsage(rs.getString("budget_usage"));
+                working.setBudgetYear(rs.getString("budget_year"));
+                working.setModifiedBy(rs.getString("modified_by"));
+                working.setModifiedDate(rs.getString("modified_date"));
+                working.setProjId(rs.getString("proj_id"));
+                working.setProjwId(rs.getString("projw_id"));
+                working.setBudgetRequestTotal(rs.getInt("sum_request"));
+                working.setBudgetApproveTotal(rs.getInt("sum_repsonse"));
+                projectWorkingList.add(working);
+            }
+        } catch (Exception e) {
+            logger.error("Error getProjectWorkingByProject :", e);
+        } finally {
+            this.close(pstm, rs);
+        }
+        return projectWorkingList;
     }
 
 }

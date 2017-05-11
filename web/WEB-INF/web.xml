@@ -228,6 +228,10 @@
         <servlet-name>TaskDeleteServlet</servlet-name>
         <servlet-class>com.ddpms.action.task.TaskDeleteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProjectVerifyServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project.ProjectVerifyServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
@@ -470,6 +474,10 @@
     <servlet-mapping>
         <servlet-name>TaskDeleteServlet</servlet-name>
         <url-pattern>/TaskDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectVerifyServlet</servlet-name>
+        <url-pattern>/ProjectVerifyServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

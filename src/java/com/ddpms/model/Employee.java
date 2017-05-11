@@ -9,9 +9,9 @@ public class Employee implements Serializable {
     private Integer empId;
 
     private String empCode;
-    
+
     private String username;
-    
+
     private String password;
 
     private String empFname;
@@ -19,15 +19,15 @@ public class Employee implements Serializable {
     private String empLname;
 
     private String gender;
-    
+
     private String empEmail;
-    
+
     private String empMobile;
 
     private String title;
 
-    private int dept_id;
-    
+    private int depId;
+
     private String status;
 
     private String modifiedDate;
@@ -68,8 +68,6 @@ public class Employee implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
 
     public String getEmpFname() {
         return empFname;
@@ -111,8 +109,6 @@ public class Employee implements Serializable {
         this.empMobile = empMobile;
     }
 
-    
-
     public String getTitle() {
         return title;
     }
@@ -121,12 +117,12 @@ public class Employee implements Serializable {
         this.title = title;
     }
 
-    public int getDept_id() {
-        return dept_id;
+    public int getDepId() {
+        return depId;
     }
 
-    public void setDept_id(int dept_id) {
-        this.dept_id = dept_id;
+    public void setDepId(int depId) {
+        this.depId = depId;
     }
 
     public String getModifiedDate() {
@@ -145,8 +141,6 @@ public class Employee implements Serializable {
         this.modifiedBy = modifiedBy;
     }
 
-    
-
     public String getStatus() {
         return status;
     }
@@ -154,7 +148,5 @@ public class Employee implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    
 
 }
