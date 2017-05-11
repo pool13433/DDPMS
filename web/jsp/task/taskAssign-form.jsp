@@ -2,13 +2,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <jsp:include page="../include/inc_header.jsp"/>
-<div class="container" style="padding-right: 100px;">    
+<div class="container">    
     <div class="panel panel-ddpms">        
         <div class="panel-heading">Form Task Assignment</div>
         <div class="panel-body">               
             <a href="${context}/TaskAssignListServlet?menu=task_assign" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></a>
         </div>        
-        <form action="${context}/TaskAssignSaveServlet" method="post" class="form-horizontal" style="padding-right: 100px;" >
+        <form action="${context}/TaskAssignSaveServlet" method="post" class="form-horizontal">
             <input type="hidden" id="taskaId" name="taskaId" value="${taskAssign.taskaId}"/>
             <div class="form-group">
                 <label for="proj_name" class="col-sm-2 control-label">Project Name</label>

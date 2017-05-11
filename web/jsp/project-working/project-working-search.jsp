@@ -2,7 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <jsp:include page="../include/inc_header.jsp"/>
-<div class="container" style="padding-right: 100px;">    
+<div class="container">    
     <div class="panel panel-ddpms">        
         <div class="panel-heading">Manage Project Working</div>
         <div class="panel-body">

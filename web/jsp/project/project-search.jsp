@@ -2,7 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <jsp:include page="../include/inc_header.jsp"/>
-<div class="container" style="padding-right: 100px;">    
+<div class="container">    
     <div class="panel panel-ddpms">        
         <div class="container-fluid text-center"><h4>Manage Project</h4></div>
         <div class="panel-body">
@@ -72,22 +72,22 @@
             <form id="budpList" action="${context}/ProjectSearchServlet"   method="post" class="form-horizontal">
                 <input type="hidden" id="menu" name="menu" value="manage"/>
                 <div style="overflow-y: scroll;max-height: 400px;">                    
-                    <table id="search_table" class="table table-responsive">                        
-                        <tr>
+                    <table id="search_table" class="table table-responsive">                                                
                         <th>#</th>
                         <th>Project name</th> 
                         <th>Project Details</th>
                         <th>Project Status</th>
                         <th>Plan</th>
-                        <th>Budget</th>
+                        <th>Budget</th>                        
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach var="p" items="${projectList}">
                         <tr>
                             <td  nowrap>        
+                                <a href="${context}/jsp/project/project-approve.jsp" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-bold"></i></a>
                                 <a href="${context}/ProjectEditServlet?id=${p.projId}" class="btn btn-default btn-info"><i class="glyphicon glyphicon-pencil"></i></a>
-                                <a href="${context}/ProjectDeleteServlet?id=${p.projId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>
+                                <a href="${context}/ProjectDeleteServlet?id=${p.projId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>                                
                             </td>
                             <td>${p.projName}</td>
                             <td>${p.projDetails}</td> 
