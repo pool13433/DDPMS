@@ -51,7 +51,7 @@
                                 <li class="<c:out value="${menu == 'project' ? 'active': ''}"/>">                                
                                     <a href="${context}/ProjectSearchServlet?menu=project"><i class="glyphicon glyphicon-list"></i> Manage Project Master</a>
                                 </li>
-                                <li class="<c:out value="${menu == 'project_working' ? 'active': ''}"/>">                                
+                               <!-- <li class="<c:out value="${menu == 'project_working' ? 'active': ''}"/>">                                
                                     <a href="${context}/ProjectWorkingSearchServlet?menu=project-working"><i class="glyphicon glyphicon-play-circle"></i> Manage Project Working</a>
                                 </li>
                                 <li class="<c:out value="${menu == 'project_shift' ? 'active': ''}"/>">                                
@@ -59,7 +59,7 @@
                                 </li>
                                 <li class="<c:out value="${menu == 'project_expense' ? 'active': ''}"/>">                                
                                     <a href="${context}/ProjectExpenseSearchServlet?menu=expense"><i class="glyphicon glyphicon-usd"></i> Manage Project Expense</a>
-                                </li>
+                                </li>-->
                             </ul>
                         </li>
                         <li class="dropdown">

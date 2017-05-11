@@ -9,7 +9,7 @@
         <div class="panel-body">
             <a href="${context}/PlanSearchServlet" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></a>
         </div>
-        <form action="${context}/PlanAddServlet" method="post" class="form-horizontal" style="padding-right: 100px;" >
+        <form action="${context}/PlanAddServlet" method="post" class="form-horizontal">
             <input type="hidden" id="id" name="id" value="${plan_id}"/>
             <div class="row">
                 <div class="col-sm-10" >
