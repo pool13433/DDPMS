@@ -1,4 +1,4 @@
-package com.ddpms.action.projecttype;
+package com.ddpms.action.project.type;
 
 import com.ddpms.dao.ProjectTypeDao;
 import com.ddpms.model.Employee;

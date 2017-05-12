@@ -1,5 +1,5 @@
 
-package com.ddpms.action.projecttype;
+package com.ddpms.action.project.type;
 
 import com.ddpms.dao.ConfigDao;
 import com.ddpms.dao.ProjectTypeDao;
