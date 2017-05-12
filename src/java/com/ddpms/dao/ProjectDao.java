@@ -93,7 +93,8 @@ public class ProjectDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
-            sql.append(" plan_id,budp_id, account_code, ");
+            sql.append(" (SELECT prot_name FROM project_type pt WHERE pt.prot_id = p.prot_id ) as prot_id, ");
+            sql.append(" proj_remark,proj_verify_by,proj_verify_date,account_code,plan_id,budp_id,  ");            
             sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, `modified_by` ");
             sql.append(" FROM `project` p ORDER BY proj_name ASC");
             pstm = conn.prepareStatement(sql.toString());
@@ -136,7 +137,7 @@ public class ProjectDao {
             exe = pstm.executeUpdate();
 
         } catch (Exception e) {
-            logger.error("Error saveProject:" + e.getMessage());
+            logger.error("Error saveProject:" ,e);
         } finally {
             this.close(pstm, null);
         }

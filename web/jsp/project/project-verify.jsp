@@ -124,9 +124,13 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="button" class="btn btn-success" id="btn-approve">Approve</button>
-                        <button type="button" class="btn btn-danger" id="btn-reject">Reject</button>
-                        <button type="button" class="btn btn-warning" id="btn-cancel">Cancel</button>
+                        <c:if test="${EMPLOYEE.status == 'APPROVER'}">
+                            <button type="button" class="btn btn-success" id="btn-approve">Approve</button>
+                            <button type="button" class="btn btn-danger" id="btn-reject">Reject</button>
+                        </c:if>
+                        <c:if test="${EMPLOYEE.status != 'APPROVER'}">
+                            <button type="button" class="btn btn-warning" id="btn-cancel">Cancel</button>
+                        </c:if>
                     </div>
                 </div>
             </form>

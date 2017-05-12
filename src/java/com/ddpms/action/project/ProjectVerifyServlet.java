@@ -60,7 +60,7 @@ public class ProjectVerifyServlet extends HttpServlet {
             } else if (verifyCase.equals("REJECT")) {// REJECT
                 param.setProjStatus("REJECT");
             } else if (verifyCase.equals("CANCEL")) {// CANCEL                
-                param.setProjStatus("INPLAN");
+                param.setProjStatus("CANCEL");
             }
             exec = new ProjectDao().updateProjectVerifyStatus(param);
 
