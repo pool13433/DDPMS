@@ -31,7 +31,10 @@ public class ProjectWorkingDao {
             sql.append(" SELECT `projw_id`, (select p.proj_name from project p where pw.proj_id=p.proj_id) as `proj_id`, `budget_year`,"
                     + " `budget_request_m1`, `budget_request_m2`, `budget_request_m3`, `budget_request_m4`,"
                     + " `budget_request_m5`, `budget_request_m6`, `budget_request_m7`, `budget_request_m8`, "
-                    + "`budget_request_m9`, `budget_request_m10`, `budget_request_m11`, `budget_request_m12`, ");
+                    + " `budget_request_m9`, `budget_request_m10`, `budget_request_m11`, `budget_request_m12`,"
+                    + " `budget_approve_m1`, `budget_approve_m2`, `budget_approve_m3`, `budget_approve_m4`, "
+                    + " `budget_approve_m5`, `budget_approve_m6`, `budget_approve_m7`, `budget_approve_m8`, "
+                    + " `budget_approve_m9`, `budget_approve_m10`, `budget_approve_m11`, `budget_approve_m12`, ");
             sql.append(" `budget_usage`, DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date, `modified_by` ");
             sql.append(" FROM `project_working` pw ");
             sql.append(getConditionBuilder(pw));
