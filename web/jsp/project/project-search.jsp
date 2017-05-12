@@ -31,19 +31,71 @@
                     <div class="row">
                         <div class="col-sm-10" >
                             <div class="form-group">
-                                <label for="proj_status" class="col-sm-2 control-label">Status</label>
-                                <div class="col-sm-3">
-                                    <input class="form-control" type="text" name="proj_status" id="proj_status" value="${proj_status}" placeholder="Begin..." >
-                                </div>
-                                <label for="proj_details" class="col-sm-2 control-label">Details</label>
-                                <div class="col-sm-4">
-                                    <input class="form-control" type="text" name="proj_details" id="proj_details" value="${proj_details}" placeholder="End..." >
+                                <label for="prot_id" class="col-sm-2 control-label">Project Type</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="prot_id" name="prot_id" >
+                                        <option value="" selected>    --กรุณาเลือก--  </option>
+                                        <c:forEach items="${projectTypeList}" var="p">                            
+                                            <c:choose>
+                                                <c:when test="${prot_id == p.protId}">
+                                                    <option value="${p.protId}" selected>${p.protName}</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option value="${p.protId}">${p.protName}</option>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>    
+                                    </select>
+                                </div> 
+                            </div>
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-10" >
+                            <div class="form-group">                                 
+                                <label for="plan_id" class="col-sm-2 control-label">Plan</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="plan_id" name="plan_id" >
+                                        <option value="" selected>    --กรุณาเลือก--  </option>
+                                        <c:forEach items="${planList}" var="p">                            
+                                            <c:choose>
+                                                <c:when test="${plan_id == p.planId}">
+                                                    <option value="${p.planId}" selected>${p.planName}</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option value="${p.planId}">${p.planName}</option>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>    
+                                    </select>
                                 </div>
                             </div>
                         </div>                        
                     </div>
-                </div>                  
-                
+                    <div class="row">
+                        <div class="col-sm-10" >
+                            <div class="form-group">                                 
+                                <label for="budp_id" class="col-sm-2 control-label">Budget Plan</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="budp_id" name="budp_id" >
+                                        <option value="" selected>    --กรุณาเลือก--  </option>
+                                        <c:forEach items="${budgetPlanList}" var="bp">                            
+                                            <c:choose>
+                                                <c:when test="${budp_id == bp.budpId}">
+                                                    <option value="${bp.budpId}" yearS="${bp.budpYearBegin }" yearT="${bp.budpYearEnd}" selected>${bp.budpName}</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option value="${bp.budpId}" yearS="${bp.budpYearBegin }" yearT="${bp.budpYearEnd}">${bp.budpName}</option>                                            
+                                                </c:otherwise>
+                                            </c:choose>                                          
+                                        </c:forEach>    
+                                    </select>                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>                        
+                </div>            
+        
                 <div class="row">
                     <div class="form-group">
                         <div class="col-sm-offset-6">
@@ -76,7 +128,7 @@
                         <th>#</th>
                         <th>Project name</th> 
                         <th>Project Details</th>
-                        <th>Project Status</th>
+                        <th>Project Type</th>
                         <th>Plan</th>
                         <th>Budget</th>                        
                     </tr>
@@ -85,13 +137,16 @@
                     <c:forEach var="p" items="${projectList}">
                         <tr>
                             <td  nowrap>        
-                                <a href="${context}/jsp/project/project-approve.jsp" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-bold"></i></a>
-                                <a href="${context}/ProjectEditServlet?id=${p.projId}" class="btn btn-default btn-info"><i class="glyphicon glyphicon-pencil"></i></a>
-                                <a href="${context}/ProjectDeleteServlet?id=${p.projId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>                                
+                                <a href="${context}/jsp/project/project-approve.jsp" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-bold"></i></a>                                
+                                <c:if test="${p.projStatus=='WAITING'}" >
+                                    <a href="${context}/ProjectEditServlet?id=${p.projId}" class="btn btn-default btn-info"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <a href="${context}/ProjectDeleteServlet?id=${p.projId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>                                
+                                </c:if>    
+                                
                             </td>
                             <td>${p.projName}</td>
                             <td>${p.projDetails}</td> 
-                            <td>${p.projStatus}</td>
+                            <td>${p.protId}</td>
                             <td>${p.planId}</td>
                             <td>${p.budpId}</td>
                         </tr>
