@@ -29,7 +29,7 @@ final static Logger logger = Logger.getLogger(ProjectEditServlet.class);
             if(!list.isEmpty()){
                 request.setAttribute("proj_id", list.get(0).getProjId());
                 request.setAttribute("proj_name",list.get(0).getProjName());
-                request.setAttribute("proj_details",list.get(0).getProjDetails());
+                request.setAttribute("proj_details",list.get(0).getProjDetail());
                 request.setAttribute("proj_status",list.get(0).getProjStatus());
                 request.setAttribute("plan_id",list.get(0).getPlanId());
                 request.setAttribute("budp_id",list.get(0).getBudpId());
