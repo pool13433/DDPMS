@@ -48,7 +48,7 @@ public class ProjectSearchServlet extends HttpServlet {
             
             if("searching".equals(menu)){
                 p.setProjName(proj_name);
-                p.setProjDetails(proj_details);
+                p.setProjDetail(proj_details);
                 p.setProjStatus(proj_status);
                 p.setPlanId(plan_id);
                 p.setBudpId(budp_id);    

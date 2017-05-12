@@ -80,7 +80,7 @@ public class ProjectAddServlet extends HttpServlet {
             
             p.setProjId(id);
             p.setProjName(proj_name);
-            p.setProjDetails(details);
+            p.setProjDetail(details);
             p.setProjStatus("WAITING");
             p.setPlanId(plan_id);
             p.setBudpId(budp_id);  

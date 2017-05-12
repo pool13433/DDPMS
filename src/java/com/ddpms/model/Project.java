@@ -9,13 +9,15 @@ public class Project {
     
     private String projName;
     
-    private String projDetails;
+    private String projDetail;
     
     private String projStatus;
     
     private String planId;
     
     private String budpId;
+    
+    private int projBudgApprove;
 
     private String modifiedDate;
 
@@ -51,12 +53,12 @@ public class Project {
         this.projName = projName;
     }
 
-    public String getProjDetails() {
-        return projDetails;
+    public String getProjDetail() {
+        return projDetail;
     }
 
-    public void setProjDetails(String projDetails) {
-        this.projDetails = projDetails;
+    public void setProjDetail(String projDetail) {
+        this.projDetail = projDetail;
     }
 
     public String getProjStatus() {
@@ -145,6 +147,14 @@ public class Project {
 
     public void setAccountCode(String accountCode) {
         this.accountCode = accountCode;
+    }
+
+    public int getProjBudgApprove() {
+        return projBudgApprove;
+    }
+
+    public void setProjBudgApprove(int projBudgApprove) {
+        this.projBudgApprove = projBudgApprove;
     }
     
     

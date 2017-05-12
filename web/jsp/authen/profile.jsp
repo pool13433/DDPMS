@@ -22,7 +22,7 @@
                     </c:if>            
                     <!-- Alert Message -->
 
-                    <form class="form-horizontal" name="formChangePassword" action="${context}/ChangePasswordServlet" method="post">
+                    <form class="form-horizontal" name="formChangeProfile" action="${context}/ChangeProfileServlet" method="post">
                         <div class="form-group">
                             <label for="empCode" class="col-sm-2 control-label">Code</label>
                             <div class="col-sm-4">                                
@@ -56,7 +56,7 @@
                                     <option value="" selected>--เลือก--</option>
                                     <c:forEach items="${genderList}" var="gender">
                                         <c:choose>
-                                            <c:when test="${empGender.gender == gender.key}">
+                                            <c:when test="${profile.gender == gender.key}">
                                                 <option value="${gender.key}" selected>${gender.value}</option>
                                             </c:when>
                                             <c:otherwise>
@@ -68,7 +68,7 @@
                             </div>
                             <label for="empTitle" class="col-sm-2 col-sm-offset-2 control-label">Title</label>
                             <div class="col-sm-4">                                
-                                <input type="text" class="form-control" id="empCode" name="empTitle" placeholder="Employee Title" required>
+                                <input type="text" class="form-control" value="${profile.title}" name="empTitle" placeholder="Employee Title" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -78,11 +78,11 @@
                                     <option value="" selected>--เลือก--</option>
                                     <c:forEach items="${departmentList}" var="dep">
                                         <c:choose>
-                                            <c:when test="${taskWork.taskaId == dep.depId}">
-                                                <option value="${dep.depName}" selected>${dep.depName}</option>
+                                            <c:when test="${profile.depId == dep.depId}">
+                                                <option value="${dep.depId}" selected>${dep.depName}</option>
                                             </c:when>
                                             <c:otherwise>
-                                                <option value="${dep.depName}">${dep.depName}</option>
+                                                <option value="${dep.depId}">${dep.depName}</option>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:forEach>

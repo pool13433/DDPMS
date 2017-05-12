@@ -20,6 +20,7 @@ public class ProjectWorking {
     private String budgetRequestM10;
     private String budgetRequestM11;
     private String budgetRequestM12;
+    private int budgetRequestTotal;
     
     private String budgetApproveM1;
     private String budgetApproveM2;
@@ -33,6 +34,7 @@ public class ProjectWorking {
     private String budgetApproveM10;
     private String budgetApproveM11;
     private String budgetApproveM12;    
+    private int budgetApproveTotal;    
     
     private String budgetUsage;
 
@@ -279,6 +281,24 @@ public class ProjectWorking {
     public void setBudgetApproveM12(String budgetApproveM12) {
         this.budgetApproveM12 = budgetApproveM12;
     }
+
+    public int getBudgetRequestTotal() {
+        return budgetRequestTotal;
+    }
+
+    public void setBudgetRequestTotal(int budgetRequestTotal) {
+        this.budgetRequestTotal = budgetRequestTotal;
+    }
+
+    public int getBudgetApproveTotal() {
+        return budgetApproveTotal;
+    }
+
+    public void setBudgetApproveTotal(int budgetApproveTotal) {
+        this.budgetApproveTotal = budgetApproveTotal;
+    }
+
+    
     
     
     

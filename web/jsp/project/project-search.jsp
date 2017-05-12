@@ -124,7 +124,9 @@
             <form id="budpList" action="${context}/ProjectSearchServlet"   method="post" class="form-horizontal">
                 <input type="hidden" id="menu" name="menu" value="manage"/>
                 <div style="overflow-y: scroll;max-height: 400px;">                    
-                    <table id="search_table" class="table table-responsive">                                                
+                <table id="search_table" class="table table-responsive"> 
+                 <thead>
+                      <tr>
                         <th>#</th>
                         <th>Project name</th> 
                         <th>Project Details</th>
@@ -141,11 +143,10 @@
                                 <c:if test="${p.projStatus=='WAITING'}" >
                                     <a href="${context}/ProjectEditServlet?id=${p.projId}" class="btn btn-default btn-info"><i class="glyphicon glyphicon-pencil"></i></a>
                                     <a href="${context}/ProjectDeleteServlet?id=${p.projId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>                                
-                                </c:if>    
-                                
+                                </c:if>                                    
                             </td>
                             <td>${p.projName}</td>
-                            <td>${p.projDetails}</td> 
+                            <td>${p.projDetail}</td> 
                             <td>${p.protId}</td>
                             <td>${p.planId}</td>
                             <td>${p.budpId}</td>
