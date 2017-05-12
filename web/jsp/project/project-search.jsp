@@ -90,7 +90,7 @@
                                 <a href="${context}/ProjectDeleteServlet?id=${p.projId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>                                
                             </td>
                             <td>${p.projName}</td>
-                            <td>${p.projDetails}</td> 
+                            <td>${p.projDetail}</td> 
                             <td>${p.projStatus}</td>
                             <td>${p.planId}</td>
                             <td>${p.budpId}</td>

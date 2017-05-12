@@ -90,7 +90,7 @@ public class ProjectDao {
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, p.getProjName());
-            pstm.setString(2, p.getProjDetails());
+            pstm.setString(2, p.getProjDetail());
             pstm.setString(3, p.getProjStatus());
             pstm.setString(4, p.getPlanId());
             pstm.setString(5, p.getBudpId());
@@ -124,7 +124,7 @@ public class ProjectDao {
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, p.getProjName());
-            pstm.setString(2, p.getProjDetails());
+            pstm.setString(2, p.getProjDetail());
             pstm.setString(3, p.getProjStatus());
             pstm.setString(4, p.getPlanId());
             pstm.setString(5, p.getBudpId());
@@ -174,8 +174,8 @@ public class ProjectDao {
             if (!"".equals(CharacterUtil.removeNull(p.getProjId()))) {
                 sql.append(" and proj_id='" + p.getProjId() + "'");
             }
-            if (!"".equals(CharacterUtil.removeNull(p.getProjDetails()))) {
-                sql.append(" and proj_details='" + p.getProjDetails() + "'");
+            if (!"".equals(CharacterUtil.removeNull(p.getProjDetail()))) {
+                sql.append(" and proj_details='" + p.getProjDetail() + "'");
             }
             if (!"".equals(CharacterUtil.removeNull(p.getProjStatus()))) {
                 sql.append(" and proj_status='" + p.getProjStatus() + "'");
@@ -197,13 +197,13 @@ public class ProjectDao {
         Project p = new Project();
         p.setProjId(rs.getString("proj_id"));
         p.setProjName(rs.getString("proj_name"));
-        p.setProjDetails(rs.getString("proj_details"));
+        p.setProjDetail(rs.getString("proj_details"));
         p.setProjStatus(rs.getString("proj_status"));
         p.setPlanId(rs.getString("plan_id"));
         p.setBudpId(rs.getString("budp_id"));
         p.setModifiedDate(rs.getString("modified_date"));
         p.setModifiedBy(rs.getString("modified_by"));
-        
+
         p.setProtId(rs.getString("prot_id"));
         p.setProjRemark(rs.getString("proj_remark"));
         p.setProjVerifyBy(rs.getString("proj_verify_by"));
@@ -263,8 +263,11 @@ public class ProjectDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`,(SELECT prot_name FROM project_type pt WHERE pt.prot_id = p.prot_id ) as prot_id, ");
-            sql.append(" proj_remark,proj_verify_by,proj_verify_date,account_code,plan_id,budp_id, ");
-            sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, `modified_by` ");
+            sql.append(" proj_remark,proj_verify_by,proj_verify_date,account_code,");
+            sql.append(" (SELECT plan_name FROM plan pl WHERE pl.plan_id = p.plan_id) as plan_id, ");
+            sql.append(" (SELECT budp_name FROM budget_plan bp WHERE bp.budp_id = p.budp_id ) as budp_id, ");
+            sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, ");
+            sql.append(" (SELECT CONCAT(emp_fname,' ',emp_lname) FROM employee e WHERE e.emp_id = p.modified_by) as modified_by");
             sql.append(" FROM `project` p WHERE proj_id = ?");
             pstm = conn.prepareStatement(sql.toString());
             pstm.setInt(1, projId);
@@ -341,5 +344,33 @@ public class ProjectDao {
             this.close(pstm, rs);
         }
         return list;
+    }
+
+    public int updateProjectVerifyStatus(Project param) {
+        logger.debug("..updateProjectVerifyStatus");
+        int exe = 0;
+        PreparedStatement pstm = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" UPDATE `project` SET ");
+            sql.append(" `proj_status`=?,proj_remark=?,proj_budg_approve=?, ");
+            sql.append(" proj_verify_date=NOW(),`proj_verify_by`=?  ");            
+            sql.append(" WHERE `proj_id`=?");
+
+            pstm = conn.prepareStatement(sql.toString());
+            pstm.setString(1, param.getProjStatus());
+            pstm.setString(2, param.getProjRemark());
+            pstm.setInt(3, param.getProjBudgApprove());
+            pstm.setString(4, param.getProjVerifyBy());
+            pstm.setString(5, param.getProjId());
+            logger.info("pstm ::==" + pstm.toString());
+            exe = pstm.executeUpdate();
+        } catch (Exception e) {            
+            logger.error("updateProjectVerifyStatus error", e);
+        } finally {
+            this.close(pstm, null);
+        }
+        return exe;
     }
 }
