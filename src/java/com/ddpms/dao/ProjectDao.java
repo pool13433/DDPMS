@@ -26,9 +26,43 @@ public class ProjectDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
-            sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by`, ");
+            sql.append(" (SELECT `plan_name`FROM `plan` p  WHERE p.plan_id=pj.plan_id ) as `plan_id`, (SELECT `budp_name` FROM `budget_plan` b WHERE b.budp_id=pj.budp_id) as `budp_id`, ");
+            sql.append("  `modified_date`, `modified_by`,");
+            sql.append(" (SELECT `prot_name` FROM `project_type` pt WHERE pt.prot_id=pj.prot_id) as `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by`, account_code ");
+            sql.append(" FROM `project` pj");
+            sql.append(getConditionBuilder(p));
+            if (offset != 0) {
+                sql.append(" limit ").append(limit).append(" offset ").append(offset);
+            }
+
+            pstm = conn.prepareStatement(sql.toString());
+            logger.info("pstm ::==" + pstm.toString());
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                list.add(getEntityProject(rs));
+            }
+
+        } catch (Exception e) {
+            logger.error("getProject Error : " + e.getMessage());
+        } finally {
+            this.close(pstm, rs);
+        }
+        return list;
+    }
+    
+    public List<Project> getProjectNormal(Project p, int limit, int offset) {
+        logger.debug("..getProject");
+        List<Project> list = new ArrayList<Project>();
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
+            sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by`,");
             sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by`, account_code ");
-            sql.append(" FROM `project` ");
+            sql.append(" FROM `project` pj");
             sql.append(getConditionBuilder(p));
             if (offset != 0) {
                 sql.append(" limit ").append(limit).append(" offset ").append(offset);
@@ -119,7 +153,7 @@ public class ProjectDao {
             sql.append(" UPDATE `project` SET ");
             sql.append(" `proj_name`=?,`proj_details`=?,`proj_status`=?,`budp_id`=?,`plan_id`=?, ");
             sql.append(" `modified_by`=?, account_code=?, ");
-            sql.append(" `modified_date`=NOW() ");
+            sql.append(" `modified_date`=NOW(), prot_id=? ");
             sql.append(" WHERE `proj_id`=?");
 
             pstm = conn.prepareStatement(sql.toString());
@@ -130,7 +164,8 @@ public class ProjectDao {
             pstm.setString(5, p.getBudpId());
             pstm.setString(6, p.getModifiedBy());
             pstm.setString(7, p.getAccountCode());
-            pstm.setString(8, p.getProjId());
+            pstm.setString(8, p.getProtId());
+            pstm.setString(9, p.getProjId());
             logger.info("pstm ::==" + pstm.toString());
             exe = pstm.executeUpdate();
         } catch (Exception e) {
@@ -185,6 +220,9 @@ public class ProjectDao {
             }
             if (!"".equals(CharacterUtil.removeNull(p.getBudpId()))) {
                 sql.append(" and budp_id='" + p.getBudpId() + "'");
+            }
+            if (!"".equals(CharacterUtil.removeNull(p.getProtId()))) {
+                sql.append(" and prot_id='" + p.getProtId() + "'");
             }
         } catch (Exception e) {
             e.printStackTrace();

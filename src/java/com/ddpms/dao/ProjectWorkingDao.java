@@ -121,51 +121,34 @@ public class ProjectWorkingDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" UPDATE `project_working` SET ");
-            sql.append(" `proj_id`=?, `budget_year`=?,"
-                    + " `budget_request_m1`=?,`budget_request_m2`=?,`budget_request_m3`=?,"
-                    + " `budget_request_m4`=?,`budget_request_m5`=?,`budget_request_m6`=?,"
-                    + " `budget_request_m7`=?,`budget_request_m8`=?,`budget_request_m9`=?,"
-                    + " `budget_request_m10`=?,`budget_request_m11`=?,`budget_request_m12`=?,"
-                    + " `budget_approve_m1`=?,`budget_approve_m2`=?,`budget_approve_m3`=?,"
-                    + " `budget_approve_m4`=?,`budget_approve_m5`=?,`budget_approve_m6`=?,"
-                    + "`budget_approve_m7`=?,`budget_approve_m8`=?,`budget_approve_m9`=?,"
-                    + " `budget_approve_m10`=?,`budget_approve_m11`=?,`budget_approve_m12`=?, ");
+            sql.append(" `budget_request_m1`=?,`budget_request_m2`=?,`budget_request_m3`=?,"
+                     + " `budget_request_m4`=?,`budget_request_m5`=?,`budget_request_m6`=?,"
+                     + " `budget_request_m7`=?,`budget_request_m8`=?,`budget_request_m9`=?,"
+                     + " `budget_request_m10`=?,`budget_request_m11`=?,`budget_request_m12`=?,");
             sql.append(" `budget_usage`=?, `modified_by`=?, ");
             sql.append(" `modified_date`=NOW() ");
-            sql.append(" WHERE `projw_id`=?");
+            sql.append(" WHERE `proj_id`=? and `budget_year`=?");
 
-            pstm = conn.prepareStatement(sql.toString());
-            pstm.setString(1, pw.getProjId());
-            pstm.setString(2, pw.getBudgetYear());
+            pstm = conn.prepareStatement(sql.toString()); 
+            
+            pstm.setString(1, pw.getBudgetRequestM1());
+            pstm.setString(2, pw.getBudgetRequestM2());
+            pstm.setString(3, pw.getBudgetRequestM3());
+            pstm.setString(4, pw.getBudgetRequestM4());
+            pstm.setString(5, pw.getBudgetRequestM5());
+            pstm.setString(6, pw.getBudgetRequestM6());
+            pstm.setString(7, pw.getBudgetRequestM7());
+            pstm.setString(8, pw.getBudgetRequestM8());
+            pstm.setString(9, pw.getBudgetRequestM9());
+            pstm.setString(10, pw.getBudgetRequestM10());
+            pstm.setString(11, pw.getBudgetRequestM11());
+            pstm.setString(12, pw.getBudgetRequestM12());
+          
+            pstm.setString(13, pw.getBudgetUsage());
+            pstm.setString(14, pw.getModifiedBy());
+            pstm.setString(15, pw.getProjId());
+            pstm.setString(16, pw.getBudgetYear());
 
-            pstm.setString(3, pw.getBudgetRequestM1());
-            pstm.setString(4, pw.getBudgetRequestM2());
-            pstm.setString(5, pw.getBudgetRequestM3());
-            pstm.setString(6, pw.getBudgetRequestM4());
-            pstm.setString(7, pw.getBudgetRequestM5());
-            pstm.setString(8, pw.getBudgetRequestM6());
-            pstm.setString(9, pw.getBudgetRequestM7());
-            pstm.setString(10, pw.getBudgetRequestM8());
-            pstm.setString(11, pw.getBudgetRequestM9());
-            pstm.setString(11, pw.getBudgetRequestM10());
-            pstm.setString(13, pw.getBudgetRequestM11());
-            pstm.setString(14, pw.getBudgetRequestM12());
-            pstm.setString(15, pw.getBudgetApproveM1());
-            pstm.setString(16, pw.getBudgetApproveM2());
-            pstm.setString(17, pw.getBudgetApproveM3());
-            pstm.setString(18, pw.getBudgetApproveM4());
-            pstm.setString(19, pw.getBudgetApproveM5());
-            pstm.setString(20, pw.getBudgetApproveM6());
-            pstm.setString(21, pw.getBudgetApproveM7());
-            pstm.setString(22, pw.getBudgetApproveM8());
-            pstm.setString(23, pw.getBudgetApproveM9());
-            pstm.setString(24, pw.getBudgetApproveM10());
-            pstm.setString(25, pw.getBudgetApproveM11());
-            pstm.setString(26, pw.getBudgetApproveM12());
-
-            pstm.setString(27, pw.getBudgetUsage());
-            pstm.setString(28, pw.getModifiedBy());
-            pstm.setString(29, pw.getProjwId());
             logger.info("pstm ::==" + pstm.toString());
             exe = pstm.executeUpdate();
         } catch (Exception e) {
@@ -239,7 +222,7 @@ public class ProjectWorkingDao {
         pw.setBudgetRequestM10(rs.getString("budget_request_m10"));
         pw.setBudgetRequestM11(rs.getString("budget_request_m11"));
         pw.setBudgetRequestM12(rs.getString("budget_request_m12"));
-
+      
         pw.setBudgetApproveM1(rs.getString("budget_approve_m1"));
         pw.setBudgetApproveM2(rs.getString("budget_approve_m2"));
         pw.setBudgetApproveM3(rs.getString("budget_approve_m3"));
@@ -252,7 +235,6 @@ public class ProjectWorkingDao {
         pw.setBudgetApproveM10(rs.getString("budget_approve_m10"));
         pw.setBudgetApproveM11(rs.getString("budget_approve_m11"));
         pw.setBudgetApproveM12(rs.getString("budget_approve_m12"));
-
         pw.setBudgetUsage(rs.getString("budget_usage"));
         pw.setModifiedDate(rs.getString("modified_date"));
         pw.setModifiedBy(rs.getString("modified_by"));

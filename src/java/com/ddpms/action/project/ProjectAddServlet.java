@@ -39,7 +39,8 @@ public class ProjectAddServlet extends HttpServlet {
             BudgetPlanDao bpDao = new BudgetPlanDao();
             request.setAttribute("budgetPlanList", bpDao.getBudgetPlan(new BudgetPlan(), 0, 0));
             request.setAttribute("planList", planDao.getPlan(new Plan(), 0, 0));
-            request.setAttribute("months", new ConfigDao().getConfigUnique("MONTHS").getConfValue());
+            String yearStart = CharacterUtil.removeNull(request.getParameter("yearStart"));
+            request.setAttribute("yearStart", yearStart);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project/project-form.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {
@@ -74,7 +75,7 @@ public class ProjectAddServlet extends HttpServlet {
             String prot_id = CharacterUtil.removeNull(request.getParameter("prot_id"));
             request.setAttribute("prot_id", prot_id);
             String yearStart = CharacterUtil.removeNull(request.getParameter("yearStart"));
-            
+            request.setAttribute("yearStart", yearStart);
             Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");  
             
             p.setProjId(id);
@@ -95,44 +96,65 @@ public class ProjectAddServlet extends HttpServlet {
             ProjectWorkingDao pwDao = new ProjectWorkingDao();
             int exe = 0;
             if(id.equals("")){
-                exe = projectDao.createProject(p);  
-                    if (exe != 0) {
-                        p.setProjName(proj_name);
-                        List<Project> pj = projectDao.getProject(p, 1, 0);
-                        
-                        String[] budget_request = request.getParameterValues("budget_request");
-                        int loop = budget_request.length / 12;
-                        if(!pj.isEmpty()){
-                            ProjectWorking pw = new ProjectWorking();
-                            for(int i=1 ; i <= loop ; i++){   
-                                int y = (Integer.parseInt(yearStart)+i)-1;
-                                pw.setProjId(pj.get(0).getProjId());
-                                pw.setBudgetYear(String.valueOf(y));
-                                pw.setBudgetRequestM1(budget_request[(i*1)-1]);
-                                pw.setBudgetRequestM2(budget_request[(i*2)-1]);
-                                pw.setBudgetRequestM3(budget_request[(i*3)-1]);
-                                pw.setBudgetRequestM4(budget_request[(i*4)-1]);
-                                pw.setBudgetRequestM5(budget_request[(i*5)-1]);
-                                pw.setBudgetRequestM6(budget_request[(i*6)-1]);
-                                pw.setBudgetRequestM7(budget_request[(i*7)-1]);
-                                pw.setBudgetRequestM8(budget_request[(i*8)-1]);
-                                pw.setBudgetRequestM9(budget_request[(i*9)-1]);
-                                pw.setBudgetRequestM10(budget_request[(i*10)-1]);
-                                pw.setBudgetRequestM11(budget_request[(i*11)-1]);
-                                pw.setBudgetRequestM12(budget_request[(i*12)-1]);
-                                pw.setModifiedBy(p.getModifiedBy());
-                                
-                                try {
-                                    pwDao.createProjectWorking(pw);
-                                } catch (Exception e) {
-                                    logger.error("createProjectWorking error :"+e.getMessage());
-                                }  
-                            }
-                        }   
-                    }    
+                exe = projectDao.createProject(p); 
             }else{
                 exe = projectDao.updateProject(p);                
             }
+            
+            if (exe != 0) {
+                ProjectWorking pw = new ProjectWorking();
+                if("".equals(id)){
+                    p.setProjName(proj_name);
+                    List<Project> pj = projectDao.getProject(p, 1, 0);
+                     if(!pj.isEmpty()){
+                        pw.setProjId(pj.get(0).getProjId());
+                     }
+                }else{
+                    pw.setProjId(id);
+                }
+                
+                String[] budget_request = request.getParameterValues("budget_request");
+                String[] _yearStart = request.getParameterValues("yearStart_edit");
+                int loop = budget_request.length / 12;
+                int y = 0;
+                int index = 0;
+                    for(int i=1 ; i <= loop ; i++){  
+                        
+                        if(_yearStart == null){
+                            y = (Integer.parseInt(yearStart)+i)-1;
+                        }else{
+                            y = Integer.parseInt(_yearStart[i-1]);
+                        }
+                           
+                        pw.setBudgetYear(String.valueOf(y));
+                        pw.setBudgetRequestM1(budget_request[(index+1)-1]);
+                        pw.setBudgetRequestM2(budget_request[(index+2)-1]);
+                        pw.setBudgetRequestM3(budget_request[(index+3)-1]);
+                        pw.setBudgetRequestM4(budget_request[(index+4)-1]);
+                        pw.setBudgetRequestM5(budget_request[(index+5)-1]);
+                        pw.setBudgetRequestM6(budget_request[(index+6)-1]);
+                        pw.setBudgetRequestM7(budget_request[(index+7)-1]);
+                        pw.setBudgetRequestM8(budget_request[(index+8)-1]);
+                        pw.setBudgetRequestM9(budget_request[(index+9)-1]);
+                        pw.setBudgetRequestM10(budget_request[(index+10)-1]);
+                        pw.setBudgetRequestM11(budget_request[(index+11)-1]);
+                        pw.setBudgetRequestM12(budget_request[(index+12)-1]);
+                        index=index+12; 
+                        pw.setModifiedBy(p.getModifiedBy());
+
+                        try {
+                            if(id.equals("")){
+                                pwDao.createProjectWorking(pw); 
+                            }else{
+                                pwDao.updateProjectWorking(pw);
+                            }
+                            
+                        } catch (Exception e) {
+                            logger.error("createProjectWorking error :"+e.getMessage());
+                        }  
+                    }
+                
+            }               
             MessageUI message = null;
             if (exe == 0) {
                 message = new MessageUI(true, "สถานะการบันทีกข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการบันทีกข้อมูล", "danger");

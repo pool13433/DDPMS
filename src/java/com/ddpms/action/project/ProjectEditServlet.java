@@ -1,8 +1,15 @@
 
 package com.ddpms.action.project;
 
+import com.ddpms.dao.BudgetPlanDao;
+import com.ddpms.dao.PlanDao;
 import com.ddpms.dao.ProjectDao;
+import com.ddpms.dao.ProjectTypeDao;
+import com.ddpms.dao.ProjectWorkingDao;
+import com.ddpms.model.BudgetPlan;
+import com.ddpms.model.Plan;
 import com.ddpms.model.Project;
+import com.ddpms.model.ProjectWorking;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +32,16 @@ final static Logger logger = Logger.getLogger(ProjectEditServlet.class);
             //Profile profile = (Profile)request.getSession().getAttribute("USER_PROFILE");
             String id = CharacterUtil.removeNull(request.getParameter("id"));
             p.setProjId(id);
-            List<Project> list = projectDao.getProject(p, 0, 0);
+            List<Project> list = projectDao.getProjectNormal(p, 0, 0);
+            PlanDao planDao = new PlanDao();
+            request.setAttribute("planList", planDao.getPlan(new Plan(), 0, 0));
+            ProjectTypeDao dao = new ProjectTypeDao();
+            int countRecordAll = dao.getCountProjectType("");
+            request.setAttribute("projectTypeList", dao.getProjectTypeAll(countRecordAll, 0,""));
+            BudgetPlanDao bpDao = new BudgetPlanDao();
+            request.setAttribute("budgetPlanList", bpDao.getBudgetPlan(new BudgetPlan(), 0, 0));
+            request.setAttribute("planList", planDao.getPlan(new Plan(), 0, 0));
+            
             if(!list.isEmpty()){
                 request.setAttribute("proj_id", list.get(0).getProjId());
                 request.setAttribute("proj_name",list.get(0).getProjName());
@@ -33,8 +49,16 @@ final static Logger logger = Logger.getLogger(ProjectEditServlet.class);
                 request.setAttribute("proj_status",list.get(0).getProjStatus());
                 request.setAttribute("plan_id",list.get(0).getPlanId());
                 request.setAttribute("budp_id",list.get(0).getBudpId());
+                request.setAttribute("account",list.get(0).getAccountCode());
+                request.setAttribute("details",list.get(0).getProjDetails());
             }
             
+            ProjectWorkingDao projectWDao = new  ProjectWorkingDao();
+            ProjectWorking pw = new ProjectWorking();
+            pw.setProjId(id);
+            List<ProjectWorking> projectWorkingList = projectWDao.getProjectWorking(pw, 0, 0);
+            request.setAttribute("projectWorkingList",projectWorkingList);
+                    
             RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project/project-form.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {
