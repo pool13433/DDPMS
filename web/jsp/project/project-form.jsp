@@ -133,8 +133,6 @@
                                         </tr>
                                     </c:forEach>                                  
                                 </tbody>
-
-
                             </table>
                         </div>
                     </div>
@@ -174,8 +172,8 @@
             formBudget.append('<div class="row"><div class="col-sm-10" ><label class="col-sm-3 control-label"><h6>งบประมาณรายปี</h6></label></div></div>');
             formBudget.append('<input type="hidden" id="yearStart" name="yearStart" value="' + yearS + '"/>');
             for (var i = 0; i <= loop; i++) {
-                var years = (yearS++);
-                formBudget.append(
+                 var years = (yearS++);
+                    formBudget.append(
                         '<div class="row col-sm-offset-1">' +
                         '<div class="col-sm-11" >' +
                         '<table class="table"><tbody>'+
@@ -199,10 +197,9 @@
                         '</div>' +
                         '</div>'
 
-                        );
-            return false;
+                        );            
             }
-            
+            return false;
         });
         
           if($("#id").val() !== ""){

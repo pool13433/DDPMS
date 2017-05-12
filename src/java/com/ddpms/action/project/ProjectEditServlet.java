@@ -50,7 +50,7 @@ final static Logger logger = Logger.getLogger(ProjectEditServlet.class);
                 request.setAttribute("plan_id",list.get(0).getPlanId());
                 request.setAttribute("budp_id",list.get(0).getBudpId());
                 request.setAttribute("account",list.get(0).getAccountCode());
-                request.setAttribute("details",list.get(0).getProjDetails());
+                request.setAttribute("details",list.get(0).getProjDetail());
             }
             
             ProjectWorkingDao projectWDao = new  ProjectWorkingDao();
