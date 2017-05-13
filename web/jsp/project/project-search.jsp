@@ -133,6 +133,7 @@
                                 <th>Project Type</th>
                                 <th>Plan</th>
                                 <th>Budget</th>                        
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -150,6 +151,7 @@
                                     <td>${p.protId}</td>
                                     <td>${p.planId}</td>
                                     <td>${p.budpId}</td>
+                                    <td>${p.projStatus}</td>
                                 </tr>
                             </c:forEach>
                             <c:if test="${projectList.isEmpty()}">

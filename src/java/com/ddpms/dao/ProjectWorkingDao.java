@@ -205,8 +205,7 @@ public class ProjectWorkingDao {
         return sql.toString();
     }
 
-    private ProjectWorking getEntityProjectWorking(ResultSet rs) throws SQLException {
-        logger.debug("..getEntityProjectWorking");
+    private ProjectWorking getEntityProjectWorking(ResultSet rs) throws SQLException {        
         ProjectWorking pw = new ProjectWorking();
 
         pw.setProjwId(rs.getString("projw_id"));

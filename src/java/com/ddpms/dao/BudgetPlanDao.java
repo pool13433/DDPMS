@@ -172,8 +172,7 @@ public class BudgetPlanDao {
         return sql.toString();
     }
 
-    private BudgetPlan getEntityBudgetPlan(ResultSet rs) throws SQLException {
-        logger.debug("..getEntityBudgetPlan");
+    private BudgetPlan getEntityBudgetPlan(ResultSet rs) throws SQLException {       
         BudgetPlan bp = new BudgetPlan();
 
         bp.setBudpId(rs.getString("budp_id"));

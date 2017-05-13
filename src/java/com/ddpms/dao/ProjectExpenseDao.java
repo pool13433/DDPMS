@@ -160,7 +160,6 @@ public class ProjectExpenseDao {
     }
 
     private ProjectExpense getEntityProjectExpense(ResultSet rs) throws SQLException {
-        logger.debug("..getEntityProjectExpense");
         ProjectExpense pe = new ProjectExpense();
 
         pe.setExpId(rs.getString("exp_id"));
@@ -178,8 +177,7 @@ public class ProjectExpenseDao {
         return pe;
     }
 
-    private ProjectExpense getEntityListTotalSum(ResultSet rs) throws SQLException {
-        logger.debug("..getEntityListTotalSum");
+    private ProjectExpense getEntityListTotalSum(ResultSet rs) throws SQLException {        
         ProjectExpense pe = new ProjectExpense();
 
         pe.setProjId(rs.getString("proj_id"));
