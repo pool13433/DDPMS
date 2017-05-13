@@ -138,8 +138,7 @@ public class ProjectShiftDao {
         return sql.toString();
     }
     
-    private ProjectShift getEntityProjectShift(ResultSet rs) throws SQLException {
-        logger.debug("..getEntityProjectShift");
+    private ProjectShift getEntityProjectShift(ResultSet rs) throws SQLException {        
         ProjectShift ps = new ProjectShift();
         
         ps.setProjsId(rs.getString("projs_id"));

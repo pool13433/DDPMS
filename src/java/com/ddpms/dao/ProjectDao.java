@@ -25,7 +25,7 @@ public class ProjectDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
+            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, (SELECT conf_value FROM config c WHERE c.conf_name = pj.proj_status) as proj_status, ");
             sql.append(" (SELECT `plan_name`FROM `plan` p  WHERE p.plan_id=pj.plan_id ) as `plan_id`, (SELECT `budp_name` FROM `budget_plan` b WHERE b.budp_id=pj.budp_id) as `budp_id`, ");
             sql.append("  `modified_date`, `modified_by`,");
             sql.append(" (SELECT `prot_name` FROM `project_type` pt WHERE pt.prot_id=pj.prot_id) as `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by`, account_code ");
@@ -231,8 +231,7 @@ public class ProjectDao {
         return sql.toString();
     }
 
-    private Project getEntityProject(ResultSet rs) throws SQLException {
-        logger.debug("..getEntityProject");
+    private Project getEntityProject(ResultSet rs) throws SQLException {        
         Project p = new Project();
         p.setProjId(rs.getString("proj_id"));
         p.setProjName(rs.getString("proj_name"));

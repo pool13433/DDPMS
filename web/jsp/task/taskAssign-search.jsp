@@ -4,7 +4,7 @@
 <jsp:include page="../include/inc_header.jsp"/>
 <div class="container">    
     <div class="panel panel-ddpms">        
-        <div class="panel-heading">Manage Task Assignment</div>
+        <div class="container-fluid text-center"><h4>Manage Task Assignment</h4></div>
         <div class="panel-body">
             <!-- Alert Message -->
             <c:if test="${!empty MessageUI}">
