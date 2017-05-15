@@ -232,6 +232,10 @@
         <servlet-name>ProjectExpenseSaveServlet</servlet-name>
         <servlet-class>com.ddpms.action.project.expense.ProjectExpenseSaveServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DatasetServlet</servlet-name>
+        <servlet-class>com.ddpms.action.dashboard.DatasetServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
@@ -478,6 +482,10 @@
     <servlet-mapping>
         <servlet-name>ProjectExpenseSaveServlet</servlet-name>
         <url-pattern>/ProjectExpenseSaveServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DatasetServlet</servlet-name>
+        <url-pattern>/DatasetServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
