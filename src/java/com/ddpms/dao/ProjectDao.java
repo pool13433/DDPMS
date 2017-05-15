@@ -8,7 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.apache.log4j.Logger;
 
 public class ProjectDao {
@@ -50,7 +52,7 @@ public class ProjectDao {
         }
         return list;
     }
-    
+
     public List<Project> getProjectNormal(Project p, int limit, int offset) {
         logger.debug("..getProject");
         List<Project> list = new ArrayList<Project>();
@@ -94,7 +96,7 @@ public class ProjectDao {
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
             sql.append(" (SELECT prot_name FROM project_type pt WHERE pt.prot_id = p.prot_id ) as prot_id, ");
-            sql.append(" proj_remark,proj_verify_by,proj_verify_date,account_code,plan_id,budp_id,  ");            
+            sql.append(" proj_remark,proj_verify_by,proj_verify_date,account_code,plan_id,budp_id,  ");
             sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, `modified_by` ");
             sql.append(" FROM `project` p ORDER BY proj_name ASC");
             pstm = conn.prepareStatement(sql.toString());
@@ -137,7 +139,7 @@ public class ProjectDao {
             exe = pstm.executeUpdate();
 
         } catch (Exception e) {
-            logger.error("Error saveProject:" ,e);
+            logger.error("Error saveProject:", e);
         } finally {
             this.close(pstm, null);
         }
@@ -231,7 +233,7 @@ public class ProjectDao {
         return sql.toString();
     }
 
-    private Project getEntityProject(ResultSet rs) throws SQLException {        
+    private Project getEntityProject(ResultSet rs) throws SQLException {
         Project p = new Project();
         p.setProjId(rs.getString("proj_id"));
         p.setProjName(rs.getString("proj_name"));
@@ -393,7 +395,7 @@ public class ProjectDao {
             StringBuilder sql = new StringBuilder();
             sql.append(" UPDATE `project` SET ");
             sql.append(" `proj_status`=?,proj_remark=?,proj_budg_approve=?, ");
-            sql.append(" proj_verify_date=NOW(),`proj_verify_by`=?  ");            
+            sql.append(" proj_verify_date=NOW(),`proj_verify_by`=?  ");
             sql.append(" WHERE `proj_id`=?");
 
             pstm = conn.prepareStatement(sql.toString());
@@ -404,11 +406,63 @@ public class ProjectDao {
             pstm.setString(5, param.getProjId());
             logger.info("pstm ::==" + pstm.toString());
             exe = pstm.executeUpdate();
-        } catch (Exception e) {            
+        } catch (Exception e) {
             logger.error("updateProjectVerifyStatus error", e);
         } finally {
             this.close(pstm, null);
         }
         return exe;
+    }
+
+    public Map<String, Integer> getCountProjectInMonth(String year) {
+        logger.info("getCountProjectInMonth ...");
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        Map<String, Integer>  map = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" SELECT YEAR(p.modified_date) as year, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 1 THEN 0 END) AS Jan, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 2 THEN 0 END) AS Feb, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 3 THEN 0 END) AS Mar, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 4 THEN 0 END) AS Apr, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 5 THEN 0 END) AS May, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 6 THEN 0 END) AS Jun, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 7 THEN 0 END) AS Jul, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 8 THEN 0 END) AS Aug, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 9 THEN 0 END) AS Sep, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 10 THEN 0 END) AS Oct, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 11 THEN 0 END) AS Nov, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 12 THEN 0 END) AS Decem ");
+            sql.append(" FROM project p  ");
+            sql.append(" WHERE YEAR(p.modified_date) = ?");
+            sql.append(" GROUP BY 1 ");
+            logger.info(" sql ::==" + sql.toString());
+            pstm = conn.prepareStatement(sql.toString());            
+            pstm.setString(1, year);
+            rs = pstm.executeQuery();
+            if (rs.next()) {
+                map = new HashMap<>();
+                map.put("Jan", rs.getInt("Jan"));
+                map.put("Feb", rs.getInt("Feb"));
+                map.put("Mar", rs.getInt("Mar"));
+                map.put("Apr", rs.getInt("Apr"));
+                map.put("May", rs.getInt("May"));
+                map.put("Jun", rs.getInt("Jun"));
+                map.put("Jul", rs.getInt("Jul"));
+                map.put("Aug", rs.getInt("Aug"));
+                map.put("Sep", rs.getInt("Sep"));
+                map.put("Oct", rs.getInt("Oct"));
+                map.put("Nov", rs.getInt("Nov"));
+                map.put("Dec", rs.getInt("Decem"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("getCountProjectInMonth error", e);
+        } finally {
+            this.close(pstm, rs);
+        }
+        return map;
     }
 }
