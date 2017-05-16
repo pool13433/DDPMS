@@ -27,7 +27,8 @@ public class ProjectDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, (SELECT conf_value FROM config c WHERE c.conf_name = pj.proj_status) as proj_status, ");
+            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, ");
+            sql.append(" proj_status,(SELECT conf_value FROM config c WHERE c.conf_name = pj.proj_status) as proj_status_desc,");
             sql.append(" (SELECT `plan_name`FROM `plan` p  WHERE p.plan_id=pj.plan_id ) as `plan_id`, (SELECT `budp_name` FROM `budget_plan` b WHERE b.budp_id=pj.budp_id) as `budp_id`, ");
             sql.append("  `modified_date`, `modified_by`,");
             sql.append(" (SELECT `prot_name` FROM `project_type` pt WHERE pt.prot_id=pj.prot_id) as `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by`, account_code ");
@@ -61,7 +62,8 @@ public class ProjectDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
+            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, ");
+            sql.append(" proj_status,(SELECT conf_value FROM config c WHERE c.conf_name = pj.proj_status) as proj_status_desc,");
             sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by`,");
             sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by`, account_code ");
             sql.append(" FROM `project` pj");
@@ -94,7 +96,8 @@ public class ProjectDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
+            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`,");
+            sql.append(" proj_status,(SELECT conf_value FROM config c WHERE c.conf_name = p.proj_status) as proj_status_desc,");
             sql.append(" (SELECT prot_name FROM project_type pt WHERE pt.prot_id = p.prot_id ) as prot_id, ");
             sql.append(" proj_remark,proj_verify_by,proj_verify_date,account_code,plan_id,budp_id,  ");
             sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, `modified_by` ");
@@ -239,6 +242,7 @@ public class ProjectDao {
         p.setProjName(rs.getString("proj_name"));
         p.setProjDetail(rs.getString("proj_details"));
         p.setProjStatus(rs.getString("proj_status"));
+        p.setProjStatusDesc(rs.getString("proj_status_desc"));
         p.setPlanId(rs.getString("plan_id"));
         p.setBudpId(rs.getString("budp_id"));
         p.setModifiedDate(rs.getString("modified_date"));
@@ -302,13 +306,15 @@ public class ProjectDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`,(SELECT prot_name FROM project_type pt WHERE pt.prot_id = p.prot_id ) as prot_id, ");
+            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`,");
+            sql.append(" proj_status,(SELECT conf_value FROM config c WHERE c.conf_name = p.proj_status) as proj_status_desc,");
+            sql.append(" (SELECT prot_name FROM project_type pt WHERE pt.prot_id = p.prot_id ) as prot_id, ");
             sql.append(" proj_remark,proj_verify_by,proj_verify_date,account_code,");
             sql.append(" (SELECT plan_name FROM plan pl WHERE pl.plan_id = p.plan_id) as plan_id, ");
             sql.append(" (SELECT budp_name FROM budget_plan bp WHERE bp.budp_id = p.budp_id ) as budp_id, ");
             sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, ");
             sql.append(" (SELECT CONCAT(emp_fname,' ',emp_lname) FROM employee e WHERE e.emp_id = p.modified_by) as modified_by");
-            sql.append(" FROM `project` p WHERE proj_id = ?");
+            sql.append(" FROM `project` p WHERE p.proj_id = ?");
             pstm = conn.prepareStatement(sql.toString());
             pstm.setInt(1, projId);
             logger.info("pstm ::==" + pstm.toString());
@@ -333,7 +339,8 @@ public class ProjectDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
+            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`,");
+            sql.append(" proj_status,(SELECT conf_value FROM config c WHERE c.conf_name = proj_status) as proj_status_desc,");
             sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by`, ");
             sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by` , account_code ");
             sql.append(" FROM `project` ");
@@ -363,7 +370,8 @@ public class ProjectDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, `proj_status`, ");
+            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, ");
+            sql.append(" proj_status,(SELECT conf_value FROM config c WHERE c.conf_name = p.proj_status) as proj_status_desc,");
             sql.append(" plan_id,budp_id, ");
             sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by`, ");
             sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, `modified_by` ");
