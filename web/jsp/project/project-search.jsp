@@ -139,7 +139,7 @@
                         <tbody>
                             <c:forEach var="p" items="${projectList}">
                                 <tr>
-                                    <td  nowrap>                               
+                                    <td  nowrap>  
                                         <c:if test="${p.projStatus=='WAITING'}" >
                                             <a href="${context}/ProjectVerifyServlet?id=${p.projId}" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-user"></i></a>                                
                                             <a href="${context}/ProjectEditServlet?id=${p.projId}" class="btn btn-default btn-info"><i class="glyphicon glyphicon-pencil"></i></a>
