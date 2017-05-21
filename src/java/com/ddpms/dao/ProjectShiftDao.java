@@ -8,7 +8,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.apache.log4j.Logger;
 
@@ -25,9 +27,9 @@ public class ProjectShiftDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT  `projs_id`, `proj_id`, `projs_reason`, `projs_plan`, ");
+            sql.append(" SELECT  `projs_id`, proj_id, (select p.proj_name from project p where p.proj_id=ps.proj_id) as proj_name, `projs_reason`, `projs_plan_date`, ");
             sql.append(" `modified_date`, `modified_by` ");
-            sql.append(" FROM `project_shift` ");
+            sql.append(" FROM `project_shift` ps ");
             sql.append(getConditionBuilder(ps));   
             if(offset != 0){
                 sql.append(" limit ").append(limit).append(" offset ").append(offset);
@@ -52,14 +54,17 @@ public class ProjectShiftDao {
          try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" INSERT INTO prject_shift ");
-            sql.append(" (`proj_id`, `projs_reason`, `projs_plan`, `modified_date`, `modified_by` ) ");
+            sql.append(" INSERT INTO project_shift ");
+            sql.append(" (`proj_id`, `projs_reason`, `projs_plan_date`, `modified_date`, `modified_by` ) ");
             sql.append(" VALUES (?,?,?,NOW(),?)");
             
             pstm = conn.prepareStatement(sql.toString());     
             pstm.setString(1, ps.getProjId());
             pstm.setString(2, ps.getProjsReason());
-            pstm.setString(3, ps.getProjsPlan());
+            SimpleDateFormat d1 = new SimpleDateFormat("dd-mm-yyyy");
+            Date date = d1.parse(ps.getProjsPlanDate());
+            SimpleDateFormat d2 = new SimpleDateFormat("yyyy-mm-dd");
+            pstm.setString(3, d2.format(date));
             pstm.setString(4, ps.getModifiedBy());
             logger.info("pstm ::=="+pstm.toString());
             exe = pstm.executeUpdate();
@@ -79,18 +84,17 @@ public class ProjectShiftDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" UPDATE `prject_shift` SET ");            
-            sql.append(" `proj_id`=?,`projs_reason`=?,`projs_plan`=?, ");
+            sql.append(" UPDATE `project_shift` SET ");            
+            sql.append(" `projs_reason`=?,`projs_plan_date`=?, ");
             sql.append(" `modified_by`=?, ");
             sql.append(" `modified_date`=NOW() ");
             sql.append(" WHERE `projs_id`=?");
             
-            pstm = conn.prepareStatement(sql.toString());     
-            pstm.setString(1, ps.getProjId());
-            pstm.setString(2, ps.getProjsReason());
-            pstm.setString(3, ps.getProjsPlan());
-            pstm.setString(4, ps.getModifiedBy());
-            pstm.setString(5, ps.getProjsId());   
+            pstm = conn.prepareStatement(sql.toString());  
+            pstm.setString(1, ps.getProjsReason());
+            pstm.setString(2, ps.getProjsPlanDate());
+            pstm.setString(3, ps.getModifiedBy());
+            pstm.setString(4, ps.getProjsId());   
             logger.info("pstm ::=="+pstm.toString());
             exe = pstm.executeUpdate();
         } catch (Exception e) {
@@ -144,8 +148,11 @@ public class ProjectShiftDao {
         
         ps.setProjsId(rs.getString("projs_id"));
         ps.setProjId(rs.getString("proj_id"));
+        if(rs.getString("proj_name") != null){
+            ps.setProjName(rs.getString("proj_name"));
+        }
         ps.setProjsReason(rs.getString("projs_reason"));
-        ps.setProjsPlan(rs.getString("projs_plan"));
+        ps.setProjsPlanDate(rs.getString("projs_plan_date"));
         ps.setModifiedDate(rs.getString("modified_date"));
         ps.setModifiedBy(rs.getString("modified_by"));
         
@@ -175,6 +182,27 @@ public class ProjectShiftDao {
             this.close(pstm, rs);
         }
         return countProjectShift;
+    }
+    
+    private boolean checkStatusProjectInTask(String projId){
+        boolean statusCheck = false;
+        logger.debug("..checkStatusProjectInTask");
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder("SELECT * FROM `task_assign` where proj_id='"+projId+"'");            
+            pstm = conn.prepareStatement(sql.toString());
+            rs = pstm.executeQuery();
+            if (rs.next()) {
+                statusCheck = true;
+            }
+        } catch (Exception e) {
+            logger.error("checkStatusProjectInTask : "+e);
+        }finally {
+            this.close(pstm, rs);
+        }
+        return statusCheck;
     }
     
     private void close(PreparedStatement pstm, ResultSet rs) {

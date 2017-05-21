@@ -176,6 +176,33 @@ public class ProjectDao {
         }
         return exe;
     }
+    
+    public int updateProjectStatus(String pId) {
+        logger.debug("..updateProjectStatus");
+        int exe = 0;
+        PreparedStatement pstm = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" UPDATE `project` SET ");
+            sql.append(" `proj_status`=?, ");
+            sql.append(" `modified_date`=NOW() ");
+            sql.append(" WHERE `proj_id`=?" );
+
+            pstm = conn.prepareStatement(sql.toString());
+            pstm.setString(1, "Processing");
+            pstm.setString(2, pId);
+            
+            logger.info("pstm ::==" + pstm.toString());
+            exe = pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("updateProjectStatus error", e);
+        } finally {
+            this.close(pstm, null);
+        }
+        return exe;
+    }
 
     public int deleteProject(String id) {
         logger.debug("..deleteProject");

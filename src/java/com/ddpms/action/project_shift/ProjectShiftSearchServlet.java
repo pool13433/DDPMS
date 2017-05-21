@@ -31,9 +31,9 @@ public class ProjectShiftSearchServlet extends HttpServlet {
             request.setAttribute("proj_id", proj_id);
             String projs_reason = CharacterUtil.removeNull(request.getParameter("projs_reason"));
             request.setAttribute("projs_reason", projs_reason);
-            String projs_plan = CharacterUtil.removeNull(request.getParameter("projs_plan"));
-            request.setAttribute("projs_plan", projs_plan);
-            String pageUrl = request.getContextPath() + "/ProjectWorkingSearchServlet?" + request.getQueryString();
+            String projs_plan_date = CharacterUtil.removeNull(request.getParameter("projs_plan_date"));
+            request.setAttribute("projs_plan_date", projs_plan_date);
+            String pageUrl = request.getContextPath() + "/ProjectShiftSearchServlet?" + request.getQueryString();
             String sqlConditionBuilder = dao.getConditionBuilder(ps);
             int countRecordAll = dao.getCountProjectShift(sqlConditionBuilder);
             ProjectDao pjDao = new ProjectDao();
@@ -41,17 +41,26 @@ public class ProjectShiftSearchServlet extends HttpServlet {
             if("searching".equals(menu)){
                 ps.setProjId(proj_id);
                 ps.setProjsReason(projs_reason);
-                ps.setProjsPlan(projs_plan);
+                ps.setProjsPlanDate(projs_plan_date);
                 ps.setModifiedBy("1");
+                request.setAttribute("projectShiftList", dao.getProjectShift(ps, limit, offset));
+                Project p = new Project();
+                if(!"".equals(CharacterUtil.removeNull(proj_id))){
+                    p.setProjId(proj_id);
+                    request.setAttribute("projectSearchList", pjDao.getProject(p, 0, 0));
+                }else{
+                    request.setAttribute("projectSearchList", null);
+                }
                 
-                request.setAttribute("projectWorkingList", dao.getProjectShift(ps, limit, offset));      
+               
             }else{
-                request.setAttribute("projectWorkingList", dao.getProjectShift(new ProjectShift(), limit, offset));   
+                request.setAttribute("projectShiftList", dao.getProjectShift(new ProjectShift(), limit, offset));   
+                request.setAttribute("projectSearchList", null);
             }
             Pagination pagination = new Pagination(pageUrl, countRecordAll, limit, offset);
             request.setAttribute("pagination", pagination);
                 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project-shift/project-shift-search.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project/projectshift-search.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {
             logger.error("ProjectShiftSearchServlet Error : "+e.getMessage());

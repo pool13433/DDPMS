@@ -34,10 +34,10 @@ final static Logger logger = Logger.getLogger(ProjectShiftEditServlet.class);
             if(!list.isEmpty()){
                 request.setAttribute("projs_id", list.get(0).getProjsId());
                 request.setAttribute("proj_id",list.get(0).getProjId());
-                request.setAttribute("projs_reason",list.get(0).getProjsReason());
-                request.setAttribute("projs_plan",list.get(0).getProjsPlan());
+                request.setAttribute("reason",list.get(0).getProjsReason());
+                request.setAttribute("projsPlanDate",list.get(0).getProjsPlanDate());
             }
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project-shift/project-shift-form.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project/projectshift-form.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {
             logger.error("ProjectShiftEditServlet Error : "+e.getMessage());

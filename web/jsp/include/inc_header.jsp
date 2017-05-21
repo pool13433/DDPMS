@@ -96,6 +96,9 @@
                                 <li class="<c:out value="${menu == 'task' ? 'active': ''}"/>">                                
                                     <a href="${context}/TaskListServlet?menu=task"><i class="glyphicon glyphicon-hourglass"></i> Manage Task</a>
                                 </li>
+                                <li class="<c:out value="${menu == 'shift' ? 'active': ''}"/>">                                
+                                    <a href="${context}/ProjectShiftSearchServlet?menu=shift"><i class="glyphicon glyphicon-arrow-right"></i> Project Shift</a>
+                                </li>
                             </ul>
                         </li>
                     </c:if>

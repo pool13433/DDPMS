@@ -23,7 +23,9 @@ final static Logger logger = Logger.getLogger(ProjectShiftAddServlet.class);
             throws ServletException, IOException {
         logger.debug("...doGet ProjectShiftAddServlet");
         try {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project-shift/project-shift-form.jsp");
+            ProjectDao pjDao = new ProjectDao();
+            request.setAttribute("projectList", pjDao.getProject(new Project(), 0, 0));
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project/projectshift-form.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {
             logger.error("ProjectShiftAddServlet Error : "+e.getMessage());
@@ -40,10 +42,10 @@ final static Logger logger = Logger.getLogger(ProjectShiftAddServlet.class);
             String id = CharacterUtil.removeNull(request.getParameter("id"));
             String proj_id = CharacterUtil.removeNull(request.getParameter("proj_id"));
             request.setAttribute("proj_id", proj_id);
-            String projs_reason = CharacterUtil.removeNull(request.getParameter("projs_reason"));
-            request.setAttribute("projs_reason", projs_reason);
-            String projs_plan = CharacterUtil.removeNull(request.getParameter("projs_plan"));
-            request.setAttribute("projs_plan", projs_plan);
+            String projs_reason = CharacterUtil.removeNull(request.getParameter("reason"));
+            request.setAttribute("reason", projs_reason);
+            String projs_plan_date = CharacterUtil.removeNull(request.getParameter("projsPlanDate"));
+            request.setAttribute("projsPlanDate", projs_plan_date);
             ProjectDao pjDao = new ProjectDao();
             request.setAttribute("projectList", pjDao.getProject(new Project(), 0, 0));
             Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE"); 
@@ -51,7 +53,7 @@ final static Logger logger = Logger.getLogger(ProjectShiftAddServlet.class);
             ps.setProjsId(id);
             ps.setProjId(proj_id);
             ps.setProjsReason(projs_reason);
-            ps.setProjsPlan(projs_plan);
+            ps.setProjsPlanDate(projs_plan_date);
             ps.setModifiedBy(String.valueOf(employee.getEmpId()));
             
             int exe = 0;
@@ -65,6 +67,13 @@ final static Logger logger = Logger.getLogger(ProjectShiftAddServlet.class);
                 message = new MessageUI(true, "สถานะการบันทีกข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการบันทีกข้อมูล", "danger");
             } else {
                 message = new MessageUI(true, "สถานะการบันทีกข้อมูล", "บันทีกข้อมูลสำเร็จ", "info");
+                //update project status Processing
+                if(id.equals("")){
+                   exe = pjDao.updateProjectStatus(proj_id);
+                    if(exe==0){
+                        message = new MessageUI(true, "สถานะการบันทีกข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการอัพเดทสถานะของโปรเจค", "danger");
+                    }   
+                }              
             }        
             request.getSession().setAttribute("MessageUI", message);
             response.sendRedirect(request.getContextPath() + "/ProjectShiftSearchServlet");
