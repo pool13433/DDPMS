@@ -5,8 +5,9 @@ public class ProjectShift {
     private String projsId;
     
     private String projId;
+    private String projName;
     
-    private String projsPlan;
+    private String projsPlanDate;
     
     private String projsReason;
 
@@ -30,12 +31,12 @@ public class ProjectShift {
         this.projId = projId;
     }
 
-    public String getProjsPlan() {
-        return projsPlan;
+    public String getProjsPlanDate() {
+        return projsPlanDate;
     }
 
-    public void setProjsPlan(String projsPlan) {
-        this.projsPlan = projsPlan;
+    public void setProjsPlanDate(String projsPlanDate) {
+        this.projsPlanDate = projsPlanDate;
     }
 
     public String getProjsReason() {
@@ -61,6 +62,15 @@ public class ProjectShift {
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
+
+    public String getProjName() {
+        return projName;
+    }
+
+    public void setProjName(String projName) {
+        this.projName = projName;
+    }
+
     
     
 }
