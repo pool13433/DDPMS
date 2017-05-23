@@ -8,7 +8,7 @@
         <div class="col-lg-12">
             <div class="panel panel-ddpms">
                 <div class="panel-heading">                    
-                    แก้ไขข้อมูลส่วนตัว
+                    Change My Profile
                 </div>
                 <div class="panel-body">
 

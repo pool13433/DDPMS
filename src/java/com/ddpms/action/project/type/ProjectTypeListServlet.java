@@ -1,5 +1,5 @@
 
-package com.ddpms.action.projecttype;
+package com.ddpms.action.project.type;
 
 import com.ddpms.dao.ConfigDao;
 import com.ddpms.dao.ProjectTypeDao;
@@ -21,7 +21,7 @@ public class ProjectTypeListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            int limit = CharacterUtil.removeNullTo(request.getParameter("limit"), 10);
+            int limit = CharacterUtil.removeNullTo(request.getParameter("limit"), 5);
             int offset = CharacterUtil.removeNullTo(request.getParameter("offset"), 0);
             String pageUrl = request.getContextPath() + "/ProjectTypeListServlet?" + request.getQueryString();
             

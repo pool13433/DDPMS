@@ -19,6 +19,8 @@ public class ProjectExpense {
     private String receipt;
     
     private String expDate;
+    private String expDateBegin;
+    private String expDateEnd;
     
     private String vender;
 
@@ -120,6 +122,22 @@ public class ProjectExpense {
 
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    public String getExpDateBegin() {
+        return expDateBegin;
+    }
+
+    public void setExpDateBegin(String expDateBegin) {
+        this.expDateBegin = expDateBegin;
+    }
+
+    public String getExpDateEnd() {
+        return expDateEnd;
+    }
+
+    public void setExpDateEnd(String expDateEnd) {
+        this.expDateEnd = expDateEnd;
     }
     
     

@@ -27,29 +27,30 @@ public class ProjectVerifyServlet extends HttpServlet {
             Employee emp = (Employee) request.getSession().getAttribute("EMPLOYEE");
             String projId = CharacterUtil.removeNull(request.getParameter("projId"));
             String reason = CharacterUtil.removeNull(request.getParameter("reason"));
-            String verifyCase = CharacterUtil.removeNull(request.getParameter("verifyCase"));            
+            String verifyCase = CharacterUtil.removeNull(request.getParameter("verifyCase"));
             String[] budgetYears = request.getParameterValues("budgetYear");
             int budgetYearTotal = 0;
-            for (String year : budgetYears) {
-                ProjectWorking workInYear = new ProjectWorking();
-                workInYear.setBudgetYear(year);
-                workInYear.setModifiedBy(String.valueOf(emp.getEmpId()));
-                workInYear.setBudgetApproveM1(CharacterUtil.removeNull(request.getParameter(year + "_1")));
-                workInYear.setBudgetApproveM2(CharacterUtil.removeNull(request.getParameter(year + "_2")));
-                workInYear.setBudgetApproveM3(CharacterUtil.removeNull(request.getParameter(year + "_3")));
-                workInYear.setBudgetApproveM4(CharacterUtil.removeNull(request.getParameter(year + "_4")));
-                workInYear.setBudgetApproveM5(CharacterUtil.removeNull(request.getParameter(year + "_5")));
-                workInYear.setBudgetApproveM6(CharacterUtil.removeNull(request.getParameter(year + "_6")));
-                workInYear.setBudgetApproveM7(CharacterUtil.removeNull(request.getParameter(year + "_7")));
-                workInYear.setBudgetApproveM8(CharacterUtil.removeNull(request.getParameter(year + "_8")));
-                workInYear.setBudgetApproveM9(CharacterUtil.removeNull(request.getParameter(year + "_9")));
-                workInYear.setBudgetApproveM10(CharacterUtil.removeNull(request.getParameter(year + "_10")));
-                workInYear.setBudgetApproveM11(CharacterUtil.removeNull(request.getParameter(year + "_11")));
-                workInYear.setBudgetApproveM12(CharacterUtil.removeNull(request.getParameter(year + "_12")));
-                exec = new ProjectWorkingDao().updateProjectWorkingBudgetApprove(workInYear);         
-                budgetYearTotal += CharacterUtil.removeNullTo(CharacterUtil.removeNull(request.getParameter(year+"_budgetTotal")), 0);
+            if (budgetYears != null) {
+                for (String year : budgetYears) {
+                    ProjectWorking workInYear = new ProjectWorking();
+                    workInYear.setBudgetYear(year);
+                    workInYear.setModifiedBy(String.valueOf(emp.getEmpId()));
+                    workInYear.setBudgetApproveM1(CharacterUtil.removeNull(request.getParameter(year + "_1")));
+                    workInYear.setBudgetApproveM2(CharacterUtil.removeNull(request.getParameter(year + "_2")));
+                    workInYear.setBudgetApproveM3(CharacterUtil.removeNull(request.getParameter(year + "_3")));
+                    workInYear.setBudgetApproveM4(CharacterUtil.removeNull(request.getParameter(year + "_4")));
+                    workInYear.setBudgetApproveM5(CharacterUtil.removeNull(request.getParameter(year + "_5")));
+                    workInYear.setBudgetApproveM6(CharacterUtil.removeNull(request.getParameter(year + "_6")));
+                    workInYear.setBudgetApproveM7(CharacterUtil.removeNull(request.getParameter(year + "_7")));
+                    workInYear.setBudgetApproveM8(CharacterUtil.removeNull(request.getParameter(year + "_8")));
+                    workInYear.setBudgetApproveM9(CharacterUtil.removeNull(request.getParameter(year + "_9")));
+                    workInYear.setBudgetApproveM10(CharacterUtil.removeNull(request.getParameter(year + "_10")));
+                    workInYear.setBudgetApproveM11(CharacterUtil.removeNull(request.getParameter(year + "_11")));
+                    workInYear.setBudgetApproveM12(CharacterUtil.removeNull(request.getParameter(year + "_12")));
+                    exec = new ProjectWorkingDao().updateProjectWorkingBudgetApprove(workInYear);
+                    budgetYearTotal += CharacterUtil.removeNullTo(CharacterUtil.removeNull(request.getParameter(year + "_budgetTotal")), 0);
+                }
             }
-
             Project param = new Project();
             param.setProjVerifyBy(String.valueOf(emp.getEmpId()));
             param.setProjRemark(reason);
@@ -60,7 +61,7 @@ public class ProjectVerifyServlet extends HttpServlet {
             } else if (verifyCase.equals("REJECT")) {// REJECT
                 param.setProjStatus("REJECT");
             } else if (verifyCase.equals("CANCEL")) {// CANCEL                
-                param.setProjStatus("INPLAN");
+                param.setProjStatus("CANCEL");
             }
             exec = new ProjectDao().updateProjectVerifyStatus(param);
 
