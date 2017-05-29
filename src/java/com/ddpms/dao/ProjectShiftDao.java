@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 
 public class ProjectShiftDao {
     final static Logger logger = Logger.getLogger(ProjectShiftDao.class);
-    
+    private final String DATE_TO_STR = " '%d-%m-%Y' ";
     private Connection conn = null;
     
     public List<ProjectShift> getProjectShift(ProjectShift ps, int limit, int offset){
@@ -27,7 +27,8 @@ public class ProjectShiftDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT  `projs_id`, proj_id, (select p.proj_name from project p where p.proj_id=ps.proj_id) as proj_name, `projs_reason`, `projs_plan_date`, ");
+            sql.append(" SELECT  `projs_id`, proj_id, (select p.proj_name from project p where p.proj_id=ps.proj_id) as proj_name, `projs_reason`, "
+                    + " DATE_FORMAT(projs_plan_date,").append(DATE_TO_STR).append(") projs_plan_date, ");
             sql.append(" `modified_date`, `modified_by` ");
             sql.append(" FROM `project_shift` ps ");
             sql.append(getConditionBuilder(ps));   
