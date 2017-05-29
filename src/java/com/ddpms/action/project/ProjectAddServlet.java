@@ -5,6 +5,7 @@ import com.ddpms.dao.BudgetPlanDao;
 import com.ddpms.dao.ConfigDao;
 import com.ddpms.dao.PlanDao;
 import com.ddpms.dao.ProjectDao;
+import com.ddpms.dao.ProjectExpenseDao;
 import com.ddpms.dao.ProjectTypeDao;
 import com.ddpms.dao.ProjectWorkingDao;
 import com.ddpms.model.BudgetPlan;
@@ -12,6 +13,7 @@ import com.ddpms.model.Employee;
 import com.ddpms.model.MessageUI;
 import com.ddpms.model.Plan;
 import com.ddpms.model.Project;
+import com.ddpms.model.ProjectExpense;
 import com.ddpms.model.ProjectWorking;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
@@ -40,7 +42,7 @@ public class ProjectAddServlet extends HttpServlet {
             request.setAttribute("budgetPlanList", bpDao.getBudgetPlan(new BudgetPlan(), 0, 0));
             request.setAttribute("planList", planDao.getPlan(new Plan(), 0, 0));
             String yearStart = CharacterUtil.removeNull(request.getParameter("yearStart"));
-            request.setAttribute("yearStart", yearStart);
+            request.setAttribute("yearStart", yearStart);            
             RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project/project-form.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {
@@ -154,7 +156,8 @@ public class ProjectAddServlet extends HttpServlet {
                         }  
                     }
                 
-            }               
+            } 
+            
             MessageUI message = null;
             if (exe == 0) {
                 message = new MessageUI(true, "สถานะการบันทีกข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการบันทีกข้อมูล", "danger");

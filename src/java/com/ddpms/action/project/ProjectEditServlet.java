@@ -4,11 +4,13 @@ package com.ddpms.action.project;
 import com.ddpms.dao.BudgetPlanDao;
 import com.ddpms.dao.PlanDao;
 import com.ddpms.dao.ProjectDao;
+import com.ddpms.dao.ProjectExpenseDao;
 import com.ddpms.dao.ProjectTypeDao;
 import com.ddpms.dao.ProjectWorkingDao;
 import com.ddpms.model.BudgetPlan;
 import com.ddpms.model.Plan;
 import com.ddpms.model.Project;
+import com.ddpms.model.ProjectExpense;
 import com.ddpms.model.ProjectWorking;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
@@ -52,6 +54,14 @@ final static Logger logger = Logger.getLogger(ProjectEditServlet.class);
                 request.setAttribute("account",list.get(0).getAccountCode());
                 request.setAttribute("details",list.get(0).getProjDetail());
             }
+            //check project have an expense
+            ProjectExpenseDao peDao = new ProjectExpenseDao();
+            ProjectExpense pe = new ProjectExpense();
+            pe.setProjId(id);
+            String condt = peDao.getConditionBuilder(pe);
+            int isCancel = peDao.getCountProjectExpense(condt);
+            request.setAttribute("isCancel", isCancel<=0?true:false);
+            System.out.println("isCancel "+isCancel);
             
             ProjectWorkingDao projectWDao = new  ProjectWorkingDao();
             ProjectWorking pw = new ProjectWorking();

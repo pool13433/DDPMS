@@ -95,7 +95,7 @@
                         </div>
                     </div>                        
                 </div>            
-        
+
                 <div class="row">
                     <div class="form-group">
                         <div class="col-sm-offset-6">
@@ -108,7 +108,7 @@
                             <a href="${context}/ProjectAddServlet?menu=project-form" class="btn btn-default btn-primary">
                                 <i class="glyphicon glyphicon-plus"></i> Add
                             </a>
-                            
+
                         </div>
                     </div>
                 </div>                   
@@ -124,45 +124,46 @@
             <form id="budpList" action="${context}/ProjectSearchServlet"   method="post" class="form-horizontal">
                 <input type="hidden" id="menu" name="menu" value="manage"/>
                 <div style="overflow-y: scroll;max-height: 400px;">                    
-                <table id="search_table" class="table table-responsive"> 
-                 <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Project name</th> 
-                        <th>Project Details</th>
-                        <th>Project Type</th>
-                        <th>Plan</th>
-                        <th>Budget</th>                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="p" items="${projectList}">
-                        <tr>
-                            <td  nowrap>        
-                                <a href="${context}/jsp/project/project-approve.jsp" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-bold"></i></a>                                
-                                <c:if test="${p.projStatus=='WAITING'}" >
-                                    <a href="${context}/ProjectEditServlet?id=${p.projId}" class="btn btn-default btn-info"><i class="glyphicon glyphicon-pencil"></i></a>
-                                    <a href="${context}/ProjectDeleteServlet?id=${p.projId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>                                
-                                </c:if>                                    
-                            </td>
-                            <td>${p.projName}</td>
-                            <td>${p.projDetail}</td> 
-                            <td>${p.protId}</td>
-                            <td>${p.planId}</td>
-                            <td>${p.budpId}</td>
-                        </tr>
-                    </c:forEach>
-                    <c:if test="${projectList.isEmpty()}">
-                        <tr>                    
-                            <td colspan="15"><div class="alert"><span style="padding: 40%">ไม่พบข้อมูลที่ค้นหา</span></div> </td>
-                        </tr>
-                    </c:if>
-                    <c:if test="${projectList == null}">
-                        <tr>                    
-                            <td colspan="17"><div class="alert"><span style="padding: 40%">กรุณาระบุเงื่อนไขในการค้นหา</span></div> </td>
-                        </tr>
-                    </c:if>
-                </tbody>
+                    <table id="search_table" class="table table-responsive"> 
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Project name</th> 
+                                <th>Project Details</th>
+                                <th>Project Type</th>
+                                <th>Plan</th>
+                                <th>Budget</th>                        
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="p" items="${projectList}">
+                                <tr>
+                                    <td  nowrap>  
+                                        <a href="${context}/ProjectVerifyServlet?id=${p.projId}" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-user"></i></a>                                
+                                        <a href="${context}/ProjectEditServlet?id=${p.projId}" class="btn btn-default btn-info"><i class="glyphicon glyphicon-pencil"></i></a>
+                                        <a href="${context}/ProjectDeleteServlet?id=${p.projId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>                                
+                                                                            
+                                    </td>
+                                    <td>${p.projName}</td>
+                                    <td>${p.projDetail}</td> 
+                                    <td>${p.protId}</td>
+                                    <td>${p.planId}</td>
+                                    <td>${p.budpId}</td>
+                                    <td>${p.projStatus}</td>
+                                </tr>
+                            </c:forEach>
+                            <c:if test="${projectList.isEmpty()}">
+                                <tr>                    
+                                    <td colspan="15"><div class="alert"><span style="padding: 40%">ไม่พบข้อมูลที่ค้นหา</span></div> </td>
+                                </tr>
+                            </c:if>
+                            <c:if test="${projectList == null}">
+                                <tr>                    
+                                    <td colspan="17"><div class="alert"><span style="padding: 40%">กรุณาระบุเงื่อนไขในการค้นหา</span></div> </td>
+                                </tr>
+                            </c:if>
+                        </tbody>
                     </table>
                 </div>                
                 <div class="row">
@@ -179,10 +180,10 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        
-        
-        
-        
+
+
+
+
     });
 </script>
 
