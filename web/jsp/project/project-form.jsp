@@ -12,6 +12,7 @@
         <form id="addProject" action="${context}/ProjectAddServlet" method="post" class="form-horizontal" >
             <input type="hidden" name="verifyCase">
             <input type="hidden" id="id" name="id" value="${proj_id}"/>
+            <input type="hidden" id="proj_status" name="proj_status" value="${proj_status}"/>
             <div class="row">
                 <div class="col-sm-10" >
                     <div class="form-group">
@@ -182,7 +183,7 @@
 <script type="text/javascript">
     var verifyCaseLabel = {'APPROVE': 'อนุมัติ', 'REJECT': 'ไม่อนุมัติ', 'CANCEL': 'ยกเลิก'};
     $(document).ready(function () {
-        $('#example-getting-started').multiselect();
+        
         
         $('#btn-cancel').on('click', function () {
             var verifyReason = $('textarea[name="reason"]').val();

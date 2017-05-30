@@ -6,6 +6,7 @@ import com.ddpms.dao.ConfigDao;
 import com.ddpms.dao.PlanDao;
 import com.ddpms.dao.ProjectDao;
 import com.ddpms.dao.ProjectExpenseDao;
+import com.ddpms.dao.ProjectShiftDao;
 import com.ddpms.dao.ProjectTypeDao;
 import com.ddpms.dao.ProjectWorkingDao;
 import com.ddpms.model.BudgetPlan;
@@ -14,6 +15,7 @@ import com.ddpms.model.MessageUI;
 import com.ddpms.model.Plan;
 import com.ddpms.model.Project;
 import com.ddpms.model.ProjectExpense;
+import com.ddpms.model.ProjectShift;
 import com.ddpms.model.ProjectWorking;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
@@ -60,6 +62,7 @@ public class ProjectAddServlet extends HttpServlet {
             Project p = new Project();
             ProjectDao projectDao = new ProjectDao();
             String id = CharacterUtil.removeNull(request.getParameter("id"));
+            String status = CharacterUtil.removeNull(request.getParameter("proj_status"));
             String proj_name = CharacterUtil.removeNull(request.getParameter("proj_name"));
             request.setAttribute("proj_name", proj_name);
             String plan_id = CharacterUtil.removeNull(request.getParameter("plan_id"));
@@ -83,7 +86,12 @@ public class ProjectAddServlet extends HttpServlet {
             p.setProjId(id);
             p.setProjName(proj_name);
             p.setProjDetail(details);
-            p.setProjStatus("WAITING");
+            if(status != null && !"".equals(status)){                
+                p.setProjStatus("PROCESSING");
+            }else{      
+                //After Approve Or Shift project
+                p.setProjStatus("WAITING");
+            }      
             p.setPlanId(plan_id);
             p.setBudpId(budp_id);  
             p.setModifiedBy(String.valueOf(employee.getEmpId()));
@@ -100,7 +108,7 @@ public class ProjectAddServlet extends HttpServlet {
             if(id.equals("")){
                 exe = projectDao.createProject(p); 
             }else{
-                exe = projectDao.updateProject(p);                
+                exe = projectDao.updateProject(p);  
             }
             
             if (exe != 0) {
@@ -146,9 +154,21 @@ public class ProjectAddServlet extends HttpServlet {
 
                         try {
                             if(id.equals("")){
+                                pw.setIsFirstApprove(Boolean.TRUE);
                                 pwDao.createProjectWorking(pw); 
                             }else{
-                                pwDao.updateProjectWorking(pw);
+                                ProjectWorking pwk = new ProjectWorking();
+                                pwk.setProjId(id);
+                                pwk.setIsFirstApprove(Boolean.FALSE);
+                                //find firstApprove
+                                List<ProjectWorking> chkIsFirstApproveList = pwDao.getProjectWorking(pwk, 1, 0);
+                                if(!chkIsFirstApproveList.isEmpty()){
+                                    pw.setIsFirstApprove(Boolean.FALSE);
+                                    pwDao.updateProjectWorking(pw);
+                                }else{
+                                    pw.setIsFirstApprove(Boolean.FALSE);
+                                    pwDao.createProjectWorking(pw); 
+                                }                                
                             }
                             
                         } catch (Exception e) {

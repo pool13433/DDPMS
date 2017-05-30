@@ -35,7 +35,7 @@ public class ProjectWorkingDao {
                     + " `budget_approve_m1`, `budget_approve_m2`, `budget_approve_m3`, `budget_approve_m4`, "
                     + " `budget_approve_m5`, `budget_approve_m6`, `budget_approve_m7`, `budget_approve_m8`, "
                     + " `budget_approve_m9`, `budget_approve_m10`, `budget_approve_m11`, `budget_approve_m12`, ");
-            sql.append(" `budget_usage`, DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date, `modified_by` ");
+            sql.append(" `budget_usage`, DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date, `modified_by`, isFirstApprove ");
             sql.append(" FROM `project_working` pw ");
             sql.append(getConditionBuilder(pw));
             if (offset != 0) {
@@ -72,8 +72,8 @@ public class ProjectWorkingDao {
                     + " `budget_approve_m1`, `budget_approve_m2`, `budget_approve_m3`, `budget_approve_m4`, "
                     + "`budget_approve_m5`, `budget_approve_m6`, `budget_approve_m7`, `budget_approve_m8`,"
                     + " `budget_approve_m9`, `budget_approve_m10`, `budget_approve_m11`, `budget_approve_m12`, "
-                    + " `modified_date`, `modified_by` ) ");
-            sql.append(" VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)");
+                    + " `modified_date`, `modified_by`, isFirstApprove ) ");
+            sql.append(" VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?)");
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, pw.getProjId());
@@ -105,6 +105,7 @@ public class ProjectWorkingDao {
             pstm.setString(26, pw.getBudgetApproveM11());
             pstm.setString(27, pw.getBudgetApproveM12());
             pstm.setString(28, pw.getModifiedBy());
+            pstm.setBoolean(29, pw.getIsFirstApprove());
             logger.info("pstm ::==" + pstm.toString());
             exe = pstm.executeUpdate();
 
@@ -130,7 +131,7 @@ public class ProjectWorkingDao {
                      + " `budget_request_m10`=?,`budget_request_m11`=?,`budget_request_m12`=?,");
             sql.append(" `budget_usage`=?, `modified_by`=?, ");
             sql.append(" `modified_date`=NOW() ");
-            sql.append(" WHERE `proj_id`=? and `budget_year`=?");
+            sql.append(" WHERE `proj_id`=? and `budget_year`=? and isFirstApprove=?");
 
             pstm = conn.prepareStatement(sql.toString()); 
             
@@ -151,7 +152,8 @@ public class ProjectWorkingDao {
             pstm.setString(14, pw.getModifiedBy());
             pstm.setString(15, pw.getProjId());
             pstm.setString(16, pw.getBudgetYear());
-
+            pstm.setBoolean(17, pw.getIsFirstApprove());
+            
             logger.info("pstm ::==" + pstm.toString());
             exe = pstm.executeUpdate();
         } catch (Exception e) {
@@ -198,6 +200,9 @@ public class ProjectWorkingDao {
             if (!"".equals(CharacterUtil.removeNull(pw.getBudgetYear()))) {
                 sql.append(" and budget_year='" + pw.getBudgetYear() + "'");
             }
+            if (!"".equals(CharacterUtil.removeNull(pw.getIsFirstApprove()))) {
+                sql.append(" and isFirstApprove='" + pw.getIsFirstApprove() + "'");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -205,8 +210,7 @@ public class ProjectWorkingDao {
         return sql.toString();
     }
 
-    private ProjectWorking getEntityProjectWorking(ResultSet rs) throws SQLException {
-        logger.debug("..getEntityProjectWorking");
+    private ProjectWorking getEntityProjectWorking(ResultSet rs) throws SQLException {        
         ProjectWorking pw = new ProjectWorking();
 
         pw.setProjwId(rs.getString("projw_id"));
@@ -241,6 +245,7 @@ public class ProjectWorkingDao {
         pw.setBudgetUsage(rs.getString("budget_usage"));
         pw.setModifiedDate(rs.getString("modified_date"));
         pw.setModifiedBy(rs.getString("modified_by"));
+        pw.setIsFirstApprove(rs.getBoolean("isFirstApprove"));
 
         return pw;
     }
@@ -301,7 +306,7 @@ public class ProjectWorkingDao {
                     + " `budget_approve_m1`, `budget_approve_m2`, `budget_approve_m3`, `budget_approve_m4`, "
                     + "`budget_approve_m5`, `budget_approve_m6`, `budget_approve_m7`, `budget_approve_m8`,"
                     + " `budget_approve_m9`, `budget_approve_m10`, `budget_approve_m11`, `budget_approve_m12`, ");
-            sql.append(" `budget_usage`, DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date, `modified_by` ");
+            sql.append(" `budget_usage`, DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date, `modified_by` , isFirstApprove ");
             sql.append(" FROM `project_working` pw ");
 
             pstm = conn.prepareStatement(sql.toString());
@@ -335,7 +340,7 @@ public class ProjectWorkingDao {
                     + " `budget_approve_m1`, `budget_approve_m2`, `budget_approve_m3`, `budget_approve_m4`, "
                     + "`budget_approve_m5`, `budget_approve_m6`, `budget_approve_m7`, `budget_approve_m8`,"
                     + " `budget_approve_m9`, `budget_approve_m10`, `budget_approve_m11`, `budget_approve_m12`, ");
-            sql.append(" `budget_usage`, DATE_FORMAT(pw.modified_date," + DATE_TO_STR + ") as modified_date, pw.modified_by ");
+            sql.append(" `budget_usage`, DATE_FORMAT(pw.modified_date," + DATE_TO_STR + ") as modified_date, pw.modified_by ,isFirstApprove ");
             sql.append(" FROM `project_working` pw");
             sql.append(" LEFT JOIN project p ON p.proj_id = pw.proj_id ");
             sql.append(" WHERE  pw.proj_id = ? ORDER BY pw.budget_year ASC ");

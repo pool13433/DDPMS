@@ -66,7 +66,16 @@ final static Logger logger = Logger.getLogger(ProjectEditServlet.class);
             ProjectWorkingDao projectWDao = new  ProjectWorkingDao();
             ProjectWorking pw = new ProjectWorking();
             pw.setProjId(id);
+            pw.setIsFirstApprove(Boolean.FALSE);
             List<ProjectWorking> projectWorkingList = projectWDao.getProjectWorking(pw, 0, 0);
+            if(projectWorkingList.isEmpty()){
+                pw.setIsFirstApprove(Boolean.TRUE);
+                projectWorkingList = projectWDao.getProjectWorking(pw, 0, 0);
+            }
+            if(projectWorkingList.isEmpty()){
+                pw.setIsFirstApprove(null);
+                projectWorkingList = projectWDao.getProjectWorking(pw, 0, 0);
+            }
             request.setAttribute("projectWorkingList",projectWorkingList);
                     
             RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project/project-form.jsp");
