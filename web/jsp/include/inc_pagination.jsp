@@ -3,7 +3,6 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 
 <c:set var="page" value="${pagination.pages}" />
-<c:set value="${(pagination.recordLimit  * page )-pagination.recordLimit}" var="offsetLast"></c:set>
 
 <c:if test="false"> <!-- enable = true ,disable = false -->
     pageCurrent :: ${pagination.pageCurrent} <br/>
@@ -13,8 +12,6 @@
     pages :: ${page} <br/>
     pageUrl :: ${pagination.pageUrl} <br/>
     countRecordAll :: ${pagination.countRecordAll} <br/>
-    page :: ${page} <br/>
-    offsetLast :: ${offsetLast} <br/>
 </c:if>
 
 <div class="navigation pull-right">
@@ -27,7 +24,8 @@
                 </a>
             </li>
         </c:if>
-        
+
+        <c:set value="${(pagination.recordLimit  * page )}" var="offsetLast"></c:set>
         <c:forEach begin="${pagination.pageBegin}" end="${pagination.pageEnd}" varStatus="loop">
             <c:set value="${loop.index}" var="index"></c:set>                    
             <c:set value="${index +1}" var="label"></c:set> 
@@ -36,8 +34,8 @@
                 <li class="${active}"><a href="${pagination.pageUrl}&offset=${index * pagination.recordLimit}">${label}</a></li>                            
                 </c:if>                                    
             </c:forEach>
-            <c:if test="${pagination.recordCurrent > offsetLast}">
-                <li class="${(pagination.recordCurrent == offsetLast ? 'active' : '')}"><a href="${pagination.pageUrl}">${page+1}</a></li>      
+            <c:if test="${pagination.recordCurrent == offsetLast}">
+            <li class="${(pagination.recordCurrent == offsetLast ? 'active' : '')}"><a href="${pagination.pageUrl}">${page+1}</a></li>      
             </c:if>          
             <c:if test="${pagination.pageCurrent < (page-1)}">
             <li>
@@ -49,7 +47,7 @@
             </c:if>   
 
         <li class="next">
-            <a href="javascript:void(0)" class="fui-arrow-right">
+            <a href="#" class="fui-arrow-right">
                 <span aria-hidden="true">${pagination.countRecordAll} Record ,${page} Pages</span>
             </a>
         </li>

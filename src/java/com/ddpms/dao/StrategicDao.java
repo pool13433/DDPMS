@@ -132,7 +132,8 @@ final static Logger logger = Logger.getLogger(StrategicDao.class);
         return sql.toString();
     }
     
-    private Strategic getEntityStrategic(ResultSet rs) throws SQLException {        
+    private Strategic getEntityStrategic(ResultSet rs) throws SQLException {
+        logger.debug("..getEntityStrategic");
         Strategic s = new Strategic();
         
         s.setStraId(rs.getString("stra_id"));

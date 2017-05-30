@@ -54,11 +54,7 @@
                 </div>
             </form>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <c:import url="../include/inc_pagination.jsp"/>
-                </div>
-            </div> 
+
             <table id="search_table" class="table table-responsive">                        
                 <tr>
                     <th>#</th>

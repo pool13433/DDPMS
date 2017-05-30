@@ -32,7 +32,7 @@
                                     <input class="form-control" type="text" name="confName" value="${criteria.confName}" >
                                 </div>
                             </div>
-                            <div class="form-group">
+                                <div class="form-group">
                                 <label for="confValue" class="col-sm-2 control-label">Config Value</label>
                                 <div class="col-sm-4">
                                     <input class="form-control" type="text" name="confValue" value="${criteria.confValue}" >
@@ -59,11 +59,7 @@
                     </div>  
                 </div>
             </form>
-            <div class="row">
-                <div class="col-md-12">
-                    <c:import url="../include/inc_pagination.jsp"/>
-                </div>
-            </div> 
+
             <table id="search_table" class="table table-responsive">                        
                 <tr>
                     <th>#</th>

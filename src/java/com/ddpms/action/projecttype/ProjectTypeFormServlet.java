@@ -1,4 +1,5 @@
-package com.ddpms.action.project.type;
+
+package com.ddpms.action.projecttype;
 
 import com.ddpms.dao.ConfigDao;
 import com.ddpms.dao.ProjectTypeDao;
@@ -13,17 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 public class ProjectTypeFormServlet extends HttpServlet {
-
-    final static Logger logger = Logger.getLogger(ProjectTypeFormServlet.class);
+final static Logger logger = Logger.getLogger(ProjectTypeFormServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String protId = CharacterUtil.removeNull(request.getParameter("protId"));
             ProjectType projectType = null;
-            if (protId.equals("")) { // new 
+            if(protId.equals("")){ // new 
                 projectType = new ProjectType();
-            } else {
+            }else{
                 projectType = new ProjectTypeDao().getProjectType(protId);
             }
             request.setAttribute("projectType", projectType);

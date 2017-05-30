@@ -13,8 +13,6 @@ public class Project {
     
     private String projStatus;
     
-    private String projStatusDesc;
-    
     private String planId;
     
     private String budpId;
@@ -157,14 +155,6 @@ public class Project {
 
     public void setProjBudgApprove(int projBudgApprove) {
         this.projBudgApprove = projBudgApprove;
-    }
-
-    public String getProjStatusDesc() {
-        return projStatusDesc;
-    }
-
-    public void setProjStatusDesc(String projStatusDesc) {
-        this.projStatusDesc = projStatusDesc;
     }
     
     

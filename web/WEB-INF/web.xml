@@ -117,12 +117,20 @@
         <servlet-class>com.ddpms.action.project_shift.ProjectShiftSearchServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ProjectExpenseAddServlet</servlet-name>
+        <servlet-class>com.ddpms.action.expense.ProjectExpenseAddServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectExpenseEditServlet</servlet-name>
+        <servlet-class>com.ddpms.action.expense.ProjectExpenseEditServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ProjectExpenseDeleteServlet</servlet-name>
-        <servlet-class>com.ddpms.action.project.expense.ProjectExpenseDeleteServlet</servlet-class>
+        <servlet-class>com.ddpms.action.expense.ProjectExpenseDeleteServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ProjectExpenseSearchServlet</servlet-name>
-        <servlet-class>com.ddpms.action.project.expense.ProjectExpenseSearchServlet</servlet-class>
+        <servlet-class>com.ddpms.action.expense.ProjectExpenseSearchServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>StrategicAddServlet</servlet-name>
@@ -174,19 +182,19 @@
     </servlet>
     <servlet>
         <servlet-name>ProjectTypeListServlet</servlet-name>
-        <servlet-class>com.ddpms.action.project.type.ProjectTypeListServlet</servlet-class>
+        <servlet-class>com.ddpms.action.projecttype.ProjectTypeListServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ProjectTypeFormServlet</servlet-name>
-        <servlet-class>com.ddpms.action.project.type.ProjectTypeFormServlet</servlet-class>
+        <servlet-class>com.ddpms.action.projecttype.ProjectTypeFormServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ProjectTypeDeleteServlet</servlet-name>
-        <servlet-class>com.ddpms.action.project.type.ProjectTypeDeleteServlet</servlet-class>
+        <servlet-class>com.ddpms.action.projecttype.ProjectTypeDeleteServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ProjectTypeSaveServlet</servlet-name>
-        <servlet-class>com.ddpms.action.project.type.ProjectTypeSaveServlet</servlet-class>
+        <servlet-class>com.ddpms.action.projecttype.ProjectTypeSaveServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DepartmentListServlet</servlet-name>
@@ -354,6 +362,14 @@
     <servlet-mapping>
         <servlet-name>TaskAssignDeleteServlet</servlet-name>
         <url-pattern>/TaskAssignDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectExpenseAddServlet</servlet-name>
+        <url-pattern>/ProjectExpenseAddServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectExpenseEditServlet</servlet-name>
+        <url-pattern>/ProjectExpenseEditServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProjectExpenseDeleteServlet</servlet-name>

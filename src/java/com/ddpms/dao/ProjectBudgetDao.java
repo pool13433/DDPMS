@@ -139,6 +139,7 @@ public class ProjectBudgetDao {
     }
 
     private ProjectBudget getEntityProjectBudget(ResultSet rs) throws SQLException {
+        logger.debug("..getEntityProjectBudget");
         ProjectBudget pb = new ProjectBudget();
 
         pb.setBudpId(rs.getString("budp_id"));

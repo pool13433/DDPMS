@@ -1,5 +1,5 @@
 
-package com.ddpms.action.project.expense;
+package com.ddpms.action.expense;
 
 import com.ddpms.dao.ProjectExpenseDao;
 import com.ddpms.model.MessageUI;
@@ -19,21 +19,21 @@ final static Logger logger = Logger.getLogger(ProjectExpenseDeleteServlet.class)
             throws ServletException, IOException {
         logger.debug("...goGet ProjectExpenseDeleteServlet");
         try {
-            String expId = CharacterUtil.removeNull(request.getParameter("expId"));
+            String id = CharacterUtil.removeNull(request.getParameter("id"));
             ProjectExpenseDao dao = new ProjectExpenseDao();
             int exe = 0;
-            exe = dao.deleteProjectExpense(expId);
+            exe = dao.deleteProjectExpense(id);
             MessageUI message = null;
             if (exe == 0) {
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
             } else {
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "ลบข้อมูลสำเร็จ", "info");
             }       
-            request.getSession().setAttribute("MessageUI", message);                  
+            request.getSession().setAttribute("MessageUI", message);      
+            response.sendRedirect(request.getContextPath() + "/ProjectExpenseSearchServlet");
         } catch (Exception e) {
-            logger.error("ProjectExpenseDeleteServlet Error : ",e);
+            logger.error("ProjectExpenseDeleteServlet Error : "+e.getMessage());
         }
-        response.sendRedirect(request.getContextPath() + "/ProjectExpenseSearchServlet?menu=project_expense");
     }
 
     

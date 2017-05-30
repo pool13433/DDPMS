@@ -12,9 +12,8 @@
         <link href="${context}/asset/flat-ui/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />                
         <link href="${context}/asset/flat-ui/css/flat-ui.css" rel="stylesheet" type="text/css" />           
         <link href="${context}/asset/css/app-style.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="${context}/asset/js/jquery.2.2.4.js"></script>        
-        <script type="text/javascript" src="${context}/asset/flat-ui/js/bootstrap.min.js"></script>            
-        <script type="text/javascript" src="${context}/asset/chart.js/Chart.min.js"></script>                   
+        <script type="text/javascript" src="${context}/asset/js/jquery.2.2.4.js"></script>
+        <script type="text/javascript" src="${context}/asset/flat-ui/js/bootstrap.min.js"></script>                
         <script type="text/javascript" src="${context}/asset/jquery-ui/jquery-ui.js"></script>    
         <script type="text/javascript" src="${context}/asset/js/app-core.js"></script>
         <style type="text/css">
@@ -57,7 +56,10 @@
                                 </li>
                                 <li class="<c:out value="${menu == 'project_shift' ? 'active': ''}"/>">                                
                                     <a href="#"><i class="glyphicon glyphicon-share"></i> Manage Project Shift</a>
-                                </li>-->                                
+                                </li>
+                                <li class="<c:out value="${menu == 'project_expense' ? 'active': ''}"/>">                                
+                                    <a href="${context}/ProjectExpenseSearchServlet?menu=expense"><i class="glyphicon glyphicon-usd"></i> Manage Project Expense</a>
+                                </li>-->                            
                             </ul>
                         </li>
                         <li class="dropdown">

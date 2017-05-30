@@ -42,7 +42,6 @@ public class ProjectShiftSearchServlet extends HttpServlet {
                 ps.setProjId(proj_id);
                 ps.setProjsReason(projs_reason);
                 ps.setProjsPlanDate(projs_plan_date);
-                ps.setModifiedBy("1");
                 request.setAttribute("projectShiftList", dao.getProjectShift(ps, limit, offset));
                 Project p = new Project();
                 if(!"".equals(CharacterUtil.removeNull(proj_id))){
