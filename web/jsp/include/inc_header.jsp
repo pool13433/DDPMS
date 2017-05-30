@@ -57,10 +57,7 @@
                                 </li>
                                 <li class="<c:out value="${menu == 'project_shift' ? 'active': ''}"/>">                                
                                     <a href="#"><i class="glyphicon glyphicon-share"></i> Manage Project Shift</a>
-                                </li>-->
-                                <li class="<c:out value="${menu == 'project_expense' ? 'active': ''}"/>">                                
-                                    <a href="${context}/ProjectExpenseSearchServlet?menu=project_expense"><i class="glyphicon glyphicon-usd"></i> Manage Project Expense</a>
-                                </li>
+                                </li>-->                                
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -99,6 +96,18 @@
                                 </li>
                                 <li class="<c:out value="${menu == 'shift' ? 'active': ''}"/>">                                
                                     <a href="${context}/ProjectShiftSearchServlet?menu=shift"><i class="glyphicon glyphicon-arrow-right"></i> Project Shift</a>
+                                </li>
+                                <li class="<c:out value="${menu == 'project_expense' ? 'active': ''}"/>">                                
+                                    <a href="${context}/ProjectExpenseSearchServlet?menu=project_expense"><i class="glyphicon glyphicon-usd"></i> Manage Project Expense</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Report
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class="<c:out value="${menu == 'report-overview' ? 'active': ''}"/>">                                
+                                    <a href="${context}/ReportOverviewServlet?menu=report-overview"><i class="glyphicon glyphicon-flag"></i> Report Overview</a>
                                 </li>
                             </ul>
                         </li>
