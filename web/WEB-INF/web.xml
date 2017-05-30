@@ -232,6 +232,22 @@
         <servlet-name>ProjectVerifyServlet</servlet-name>
         <servlet-class>com.ddpms.action.project.ProjectVerifyServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProjectExpenseFormServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project.expense.ProjectExpenseFormServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectExpenseSaveServlet</servlet-name>
+        <servlet-class>com.ddpms.action.project.expense.ProjectExpenseSaveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DatasetServlet</servlet-name>
+        <servlet-class>com.ddpms.action.dashboard.DatasetServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportOverviewServlet</servlet-name>
+        <servlet-class>com.ddpms.action.report.ReportOverviewServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
@@ -478,6 +494,22 @@
     <servlet-mapping>
         <servlet-name>ProjectVerifyServlet</servlet-name>
         <url-pattern>/ProjectVerifyServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectExpenseFormServlet</servlet-name>
+        <url-pattern>/ProjectExpenseFormServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectExpenseSaveServlet</servlet-name>
+        <url-pattern>/ProjectExpenseSaveServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DatasetServlet</servlet-name>
+        <url-pattern>/DatasetServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportOverviewServlet</servlet-name>
+        <url-pattern>/ReportOverviewServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
