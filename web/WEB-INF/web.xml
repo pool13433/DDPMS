@@ -236,6 +236,10 @@
         <servlet-name>DatasetServlet</servlet-name>
         <servlet-class>com.ddpms.action.dashboard.DatasetServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReportOverviewServlet</servlet-name>
+        <servlet-class>com.ddpms.action.report.ReportOverviewServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
@@ -486,6 +490,10 @@
     <servlet-mapping>
         <servlet-name>DatasetServlet</servlet-name>
         <url-pattern>/DatasetServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportOverviewServlet</servlet-name>
+        <url-pattern>/ReportOverviewServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
