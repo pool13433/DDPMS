@@ -47,7 +47,7 @@
                 </div>
                 <label for="expReceipt" class="col-sm-2 control-label">Receipt/Reserve Date</label>
                 <div class="col-sm-3">
-                    <input class="form-control" type="text" name="expReceipt" value="${expense.receipt}" placeholder="Receipt/Reserve..." required>
+                    <input class="form-control datepicker" type="text" name="expReceipt" value="${expense.receiptDate}" placeholder="Receipt/Reserve..." required>
                 </div>                        
             </div> 
             <div class="form-group">

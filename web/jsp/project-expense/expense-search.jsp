@@ -45,9 +45,9 @@
                     <div class="col-sm-3">
                         <input type="text" class="form-control" name="expVoch" value="${criteria.expVoch}"/>
                     </div>       
-                    <label for="receipt" class="col-sm-1 control-label">Receipt</label>
+                    <label for="receipt" class="col-sm-1 control-label">Receipt Date</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" name="receipt" value="${criteria.receipt}"/>
+                        <input type="text" class="form-control" name="receipt" value="${criteria.receiptDate}"/>
                     </div>       
                 </div> 
                     <div class="form-group">
@@ -93,7 +93,7 @@
                     <th>Amount</th> 
                     <th>Voch</th>
                     <th>Pr/Po</th>
-                    <th>Receipt</th>
+                    <th>Receipt Date</th>
                     <th>Date</th>                    
                 </tr>
                 </thead>
@@ -109,7 +109,7 @@
                             <td>${expense.expAmount}</td>
                             <td>${expense.expVoch}</td>
                             <td>${expense.expPr}</td>
-                            <td>${expense.receipt}</td>
+                            <td>${expense.receiptDate}</td>
                             <td>${expense.expDate}</td>                            
                         </tr>
                     </c:forEach>

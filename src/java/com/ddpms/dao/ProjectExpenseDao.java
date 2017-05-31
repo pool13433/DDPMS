@@ -28,7 +28,7 @@ public class ProjectExpenseDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT `exp_id`, (select p.proj_name from project p where p.proj_id=pe.proj_id) as `proj_id`, `exp_desc`, `exp_amount`, `exp_voch`, `exp_pr`, ");
-            sql.append(" `receipt`, DATE_FORMAT(exp_date,"+DATE_TO_STR+") as exp_date, `vender`, `modified_date`, `modified_by` ");
+            sql.append(" DATE_FORMAT(receipt_date,"+DATE_TO_STR+") as receipt_date, DATE_FORMAT(exp_date,"+DATE_TO_STR+") as exp_date, `vender`, `modified_date`, `modified_by` ");
             sql.append(" FROM `project_expense` pe ");
             sql.append(sqlCondition);
             sql.append(" limit ").append(limit).append(" offset ").append(offset);
@@ -55,8 +55,8 @@ public class ProjectExpenseDao {
             StringBuilder sql = new StringBuilder();
             sql.append(" INSERT INTO project_expense ");
             sql.append(" (`proj_id`, `exp_desc`, `exp_amount`, `exp_voch`, `exp_pr`, "
-                    + "`receipt`, `exp_date`, `vender`, `modified_date`, `modified_by` ) ");
-            sql.append(" VALUES (?,?,?,?,?,?,STR_TO_DATE(?," + STR_TO_DATE + "),?,NOW(),?)");
+                    + "`receipt_date`, `exp_date`, `vender`, `modified_date`, `modified_by` ) ");
+            sql.append(" VALUES (?,?,?,?,?,STR_TO_DATE(?," + STR_TO_DATE + "),STR_TO_DATE(?," + STR_TO_DATE + "),?,NOW(),?)");
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, pe.getProjId());
@@ -64,7 +64,7 @@ public class ProjectExpenseDao {
             pstm.setString(3, pe.getExpAmount());
             pstm.setString(4, pe.getExpVoch());
             pstm.setString(5, pe.getExpPr());
-            pstm.setString(6, pe.getReceipt());
+            pstm.setString(6, pe.getReceiptDate());
             pstm.setString(7, pe.getExpDate());
             pstm.setString(8, pe.getVender());
             pstm.setString(9, pe.getModifiedBy());
@@ -88,7 +88,7 @@ public class ProjectExpenseDao {
             StringBuilder sql = new StringBuilder();
             sql.append(" UPDATE `project_expense` SET ");
             sql.append(" `proj_id`=?,`exp_desc`=?,`exp_amount`=?,`exp_voch`=?, ");
-            sql.append(" `exp_pr`=?,`receipt`=?,`exp_date`=STR_TO_DATE(?," + STR_TO_DATE + "),`vender`=?, `modified_by`=?, ");
+            sql.append(" `exp_pr`=?,`receipt_date`=STR_TO_DATE(?," + STR_TO_DATE + "),`exp_date`=STR_TO_DATE(?," + STR_TO_DATE + "),`vender`=?, `modified_by`=?, ");
             sql.append(" `modified_date`=NOW() ");
             sql.append(" WHERE `exp_id`=?");
 
@@ -98,7 +98,7 @@ public class ProjectExpenseDao {
             pstm.setString(3, pe.getExpAmount());
             pstm.setString(4, pe.getExpVoch());
             pstm.setString(5, pe.getExpPr());
-            pstm.setString(6, pe.getReceipt());
+            pstm.setString(6, pe.getReceiptDate());
             pstm.setString(7, pe.getExpDate());
             pstm.setString(8, pe.getVender());
             pstm.setString(9, pe.getModifiedBy());
@@ -149,8 +149,8 @@ public class ProjectExpenseDao {
         if (!CharacterUtil.removeNull(pe.getExpVoch()).equals("")) {
             sql.append(" and exp_voch LIKE '%" + pe.getExpVoch() + "%' ");
         }
-         if (!CharacterUtil.removeNull(pe.getReceipt()).equals("")) {
-            sql.append(" and receipt LIKE '%" + pe.getReceipt() + "%' ");
+         if (!CharacterUtil.removeNull(pe.getReceiptDate()).equals("")) {
+            sql.append(" and receipt_date LIKE '%" + pe.getReceiptDate() + "%' ");
         }
         if (!CharacterUtil.removeNull(pe.getExpDateBegin()).equals("") && !CharacterUtil.removeNull(pe.getExpDateEnd()).equals("")) {
             sql.append(" and (exp_date BETWEEN STR_TO_DATE('"+pe.getExpDateBegin()+"',"+STR_TO_DATE+") AND  ");
@@ -169,7 +169,7 @@ public class ProjectExpenseDao {
         pe.setExpDate(rs.getString("exp_date"));
         pe.setExpVoch(rs.getString("exp_voch"));
         pe.setExpPr(rs.getString("exp_pr"));
-        pe.setReceipt(rs.getString("receipt"));
+        pe.setReceiptDate(rs.getString("receipt_date"));
         pe.setVender(rs.getString("vender"));
         pe.setModifiedDate(rs.getString("modified_date"));
         pe.setModifiedBy(rs.getString("modified_by"));
@@ -266,7 +266,7 @@ public class ProjectExpenseDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT `exp_id`,`proj_id`, `exp_desc`, `exp_amount`, `exp_voch`, `exp_pr`, ");
-            sql.append(" `receipt`, DATE_FORMAT(exp_date," + DATE_TO_STR + ") as exp_date, `vender`, DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date, `modified_by` ");
+            sql.append(" DATE_FORMAT(receipt_date,"+DATE_TO_STR+") as receipt_date, DATE_FORMAT(exp_date," + DATE_TO_STR + ") as exp_date, `vender`, DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date, `modified_by` ");
             sql.append(" FROM `project_expense` pe WHERE exp_id = ?");
 
             pstm = conn.prepareStatement(sql.toString());
