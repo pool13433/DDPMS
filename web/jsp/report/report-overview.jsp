@@ -66,7 +66,9 @@
                                     <c:set var="sum_request" value="sum_request_${year}"/>
                                     <c:set var="sum_approve" value="sum_approve_${year}"/>
                                     <c:set var="sum_actualuse" value="sum_actualuse_${year}"/>
-                                    <td title="งบที่เสนอรออนุมัติ ปี ${year}" style="background-color: #E0E0E0;"><fmt:formatNumber value = "${budgetYear[sum_request]}" type = "number" maxFractionDigits = "2"/></td>
+                                    <td title="งบที่เสนอรออนุมัติ ปี ${year}" style="background-color: #E0E0E0;">
+                                        <fmt:formatNumber value = "${budgetYear[sum_request]}" type = "number" maxFractionDigits = "2"/>
+                                    </td>
                                     <td title="งบที่ได้รับ ปี ${year}" style="background-color: #CCFF90;"><fmt:formatNumber value = "${budgetYear[sum_approve]}" type = "number" maxFractionDigits = "2"/></td>
                                     <td title="งบที่ใช้จริง ปี ${year}" style="background-color: #B2EBF2;"><fmt:formatNumber value = "${budgetYear[sum_actualuse]}" type = "number" maxFractionDigits = "2"/></td>
                                 </c:forEach>

@@ -1,7 +1,6 @@
 package com.ddpms.action.dashboard;
 
 import com.ddpms.dao.ProjectDao;
-import com.ddpms.dao.ProjectShiftDao;
 import com.ddpms.model.Config;
 import com.ddpms.util.CharacterUtil;
 import com.google.gson.Gson;
@@ -29,7 +28,7 @@ public class DatasetServlet extends HttpServlet {
                 Map<String, Integer> months = new ProjectDao().getCountProjectInMonth(year);
                 data = months;
             } else if (chartId.equals("chartGroupPlan")) {
-                List<Config> groupPlanList = new ProjectShiftDao().getSumGroupByPlan();
+                List<Config> groupPlanList = new ProjectDao().getSumGroupByPlan();
                 data = groupPlanList;
             }
             response.setContentType("application/json");

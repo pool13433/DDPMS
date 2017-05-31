@@ -140,10 +140,13 @@
                             <c:forEach var="p" items="${projectList}">
                                 <tr>
                                     <td  nowrap>  
-                                        <a href="${context}/ProjectVerifyServlet?id=${p.projId}" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-user"></i></a>                                
-                                        <a href="${context}/ProjectEditServlet?id=${p.projId}" class="btn btn-default btn-info"><i class="glyphicon glyphicon-pencil"></i></a>
-                                        <a href="${context}/ProjectDeleteServlet?id=${p.projId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>                                
-                                                                            
+                                        <c:if test="${EMPLOYEE.status == 'APPROVER'}">
+                                            <a href="${context}/ProjectVerifyServlet?id=${p.projId}" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-user"></i></a>                                
+                                            </c:if>                                        
+                                            <c:if test="${EMPLOYEE.status != 'APPROVER'}">
+                                            <a href="${context}/ProjectEditServlet?id=${p.projId}" class="btn btn-default btn-info"><i class="glyphicon glyphicon-pencil"></i></a>
+                                            <a href="${context}/ProjectDeleteServlet?id=${p.projId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>                                                                                                            
+                                            </c:if>
                                     </td>
                                     <td>${p.projName}</td>
                                     <td>${p.projDetail}</td> 
