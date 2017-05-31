@@ -59,10 +59,7 @@
                                 </li>
                                <!-- <li class="<c:out value="${menu == 'project_working' ? 'active': ''}"/>">                                
                                     <a href="${context}/ProjectWorkingSearchServlet?menu=project-working"><i class="glyphicon glyphicon-play-circle"></i> Manage Project Working</a>
-                                </li>
-                                <li class="<c:out value="${menu == 'project_shift' ? 'active': ''}"/>">                                
-                                    <a href="#"><i class="glyphicon glyphicon-share"></i> Manage Project Shift</a>
-                                </li>-->                                
+                                </li>-->                           
                             </ul>
                         </li>
                         <li class="dropdown">

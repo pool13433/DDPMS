@@ -118,25 +118,43 @@
             var budgetAll = $elementOption.attr('data-all');
             var budgetActualUse = $elementOption.attr('data-actualUse');
             var budgetBalance = $elementOption.attr('data-balance');
-            BUDGET = {all: budgetAll, actualUse: budgetActualUse, balance: budgetBalance}
+            BUDGET = {all: budgetAll, actualUse: budgetActualUse, balance: budgetBalance};
+            console.log('xxxx ::==',BUDGET);
+            //return false;
             $('#labelAll').html(numberWithCommas(budgetAll));
             $('#labelActualUse').html(numberWithCommas(budgetActualUse));
             $('#labelBalance').html(numberWithCommas(budgetBalance));
         }).trigger('change');
         $('form[name="expense"]').submit(function (e) {
-            var budgetLimit = BUDGET.balance;
-            var budgetInput = $('input[name="expAmount"]').val();
-            if (parseInt(budgetInput) > budgetLimit) {
+            var expId = $('input[name="expId"]').val();
+            var budgetBalance = parseInt(BUDGET.balance);
+            var budgetAutualUse = parseInt(BUDGET.actualUse);            
+            var budgetInput = parseInt($('input[name="expAmount"]').val());
+            if(budgetInput <= 0){
+                  alert('ไม่อนุญาตให้กรอกค่าจำนวนเงินมากกว่า "0"');
+                return false;
+            }
+            var isOverLimit = false;
+            if(expId == ''){// Create
+                isOverLimit = (parseInt(budgetInput) > budgetBalance);
+            }else{ // Update
+                isOverLimit = (parseInt(budgetInput) > (budgetBalance+budgetAutualUse));
+            }
+            if (isOverLimit) {
                 alert('ไม่อนุญาตให้กรอกค่าจำนวนเงินเกิน งบประมาณคงเหลือ ทั้งหมดได้');
                 return false;
             } else {
                 return true;
-            }
+            }            
             e.preventDefault();
         });
     });
     function numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        if(x == undefined){
+            return '';
+        }else{
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }        
     }
 </script>
 <jsp:include page="../include/inc_footer.jsp"/>

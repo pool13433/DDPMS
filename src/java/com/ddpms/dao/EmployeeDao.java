@@ -5,7 +5,6 @@
  */
 package com.ddpms.dao;
 
-import static com.ddpms.dao.PlanDao.logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +12,6 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 import com.ddpms.db.DbConnection;
 import com.ddpms.model.Employee;
-import com.ddpms.model.Plan;
 import java.util.ArrayList;
 import java.util.List;
 

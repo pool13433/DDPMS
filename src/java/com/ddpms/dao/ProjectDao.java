@@ -1,6 +1,7 @@
 package com.ddpms.dao;
 
 import com.ddpms.db.DbConnection;
+import com.ddpms.model.Config;
 import com.ddpms.model.Project;
 import com.ddpms.util.CharacterUtil;
 import java.sql.Connection;
@@ -496,6 +497,31 @@ public class ProjectDao {
             this.close(pstm, null);
         }
         return exe;
+    }
+    
+    public List<Config> getSumGroupByPlan() {
+        logger.info(" ... getSumGroupByPlan ");
+        List<Config> groupPlanList = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            String sql = "SELECT (SELECT plan_name FROM plan pl where pl.plan_id = p.plan_id) as name,count(*) cnt FROM `project` p group by p.plan_id order by count(*) DESC";
+            conn = new DbConnection().open();
+            pstm = conn.prepareStatement(sql);
+            rs = pstm.executeQuery();
+            groupPlanList = new ArrayList<>();
+            while (rs.next()) {
+                Config data = new Config();
+                data.setConfName(rs.getString("name"));
+                data.setConfValue(rs.getString("cnt"));
+                groupPlanList.add(data);
+            }
+        } catch (Exception e) {
+            logger.error("getSumGroupByPlan error", e);
+        } finally {
+            this.close(pstm, rs);
+        }
+        return groupPlanList;
     }
 
     public Map<String, Integer> getCountProjectInMonth(String year) {
