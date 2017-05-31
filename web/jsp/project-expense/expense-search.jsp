@@ -1,8 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <jsp:include page="../include/inc_header.jsp"/>
-<div class="container">    
+<div class="container-fluid">    
     <div class="panel panel-ddpms">                
         <div class="container-fluid text-center"><h4>Manage Expense Details</h4></div>
         <div class="panel-body">
@@ -50,7 +51,7 @@
                         <input type="text" class="form-control" name="receipt" value="${criteria.receiptDate}"/>
                     </div>       
                 </div> 
-                    <div class="form-group">
+                <div class="form-group">
                     <label for="expAmount" class="col-sm-2 control-label">Amount</label>
                     <div class="col-sm-2">
                         <input type="text" class="form-control" name="expAmount" value="${criteria.expAmount}"/>
@@ -85,7 +86,7 @@
                     <c:import url="../include/inc_pagination.jsp"/>
                 </div>
             </div>     
-            <table id="search_table" class="table table-bordered table-responsive">                        
+            <table id="search_table" class="table table-bordered table-responsive" style="font-size: 14px;">                        
                 <tr class="bg-info">          
                     <th>#</th>
                     <th>Project</th> 
@@ -104,9 +105,9 @@
                                 <a href="${context}/ProjectExpenseFormServlet?menu=expense-form&expId=${expense.expId}" class="btn btn-default btn-info"><i class="glyphicon glyphicon-pencil"></i></a>
                                 <a href="${context}/ProjectExpenseDeleteServlet?expId=${expense.expId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>
                             </td>
-                            <td>${expense.projId}</td>
+                            <td><textarea class="form-control" rows="3" readonly>${expense.projId}</textarea></td>
                             <td>${expense.expDesc}</td>
-                            <td>${expense.expAmount}</td>
+                            <td><fmt:formatNumber value = "${expense.expAmount}" type = "number" maxFractionDigits = "2"/></td>
                             <td>${expense.expVoch}</td>
                             <td>${expense.expPr}</td>
                             <td>${expense.receiptDate}</td>

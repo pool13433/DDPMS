@@ -72,7 +72,7 @@ public class ProjectExpenseDao {
             exe = pstm.executeUpdate();
 
         } catch (Exception e) {
-            logger.error("Error saveProjectExpense:" + e.getMessage());
+            logger.error("Error saveProjectExpense:",e);
         } finally {
             this.close(pstm, null);
         }
