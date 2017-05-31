@@ -138,10 +138,7 @@
                         <c:if test="${EMPLOYEE.status == 'APPROVER'}">
                             <button type="button" class="btn btn-success" id="btn-approve">Approve</button>
                             <button type="button" class="btn btn-danger" id="btn-reject">Reject</button>
-                        </c:if>
-                        <c:if test="${EMPLOYEE.status != 'APPROVER'}">
-                            <button type="button" class="btn btn-warning" id="btn-cancel">Cancel</button>
-                        </c:if>
+                        </c:if>                        
                     </div>
                 </div>
             </form>
@@ -150,7 +147,7 @@
     </div>        
 </div>   
 <script type="text/javascript">
-    var verifyCaseLabel = {'APPROVE': 'อนุมัติ', 'REJECT': 'ไม่อนุมัติ', 'CANCEL': 'ยกเลิก'};
+    var verifyCaseLabel = {'APPROVE': 'อนุมัติ', 'REJECT': 'ไม่อนุมัติ'};
     $(function () {
         $('#btn-approve').on('click', function () {
             $('input[name="verifyCase"]').val('APPROVE');
@@ -160,10 +157,7 @@
             $('input[name="verifyCase"]').val('REJECT');
             $('#formVerify').submit();
         });
-        $('#btn-cancel').on('click', function () {
-            $('input[name="verifyCase"]').val('CANCEL');
-            $('#formVerify').submit();
-        });
+        
         $('#formVerify').submit(function (e) {
             var verifyCase = $('input[name="verifyCase"]').val();
             var verifyReason = $('textarea[name="reason"]').val();
