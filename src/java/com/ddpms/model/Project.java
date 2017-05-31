@@ -35,13 +35,14 @@ public class Project {
     private String accountCode;
     
     private List<TaskAssign> taskAssignList;
-    
+
     private int budgetBalance;
     
     private int budgetActualUse;
     
     private int budgetAll;
     
+    private String straId;
 
     public String getProjId() {
         return projId;
@@ -171,6 +172,7 @@ public class Project {
         this.projStatusDesc = projStatusDesc;
     }
 
+
     public int getBudgetBalance() {
         return budgetBalance;
     }
@@ -195,7 +197,12 @@ public class Project {
         this.budgetAll = budgetAll;
     }
 
-    
-    
+    public String getStraId() {
+        return straId;
+    }
+
+    public void setStraId(String straId) {
+        this.straId = straId;
+    }
     
 }
