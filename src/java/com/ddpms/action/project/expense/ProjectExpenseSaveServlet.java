@@ -1,11 +1,9 @@
 package com.ddpms.action.project.expense;
 
 import com.ddpms.dao.ProjectExpenseDao;
-import com.ddpms.dao.ProjectTypeDao;
 import com.ddpms.model.Employee;
 import com.ddpms.model.MessageUI;
 import com.ddpms.model.ProjectExpense;
-import com.ddpms.model.ProjectType;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -27,7 +25,7 @@ public class ProjectExpenseSaveServlet extends HttpServlet {
             String expDate = CharacterUtil.removeNull(request.getParameter("expDate"));
             String expPoPr = CharacterUtil.removeNull(request.getParameter("expPoPr"));
             String expVoch = CharacterUtil.removeNull(request.getParameter("expVoch"));
-            String expReceipt = CharacterUtil.removeNull(request.getParameter("expReceipt"));
+            String expReceiptDate = CharacterUtil.removeNull(request.getParameter("expReceipt"));
             String expDesc = CharacterUtil.removeNull(request.getParameter("expDesc"));
             String expAmount = CharacterUtil.removeNull(request.getParameter("expAmount"));
             String expVender = CharacterUtil.removeNull(request.getParameter("expVender"));
@@ -43,7 +41,7 @@ public class ProjectExpenseSaveServlet extends HttpServlet {
             expense.setModifiedDate(expDate);
             expense.setProjId(projId);
             expense.setProjName(projId);
-            expense.setReceipt(expReceipt);
+            expense.setReceiptDate(expReceiptDate);
             expense.setVender(expVender);
             
             ProjectExpenseDao dao = new ProjectExpenseDao();

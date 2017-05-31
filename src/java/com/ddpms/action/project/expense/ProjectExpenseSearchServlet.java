@@ -30,7 +30,7 @@ public class ProjectExpenseSearchServlet extends HttpServlet {
             String projId = CharacterUtil.removeNull(request.getParameter("projId"));
             String expPr = CharacterUtil.removeNull(request.getParameter("expPr"));
             String expVoch = CharacterUtil.removeNull(request.getParameter("expVoch"));
-            String receipt = CharacterUtil.removeNull(request.getParameter("receipt"));
+            String receiptDate = CharacterUtil.removeNull(request.getParameter("receipt"));
             String expAmount = CharacterUtil.removeNull(request.getParameter("expAmount"));
             String expDateBegin = CharacterUtil.removeNull(request.getParameter("expDateBegin"));
             String expDateEnd = CharacterUtil.removeNull(request.getParameter("expDateEnd"));
@@ -42,7 +42,7 @@ public class ProjectExpenseSearchServlet extends HttpServlet {
             criteria.setExpDateEnd(expDateEnd);
             criteria.setExpPr(expPr);
             criteria.setExpVoch(expVoch);
-            criteria.setReceipt(receipt);
+            criteria.setReceiptDate(receiptDate);
             
             ProjectExpenseDao dao = new ProjectExpenseDao();
             String sqlCondition = dao.getConditionBuilder(criteria);

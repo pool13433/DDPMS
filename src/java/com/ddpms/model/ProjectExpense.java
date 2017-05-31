@@ -16,7 +16,7 @@ public class ProjectExpense {
         
     private String expVoch;
     
-    private String receipt;
+    private String receiptDate;
     
     private String expDate;
     private String expDateBegin;
@@ -84,12 +84,12 @@ public class ProjectExpense {
         this.expVoch = expVoch;
     }
 
-    public String getReceipt() {
-        return receipt;
+    public String getReceiptDate() {
+        return receiptDate;
     }
 
-    public void setReceipt(String receipt) {
-        this.receipt = receipt;
+    public void setReceiptDate(String receiptDate) {
+        this.receiptDate = receiptDate;
     }
 
     public String getExpDate() {

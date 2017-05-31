@@ -116,6 +116,49 @@ public class ProjectDao {
         }
         return list;
     }
+    
+    public List<Project> getProjectBudgetIsApproveAll() {
+        logger.debug("..getProjectBudgetAll");
+        List<Project> budgetProjectList = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" SELECT  `proj_id`, `proj_name`,");
+            
+            sql.append(" IFNULL((SELECT SUM((budget_approve_m1 + budget_approve_m2 + budget_approve_m3 + budget_approve_m4 + ");
+            sql.append(" budget_approve_m5 + budget_approve_m6 + budget_approve_m7 + budget_approve_m8 + ");
+            sql.append(" budget_approve_m9 + budget_approve_m10 + budget_approve_m11 + budget_approve_m12)) ");
+            sql.append(" FROM project_working pw WHERE pw.proj_id = p.proj_id ");
+            sql.append(" ),0) as sum_budget_all, ");
+            
+            sql.append(" IFNULL(( SELECT SUM(pe.exp_amount) FROM project_expense pe WHERE pe.proj_id = p.proj_id ");
+            sql.append(" ),0) as sum_budget_actualuse ");
+            
+            sql.append(" FROM `project` p WHERE p.proj_status NOT IN('WAITING') ORDER BY proj_name ASC");
+            pstm = conn.prepareStatement(sql.toString());
+            logger.info("pstm ::==" + pstm.toString());
+            rs = pstm.executeQuery();
+            budgetProjectList= new ArrayList<>();
+            while (rs.next()) {
+                int budgetAll = rs.getInt("sum_budget_all");
+                int budgetActualUser = rs.getInt("sum_budget_actualuse");
+                Project project = new Project();                
+                project.setProjId(rs.getString("proj_id"));
+                project.setProjName(rs.getString("proj_name"));
+                project.setBudgetAll(budgetAll);
+                project.setBudgetActualUse(budgetActualUser);
+                project.setBudgetBalance(budgetAll-budgetActualUser);
+                budgetProjectList.add(project);
+            }
+        } catch (Exception e) {
+            logger.error("getProjectBudgetAll Error", e);
+        } finally {
+            this.close(pstm, rs);
+        }
+        return budgetProjectList;
+    }
 
     public int createProject(Project p) {
         logger.debug("..createProject");

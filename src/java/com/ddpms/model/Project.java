@@ -1,4 +1,3 @@
-
 package com.ddpms.model;
 
 import java.util.List;
@@ -36,6 +35,12 @@ public class Project {
     private String accountCode;
     
     private List<TaskAssign> taskAssignList;
+
+    private int budgetBalance;
+    
+    private int budgetActualUse;
+    
+    private int budgetAll;
     
     private String straId;
 
@@ -167,6 +172,31 @@ public class Project {
         this.projStatusDesc = projStatusDesc;
     }
 
+
+    public int getBudgetBalance() {
+        return budgetBalance;
+    }
+
+    public void setBudgetBalance(int budgetBalance) {
+        this.budgetBalance = budgetBalance;
+    }
+
+    public int getBudgetActualUse() {
+        return budgetActualUse;
+    }
+
+    public void setBudgetActualUse(int budgetActualUse) {
+        this.budgetActualUse = budgetActualUse;
+    }
+
+    public int getBudgetAll() {
+        return budgetAll;
+    }
+
+    public void setBudgetAll(int budgetAll) {
+        this.budgetAll = budgetAll;
+    }
+
     public String getStraId() {
         return straId;
     }
@@ -174,7 +204,5 @@ public class Project {
     public void setStraId(String straId) {
         this.straId = straId;
     }
-    
-    
     
 }

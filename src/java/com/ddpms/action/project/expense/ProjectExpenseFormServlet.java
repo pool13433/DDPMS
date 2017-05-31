@@ -26,7 +26,7 @@ public class ProjectExpenseFormServlet extends HttpServlet {
             } else {
                 expense = new ProjectExpenseDao().getProjectExpense(expId);
             }
-            request.setAttribute("projectList", new ProjectDao().getProjectAll());
+            request.setAttribute("projectList", new ProjectDao().getProjectBudgetIsApproveAll());
             request.setAttribute("expense", expense);
         } catch (Exception e) {
             logger.error("ProjectExpenseFormServlet error", e);

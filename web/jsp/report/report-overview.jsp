@@ -2,7 +2,7 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
-
+<c:set var="columnLength" value="${(rangeYear.budpYearEnd-rangeYear.budpYearBegin+1)*3}"/>
 <jsp:include page="../include/inc_header.jsp"/>
 <style type="text/css">
     #table-overview thead tr th{vertical-align: middle;text-align: center;font-size: 12px;}
@@ -10,16 +10,16 @@
 </style>
 <div class="container-fluid">
     <div class="panel panel-ddpms">        
-        <div class="panel-heading">รายงานข้อมูลสรุปในด้านงบประมาณ</div>
-        <div class="panel-body" style="overflow-x: auto;overflow-y: auto;height: 500px;">
-            <table id="table-overview" class="table table-bordered table-striped">
+        <div class="panel-heading">รายงานข้อมูลสรุปในด้านงบประมาณ <button id="btnPrintPDF" class="btn btn-warning">Print</button></div>
+        <div class="panel-body" style="overflow-x: auto;overflow-y: auto;height: 500px;" id="print-container">
+            <table id="table-overview" class="table table-bordered table-striped" border="1">
                 <thead>
                     <tr>
                         <th rowspan="3">ที่</th>
                         <th rowspan="3">รายการ</th>
                         <th rowspan="3">Owner</th>
                         <th colspan="3" rowspan="2">งบประมาณ</th>
-                        <th colspan="${(rangeYear.budpYearEnd-rangeYear.budpYearBegin+1)*3}">งบประมาณรายปี (บาท)</th>
+                        <th colspan="${columnLength}">งบประมาณรายปี (บาท)</th>
                     </tr>
                     <tr>
                         <c:forEach var="year" begin="${rangeYear.budpYearBegin}" end="${rangeYear.budpYearEnd}">
@@ -43,7 +43,7 @@
                         <c:set var="budgetYear" value="${budget.budgetProject}"/>                        
                         <c:if test="${planId != budget.planId}">
                             <tr>
-                                <td colspan="${6+((rangeYear.budpYearEnd-rangeYear.budpYearBegin+1)*3)}" 
+                                <td colspan="${6+columnLength}" 
                                     style="text-align: left;font-size: 14px;font-weight: bold;"><i class="glyphicon glyphicon-flag"></i> ${budget.planName}</td>
                             </tr>
                             <c:set var="planId" value="${budget.planId}"/>
@@ -78,4 +78,24 @@
         </div>    
     </div>
 </div>
+<script type="text/javascript">
+    $(function () {
+        $('#btnPrintPDF').on('click',function (){
+            printElement('print-container');
+        });        
+    });
+    function printElement(elem) {                
+        var mywindow = window.open('', 'PRINT', 'height=400,width=1200px;');
+        mywindow.document.write('<!DOCTYPE html><html><head><title>' + document.title + '</title>');        
+        mywindow.document.write('</head><body >');
+        mywindow.document.write('<h1>' + document.title + '</h1>');
+        mywindow.document.write(document.getElementById(elem).innerHTML);
+        mywindow.document.write('</body></html>');
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+        mywindow.print();
+        mywindow.close();
+        return true;
+    }
+</script>
 <jsp:include page="../include/inc_footer.jsp"/>
