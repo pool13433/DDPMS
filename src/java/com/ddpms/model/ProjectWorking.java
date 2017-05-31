@@ -41,6 +41,7 @@ public class ProjectWorking {
     private String modifiedDate;
 
     private String modifiedBy;
+    private Boolean isFirstApprove;
 
     public String getProjwId() {
         return projwId;
@@ -296,6 +297,14 @@ public class ProjectWorking {
 
     public void setBudgetApproveTotal(int budgetApproveTotal) {
         this.budgetApproveTotal = budgetApproveTotal;
+    }
+
+    public Boolean getIsFirstApprove() {
+        return isFirstApprove;
+    }
+
+    public void setIsFirstApprove(Boolean isFirstApprove) {
+        this.isFirstApprove = isFirstApprove;
     }
 
     

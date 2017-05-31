@@ -37,7 +37,7 @@ public class Project {
     
     private List<TaskAssign> taskAssignList;
     
-    
+    private String straId;
 
     public String getProjId() {
         return projId;
@@ -166,6 +166,15 @@ public class Project {
     public void setProjStatusDesc(String projStatusDesc) {
         this.projStatusDesc = projStatusDesc;
     }
+
+    public String getStraId() {
+        return straId;
+    }
+
+    public void setStraId(String straId) {
+        this.straId = straId;
+    }
+    
     
     
 }

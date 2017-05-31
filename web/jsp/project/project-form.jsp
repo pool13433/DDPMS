@@ -10,7 +10,9 @@
             <a href="${context}/ProjectSearchServlet" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></a>
         </div>
         <form id="addProject" action="${context}/ProjectAddServlet" method="post" class="form-horizontal" >
+            <input type="hidden" name="verifyCase">
             <input type="hidden" id="id" name="id" value="${proj_id}"/>
+            <input type="hidden" id="proj_status" name="proj_status" value="${proj_status}"/>
             <div class="row">
                 <div class="col-sm-10" >
                     <div class="form-group">
@@ -26,7 +28,7 @@
                     <div class="form-group">
                         <label for="account" class="col-sm-2 control-label">Account</label>
                         <div class="col-sm-3">
-                            <input class="form-control" type="text" name="account" id="account" value="${account}" placeholder="Account..." required>
+                            <input class="form-control" type="number" name="account" id="account" value="${account}" placeholder="Account..." required>
                         </div>                                                
                     </div>
                 </div>                        
@@ -139,19 +141,65 @@
                 </c:if>
             </div>
             <table style="align-content: center"></table>
+            <div class="row">
+                <div class="col-sm-10" >
+                    <div class="form-group">
+                        <label for="reason" class="col-sm-2 control-label">Reason <span style="color: red;">*</span></label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" name="reason"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <div class="col-sm-offset-1 col-sm-10">
                     <button type="submit" class="btn btn-success">Save</button>
                     <button type="reset" class="btn btn-warning">Reset</button>
+                    <c:if test="${isCancel==true}">
+                        <button type="button" class="btn btn-danger" id="btn-cancel">Cancel</button>
+                    </c:if>
+                    
+                      
                 </div>
             </div>
-
+            
         </form>
     </div>
 </div>
 <script type="text/javascript">
-
+    var verifyCaseLabel = {'APPROVE': 'อนุมัติ', 'REJECT': 'ไม่อนุมัติ', 'CANCEL': 'ยกเลิก'};
     $(document).ready(function () {
+        $("#strategic").multiselect();
+        var strategic = $('#stra_id').val();
+        
+        
+        $('#btn-cancel').on('click', function () {
+            var verifyReason = $('textarea[name="reason"]').val();
+            var projId = $('#id').val();
+            if (verifyReason == '') {
+                alert('กรุณาระบุเหตุการยกเลิกโครงการ');
+                return false;
+            }else{
+                var isConfirm = confirm('ยืนยันการ ยกเลิก ใช่หรือไม่ ใช่[ตกลง] || ไม่ใช่[ยกเลิก]');
+                if (isConfirm) {
+                    $('body').append($('<form/>')
+                    .attr({'action': '${context}/ProjectVerifyServlet', 'method': 'post', 'id': 'addProject'})
+                    .append($('<input/>')
+                      .attr({'type': 'hidden', 'name': 'verifyCase', 'value': "CANCEL"})
+                    )
+                    .append($('<input/>')
+                      .attr({'type': 'hidden', 'name': 'projId', 'value': projId})
+                    )
+                    .append($('<input/>')
+                      .attr({'type': 'hidden', 'name': 'reason', 'value': verifyReason})
+                    )
+                  ).find('#addProject').submit();
+                } else {
+                    return false;
+                }
+            }            
+        });
+        
         $("#addProject").submit(function () {
             var budp_id = $("#budp_id");
 
