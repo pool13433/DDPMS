@@ -1,8 +1,12 @@
 
 package com.ddpms.action.project;
 
+import static com.ddpms.action.project.ProjectAddServlet.logger;
 import com.ddpms.dao.ProjectDao;
+import com.ddpms.dao.ProjectHistoryDao;
+import com.ddpms.model.Employee;
 import com.ddpms.model.MessageUI;
+import com.ddpms.model.ProjectHistory;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -19,6 +23,7 @@ final static Logger logger = Logger.getLogger(ProjectDeleteServlet.class);
             throws ServletException, IOException {
         logger.debug("...doGet ProjectDelectServlet");
         try {
+            Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");  
             String id = CharacterUtil.removeNull(request.getParameter("id"));
             ProjectDao projectDao = new ProjectDao();
             int exe = 0;
@@ -27,6 +32,17 @@ final static Logger logger = Logger.getLogger(ProjectDeleteServlet.class);
             if (exe == 0) {
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
             } else {
+                ProjectHistoryDao hisDao = new ProjectHistoryDao();
+                ProjectHistory h = new ProjectHistory();
+                h.setProjId(id);
+                h.setStatus("REMOVE");
+                h.setRemarks("Delete project.");
+                h.setModifiedBy(String.valueOf(employee.getEmpId()));
+                try {
+                    hisDao.createProjectHistory(h);
+                } catch (Exception e) {
+                    logger.error("ProjectAddServlet:createProjectHistory error");
+                }
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "ลบข้อมูลสำเร็จ", "info");
             }       
             request.getSession().setAttribute("MessageUI", message);

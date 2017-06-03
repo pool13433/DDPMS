@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
             } else {
                 request.getSession().setAttribute("EMPLOYEE", employee);
                 request.setAttribute("status", "login success");
-                response.sendRedirect(request.getContextPath() + "/jsp/dashboard.jsp?menu=dashboard");
+                response.sendRedirect(request.getContextPath() + "/DashboardServlet?menu=dashboard");
             }
         } catch (Exception e) {
             logger.error("login error", e);

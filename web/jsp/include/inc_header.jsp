@@ -9,14 +9,17 @@
         <title>ระบบสารสนเทศเพื่อการจัดการโครงการแผนกสารสนเทศ (Design and development of project management system for IT department)</title>        
         <link href='https://fonts.googleapis.com/css?family=Marmelad' rel="stylesheet" type="text/css">
         <link href="${context}/asset/jquery-ui/jquery-ui.css" rel="stylesheet" type="text/css">        
-        <link href="${context}/asset/flat-ui/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />                
+        <link href="${context}/asset/flat-ui/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />         
         <link href="${context}/asset/flat-ui/css/flat-ui.css" rel="stylesheet" type="text/css" />           
         <link href="${context}/asset/css/app-style.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="${context}/asset/js/jquery.2.2.4.js"></script>        
-        <script type="text/javascript" src="${context}/asset/flat-ui/js/bootstrap.min.js"></script>            
+        <script type="text/javascript" src="${context}/asset/flat-ui/js/bootstrap.min.js"></script>  
         <script type="text/javascript" src="${context}/asset/chart.js/Chart.min.js"></script>                   
         <script type="text/javascript" src="${context}/asset/jquery-ui/jquery-ui.js"></script>    
-        <script type="text/javascript" src="${context}/asset/js/app-core.js"></script>
+        <script type="text/javascript" src="${context}/asset/js/app-core.js"></script>        
+          
+        <link href="${context}/asset/flat-ui/bootstrap/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="${context}/asset/flat-ui/bootstrap/js/bootstrap-multiselect.js"></script>
         <style type="text/css">
             body *{font-family: 'Marmelad', sans-serif;}
             a{color: #0B0F00;font-weight: bold}
@@ -39,7 +42,7 @@
                 </div>
                 <ul class="nav navbar-nav">           
                     <li class="<c:out value="${menu == 'dashboard' ? 'active': ''}"/>">
-                        <a href="${context}/jsp/dashboard.jsp?menu=dashboard"><i class="glyphicon glyphicon-dashboard"></i> Dashboard <span class="sr-only">(current)</span></a>                            
+                        <a href="${context}/DashboardServlet?menu=dashboard"><i class="glyphicon glyphicon-dashboard"></i> Dashboard <span class="sr-only">(current)</span></a>                            
                     </li>
                     <c:if test="${!empty EMPLOYEE}">                        
                         <li class="dropdown">

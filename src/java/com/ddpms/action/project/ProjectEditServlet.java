@@ -4,12 +4,18 @@ package com.ddpms.action.project;
 import com.ddpms.dao.BudgetPlanDao;
 import com.ddpms.dao.PlanDao;
 import com.ddpms.dao.ProjectDao;
+import com.ddpms.dao.ProjectExpenseDao;
+import com.ddpms.dao.ProjectHistoryDao;
 import com.ddpms.dao.ProjectTypeDao;
 import com.ddpms.dao.ProjectWorkingDao;
+import com.ddpms.dao.StrategicDao;
 import com.ddpms.model.BudgetPlan;
 import com.ddpms.model.Plan;
 import com.ddpms.model.Project;
+import com.ddpms.model.ProjectExpense;
+import com.ddpms.model.ProjectHistory;
 import com.ddpms.model.ProjectWorking;
+import com.ddpms.model.Strategic;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
 import java.util.List;
@@ -41,6 +47,9 @@ final static Logger logger = Logger.getLogger(ProjectEditServlet.class);
             BudgetPlanDao bpDao = new BudgetPlanDao();
             request.setAttribute("budgetPlanList", bpDao.getBudgetPlan(new BudgetPlan(), 0, 0));
             request.setAttribute("planList", planDao.getPlan(new Plan(), 0, 0));
+            StrategicDao stDao = new StrategicDao();
+            countRecordAll = stDao.getCountStrategic("");
+            request.setAttribute("strategicList", stDao.getStrategic(new Strategic(), countRecordAll, 0));
             
             if(!list.isEmpty()){
                 request.setAttribute("proj_id", list.get(0).getProjId());
@@ -51,13 +60,35 @@ final static Logger logger = Logger.getLogger(ProjectEditServlet.class);
                 request.setAttribute("budp_id",list.get(0).getBudpId());
                 request.setAttribute("account",list.get(0).getAccountCode());
                 request.setAttribute("details",list.get(0).getProjDetail());
+                request.setAttribute("stra_id", list.get(0).getStraId());
             }
+            //check project have an expense
+            ProjectExpenseDao peDao = new ProjectExpenseDao();
+            ProjectExpense pe = new ProjectExpense();
+            pe.setProjId(id);
+            String condt = peDao.getConditionBuilder(pe);
+            int isCancel = peDao.getCountProjectExpense(condt);
+            request.setAttribute("isCancel", isCancel<=0?true:false);
             
             ProjectWorkingDao projectWDao = new  ProjectWorkingDao();
             ProjectWorking pw = new ProjectWorking();
             pw.setProjId(id);
+            pw.setIsFirstApprove(Boolean.FALSE);
             List<ProjectWorking> projectWorkingList = projectWDao.getProjectWorking(pw, 0, 0);
+            if(projectWorkingList.isEmpty()){
+                pw.setIsFirstApprove(Boolean.TRUE);
+                projectWorkingList = projectWDao.getProjectWorking(pw, 0, 0);
+            }
+            if(projectWorkingList.isEmpty()){
+                pw.setIsFirstApprove(null);
+                projectWorkingList = projectWDao.getProjectWorking(pw, 0, 0);
+            }
             request.setAttribute("projectWorkingList",projectWorkingList);
+            
+            ProjectHistoryDao histDao = new ProjectHistoryDao();
+            ProjectHistory ph = new ProjectHistory();
+            ph.setProjId(id);
+            request.setAttribute("projectHistoryList", histDao.getProjectHistory(ph));
                     
             RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project/project-form.jsp");
             dispatcher.forward(request, response);
