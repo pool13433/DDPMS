@@ -33,8 +33,11 @@ public class ProjectDao {
             sql.append(" (SELECT `plan_name`FROM `plan` p  WHERE p.plan_id=pj.plan_id ) as `plan_id`, (SELECT `budp_name` FROM `budget_plan` b WHERE b.budp_id=pj.budp_id) as `budp_id`, ");
             sql.append("  `modified_date`, `modified_by`,");
             sql.append(" (SELECT `prot_name` FROM `project_type` pt WHERE pt.prot_id=pj.prot_id) as `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by`, account_code, stra_id ");
-            sql.append(" FROM `project` pj");
+            sql.append(" FROM `project` pj ");
             sql.append(getConditionBuilder(p));
+            if (p.getNotification() > 0) {
+                sql.append(" AND pj.proj_status = 'WAITING' AND pj.modified_date = curdate() ");
+            }
             if (offset != 0) {
                 sql.append(" limit ").append(limit).append(" offset ").append(offset);
             }
@@ -564,7 +567,7 @@ public class ProjectDao {
                 map.put("Sep", rs.getInt("Sep"));
                 map.put("Oct", rs.getInt("Oct"));
                 map.put("Nov", rs.getInt("Nov"));
-                map.put("Dec", rs.getInt("Decem"));                
+                map.put("Dec", rs.getInt("Decem"));
             }
         } catch (Exception e) {
             e.printStackTrace();

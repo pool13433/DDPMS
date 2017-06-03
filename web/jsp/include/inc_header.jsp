@@ -41,15 +41,21 @@
         <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #FB7B55;">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">DDPMS</a>
+                    <a class="navbar-brand" href="${context}/jsp/dashboard.jsp?menu=dashboard">DDPMS</a>
                 </div>
                 <ul class="nav navbar-nav">           
                     <li class="<c:out value="${menu == 'dashboard' ? 'active': ''}"/>">
-                        <a href="${context}/jsp/dashboard.jsp?menu=dashboard">
+                        <c:set var="dashboardLink" value="${context}/jsp/dashboard.jsp?menu=dashboard"/>
+                        <c:if test="${NOTI_PROJECT_WAITING > 0}">
+                            <c:set var="dashboardLink" value="${context}/ProjectSearchServlet?menu=project&menu=searching&notification=${NOTI_PROJECT_WAITING}"/>
+                        </c:if>
+                        <a href="${dashboardLink}">
                             <i class="glyphicon glyphicon-dashboard"></i> Dashboard 
-                            <span class="icon_counter icon_counter_blue">
-                                ${NOTI_PROJECT_WAITING}
-                            </span>
+                            <c:if test="${NOTI_PROJECT_WAITING > 0}">
+                                <span class="icon_counter icon_counter_blue">
+                                    ${NOTI_PROJECT_WAITING}
+                                </span>
+                            </c:if>
                         </a>                            
                     </li>
                     <c:if test="${!empty EMPLOYEE}">                        
