@@ -8,7 +8,6 @@ package com.ddpms.action.authen;
 import com.ddpms.dao.EmployeeDao;
 import com.ddpms.dao.ProjectWorkingDao;
 import com.ddpms.model.Employee;
-import com.ddpms.model.ProjectWorking;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -23,9 +22,9 @@ import org.apache.log4j.Logger;
  * @author POOL_LAPTOP
  */
 public class LoginServlet extends HttpServlet {
-
+    
     final static Logger logger = Logger.getLogger(LoginServlet.class);
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("LoginServlet");
@@ -42,15 +41,17 @@ public class LoginServlet extends HttpServlet {
             } else {
                 request.getSession().setAttribute("EMPLOYEE", employee);
                 request.setAttribute("status", "login success");
-                // set Project Waiting in Session Notification
-                ProjectWorkingDao dao = new ProjectWorkingDao();
-                int countProjectWaiting = dao.getProjectWaitingInCurrentDate();
-                request.getSession().setAttribute("NOTI_PROJECT_WAITING", countProjectWaiting);
+
+                // set Project Waiting in Session Notification    for approver
+                if (CharacterUtil.removeNull(employee.getStatus()).equals("APPROVER")) {
+                    int countProjectWaiting = new ProjectWorkingDao().getProjectWaitingInCurrentDate();
+                    request.getSession().setAttribute("NOTI_PROJECT_WAITING", countProjectWaiting);
+                }
                 response.sendRedirect(request.getContextPath() + "/jsp/dashboard.jsp?menu=dashboard");
             }
         } catch (Exception e) {
             logger.error("login error", e);
         }
     }
-
+    
 }

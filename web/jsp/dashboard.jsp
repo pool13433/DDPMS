@@ -8,7 +8,7 @@
         <div class="col-lg-6">
             <div class="panel panel-ddpms">
                 <div class="panel-heading">                    
-                    งบประมาณประจำปี <%= new java.text.SimpleDateFormat("yyyy").format(new java.util.Date()) %>
+                    งบประมาณประจำปี <%= new java.text.SimpleDateFormat("yyyy").format(new java.util.Date())%>
                 </div>
                 <div class="panel-body">
                     <canvas id="chartBudgetInYear" width="400" height="400"></canvas>
@@ -29,8 +29,8 @@
 </div>
 <script type="text/javascript">
     var colors = ["#F44336", "#673AB7", "#9C27B0", "#673AB7", "#4CAF50", "#CDDC39", "#FFEB3B", "#FFC107", "#FF9800", "#FF5722", "#795548", "#9E9E9E"];
-    var colors2 = ["#D32F2F", "#512DA8", "#7B1FA2", "#512DA8", "#388E3C", "#AFB42B", "#FBC02D", "#FFA000", "#F57C00", "#E64A19", "#5D4037", "#616161"];
-    var colors3 = ["#B71C1C", "#311B92", "#4A148C", "#311B92", "#1B5E20", "#827717", "#F57F17", "#FF6F00", "#E65100", "#BF360C", "#3E2723", "#212121"];
+    //var colors2 = ["#D32F2F", "#512DA8", "#7B1FA2", "#512DA8", "#388E3C", "#AFB42B", "#FBC02D", "#FFA000", "#F57C00", "#E64A19", "#5D4037", "#616161"];
+    //var colors3 = ["#B71C1C", "#311B92", "#4A148C", "#311B92", "#1B5E20", "#827717", "#F57F17", "#FF6F00", "#E65100", "#BF360C", "#3E2723", "#212121"];
     $(function () {
         chartBudgetInYear();
         chartGroupPlan();
@@ -41,15 +41,15 @@
             var datasets = [];
             var labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             var dataStatus = [
-                {name : 'ALL',color : '#F44336', label: 'ทั้งหมด'},
-                {name : 'COMPLETE',color : '#E91E63', label: 'เรียบร้อย'},
-                {name : 'ADJUST',color : '#9C27B0', label: 'ปรับเปลี่ยน'},
-                {name : 'CANCEL',color : '#673AB7', label: 'ยกเลิก'},
-                {name : 'SUPPORT',color : '#3F51B5', label: 'สนับสนุน'},
-                {name : 'INPLAN',color : '#2196F3', label: 'อยู่ในแผน'},
-                {name : 'PROCESSING',color : '#03A9F4', label: 'กำลังดำเนินการ'},
-                {name : 'WAITING',color : '#00BCD4', label: 'รออนุมัติ'},                
-                {name : 'REJECT',color : '#009688', label: 'ปฏิเสธ'}
+                {name: 'ALL', color: '#F44336', label: 'ทั้งหมด'},
+                {name: 'COMPLETE', color: '#E91E63', label: 'เรียบร้อย'},
+                {name: 'ADJUST', color: '#9C27B0', label: 'ปรับเปลี่ยน'},
+                {name: 'CANCEL', color: '#673AB7', label: 'ยกเลิก'},
+                {name: 'SUPPORT', color: '#3F51B5', label: 'สนับสนุน'},
+                {name: 'INPLAN', color: '#2196F3', label: 'อยู่ในแผน'},
+                {name: 'PROCESSING', color: '#03A9F4', label: 'กำลังดำเนินการ'},
+                {name: 'WAITING', color: '#00BCD4', label: 'รออนุมัติ'},
+                {name: 'REJECT', color: '#009688', label: 'ปฏิเสธ'}
             ];
             $.each(dataStatus, function (ind, status) {
                 var data = snapshot[status.name];
@@ -59,17 +59,14 @@
                     console.log('_year ::==', _year);
                     if (_year != undefined) {
                         var datas = [data['Jan'], data['Feb'], data['Mar'], data['Apr'], data['May'],
-                         data['Jun'], data['Jul'], data['Aug'], data['Sep'], data['Oct'], data['Nov'], data['Dec']];
-                         datasets.push({
-                         label: "จำนวนโครงการ ประเภท " + status.label,
-                         backgroundColor: status.color,
-                         borderColor: colors,
-                         borderWidth: 1,
-                         data: datas});
+                            data['Jun'], data['Jul'], data['Aug'], data['Sep'], data['Oct'], data['Nov'], data['Dec']];
+                        datasets.push({
+                            label: "จำนวนโครงการ ประเภท " + status.label,
+                            backgroundColor: status.color,
+                            stack: 'Stack 0',
+                            data: datas});
                     }
                 }
-
-
             });
             var collection = {
                 labels: labels,
@@ -80,13 +77,14 @@
                 type: 'bar',
                 data: collection,
                 options: {
+                    tooltips: {
+                        mode: 'index',
+                        intersect: true
+                    },
+                    responsive: true,
                     scales: {
-                        xAxes: [{
-                                stacked: true
-                            }],
-                        yAxes: [{
-                                stacked: true
-                            }]
+                        xAxes: [{stacked: true}],
+                        yAxes: [{stacked: true}]
                     }
                 }
             });
