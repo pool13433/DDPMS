@@ -12,16 +12,17 @@
         <link href="${context}/asset/flat-ui/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" /> 
         <link href="${context}/asset/flat-ui/css/flat-ui.css" rel="stylesheet" type="text/css" />           
         <link href="${context}/asset/css/app-style.css" rel="stylesheet" type="text/css" />
-        
+
         <script type="text/javascript" src="${context}/asset/js/jquery.2.2.4.js"></script>        
         <script type="text/javascript" src="${context}/asset/flat-ui/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="${context}/asset/chart.js/Chart.min.js"></script>                   
         <script type="text/javascript" src="${context}/asset/jquery-ui/jquery-ui.js"></script>    
+        <script type="text/javascript" src="${context}/asset/moment/moment.min.js"></script>            
         <script type="text/javascript" src="${context}/asset/js/app-core.js"></script>
-        
+
         <link href="${context}/asset/flat-ui/bootstrap/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="${context}/asset/flat-ui/bootstrap/js/bootstrap-multiselect.js"></script>
-        
+
         <style type="text/css">
             body *{font-family: 'Marmelad', sans-serif;}
             a{color: #0B0F00;font-weight: bold}
@@ -35,7 +36,7 @@
         </style>
     </head>
     <body style="background-color: #F8F8F8;">
-        
+
         <!-- http://designmodo.github.io/Flat-UI/docs/components.html#fui-pagination -->
         <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #FB7B55;">
             <div class="container-fluid">
@@ -44,7 +45,12 @@
                 </div>
                 <ul class="nav navbar-nav">           
                     <li class="<c:out value="${menu == 'dashboard' ? 'active': ''}"/>">
-                        <a href="${context}/jsp/dashboard.jsp?menu=dashboard"><i class="glyphicon glyphicon-dashboard"></i> Dashboard <span class="sr-only">(current)</span></a>                            
+                        <a href="${context}/jsp/dashboard.jsp?menu=dashboard">
+                            <i class="glyphicon glyphicon-dashboard"></i> Dashboard 
+                            <span class="icon_counter icon_counter_blue">
+                                ${NOTI_PROJECT_WAITING}
+                            </span>
+                        </a>                            
                     </li>
                     <c:if test="${!empty EMPLOYEE}">                        
                         <li class="dropdown">
@@ -95,9 +101,6 @@
                                 </li>
                                 <li class="<c:out value="${menu == 'task' ? 'active': ''}"/>">                                
                                     <a href="${context}/TaskListServlet?menu=task"><i class="glyphicon glyphicon-hourglass"></i> Manage Task</a>
-                                </li>
-                                <li class="<c:out value="${menu == 'shift' ? 'active': ''}"/>">                                
-                                    <a href="${context}/ProjectShiftSearchServlet?menu=shift"><i class="glyphicon glyphicon-arrow-right"></i> Project Shift</a>
                                 </li>
                                 <li class="<c:out value="${menu == 'project_expense' ? 'active': ''}"/>">                                
                                     <a href="${context}/ProjectExpenseSearchServlet?menu=project_expense"><i class="glyphicon glyphicon-usd"></i> Manage Project Expense</a>

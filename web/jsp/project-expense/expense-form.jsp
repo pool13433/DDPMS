@@ -119,7 +119,7 @@
             var budgetActualUse = $elementOption.attr('data-actualUse');
             var budgetBalance = $elementOption.attr('data-balance');
             BUDGET = {all: budgetAll, actualUse: budgetActualUse, balance: budgetBalance};
-            console.log('xxxx ::==',BUDGET);
+            console.log('xxxx ::==', BUDGET);
             //return false;
             $('#labelAll').html(numberWithCommas(budgetAll));
             $('#labelActualUse').html(numberWithCommas(budgetActualUse));
@@ -128,33 +128,51 @@
         $('form[name="expense"]').submit(function (e) {
             var expId = $('input[name="expId"]').val();
             var budgetBalance = parseInt(BUDGET.balance);
-            var budgetAutualUse = parseInt(BUDGET.actualUse);            
+            var budgetAutualUse = parseInt(BUDGET.actualUse);
             var budgetInput = parseInt($('input[name="expAmount"]').val());
-            if(budgetInput <= 0){
-                  alert('ไม่อนุญาตให้กรอกค่าจำนวนเงินมากกว่า "0"');
+            if (budgetInput <= 0) {
+                alert('ไม่อนุญาตให้กรอกค่าจำนวนเงินมากกว่า "0"');
                 return false;
             }
             var isOverLimit = false;
-            if(expId == ''){// Create
+            if (expId == '') {// Create
                 isOverLimit = (parseInt(budgetInput) > budgetBalance);
-            }else{ // Update
-                isOverLimit = (parseInt(budgetInput) > (budgetBalance+budgetAutualUse));
+            } else { // Update
+                isOverLimit = (parseInt(budgetInput) > (budgetBalance + budgetAutualUse));
             }
             if (isOverLimit) {
                 alert('ไม่อนุญาตให้กรอกค่าจำนวนเงินเกิน งบประมาณคงเหลือ ทั้งหมดได้');
                 return false;
-            } else {
-                return true;
-            }            
+            }
+
+            var valids = validateDateRange();
+            if (valids.length > 0) {
+                var message = '';
+                $.each(valids, function (index,vali) {
+                    message += (vali.message+' \n ');
+                });
+                alert(message);
+                return false;
+            }
+            return true;
             e.preventDefault();
         });
     });
     function numberWithCommas(x) {
-        if(x == undefined){
-            return '';
-        }else{
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }        
+        return (x == undefined ? '' : x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    }
+    function validateDateRange() {
+        var result = [];
+        var expDate = moment($('input[name="expDate"]').val(), "DD/MM/YYYY");
+        var expReceiptDate = moment($('input[name="expReceipt"]').val(), "DD/MM/YYYY");
+        var currentDate = moment();
+        if (expDate.isSameOrAfter(currentDate)) {
+            result.push({name: 'expDate', message: 'กรุณากรอก "Use Date" ไม่เกินวันที่ปัจจุบัน'});
+        }
+        if (expReceiptDate.isSameOrAfter(currentDate)) {
+            result.push({name: 'expReceipt', message: 'กรุณากรอก "Receipt/Reserve Date" ไม่เกินวันที่ปัจจุบัน'});
+        }
+        return result;
     }
 </script>
 <jsp:include page="../include/inc_footer.jsp"/>
