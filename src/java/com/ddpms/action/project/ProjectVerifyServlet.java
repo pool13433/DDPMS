@@ -59,7 +59,7 @@ public class ProjectVerifyServlet extends HttpServlet {
             if (verifyCase.equals("APPROVE")) {// INPLAN
                 param.setProjStatus("INPLAN");
             } else if (verifyCase.equals("REJECT")) {// REJECT
-                param.setProjStatus("REJECT");
+                param.setProjStatus("WAITING");
             } else if (verifyCase.equals("CANCEL")) {// CANCEL                
                 param.setProjStatus("CANCEL");
             }

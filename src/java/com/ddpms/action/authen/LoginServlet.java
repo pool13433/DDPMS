@@ -6,7 +6,9 @@
 package com.ddpms.action.authen;
 
 import com.ddpms.dao.EmployeeDao;
+import com.ddpms.dao.ProjectWorkingDao;
 import com.ddpms.model.Employee;
+import com.ddpms.model.ProjectWorking;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -30,8 +32,8 @@ public class LoginServlet extends HttpServlet {
         try {
             String username = CharacterUtil.removeNull(request.getParameter("username"));
             String password = CharacterUtil.removeNull(request.getParameter("password"));
-            logger.debug("username ::=="+username);
-            logger.debug("password ::=="+password);
+            logger.debug("username ::==" + username);
+            logger.debug("password ::==" + password);
             Employee employee = new EmployeeDao().getEmployee(username, password);
             if (employee == null) {
                 request.setAttribute("status", "cannot find user in system");
@@ -40,6 +42,10 @@ public class LoginServlet extends HttpServlet {
             } else {
                 request.getSession().setAttribute("EMPLOYEE", employee);
                 request.setAttribute("status", "login success");
+                // set Project Waiting in Session Notification
+                ProjectWorkingDao dao = new ProjectWorkingDao();
+                int countProjectWaiting = dao.getProjectWaitingInCurrentDate();
+                request.getSession().setAttribute("NOTI_PROJECT_WAITING", countProjectWaiting);
                 response.sendRedirect(request.getContextPath() + "/jsp/dashboard.jsp?menu=dashboard");
             }
         } catch (Exception e) {
