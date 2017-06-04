@@ -2,6 +2,7 @@
 package com.ddpms.action.project;
 
 import com.ddpms.dao.BudgetPlanDao;
+import com.ddpms.dao.ConfigDao;
 import com.ddpms.dao.PlanDao;
 import com.ddpms.dao.ProjectDao;
 import com.ddpms.dao.ProjectTypeDao;
@@ -46,7 +47,8 @@ public class ProjectSearchServlet extends HttpServlet {
             String budp_id = CharacterUtil.removeNull(request.getParameter("budp_id"));
             request.setAttribute("budp_id", budp_id);
             String prot_id = CharacterUtil.removeNull(request.getParameter("prot_id"));
-            request.setAttribute("prot_id", prot_id);            
+            request.setAttribute("prot_id", prot_id);  
+            request.setAttribute("statusList", new ConfigDao().getConfigList("PROJECT_STATUS"));
             p.setProjName(proj_name);
             p.setProjDetail(proj_details);
             p.setProjStatus(proj_status);

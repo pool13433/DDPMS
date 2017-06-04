@@ -87,6 +87,10 @@ public class ProjectVerifyServlet extends HttpServlet {
                 message = new MessageUI(true, "สถานะการบันทึกข้อมูล", "บันทึกข้อมูลการปรับเปลี่ยนสถานะของโครงงาน สำเร็จ", "info");
             }
             request.getSession().setAttribute("MessageUI", message);
+            ProjectHistoryDao histDao = new ProjectHistoryDao();
+            ProjectHistory ph = new ProjectHistory();
+            ph.setProjId(projId);
+            request.setAttribute("projectHistoryList", histDao.getProjectHistory(ph));
         } catch (Exception e) {
             logger.error("ProjectVerifyServlet error", e);
         }
@@ -102,6 +106,10 @@ public class ProjectVerifyServlet extends HttpServlet {
             List<ProjectWorking> projectWorkingList = new ProjectWorkingDao().getProjectWorkingByProject(projectId);
             request.setAttribute("projectWorkingList", projectWorkingList);
             request.setAttribute("project", project);
+            ProjectHistoryDao histDao = new ProjectHistoryDao();
+            ProjectHistory ph = new ProjectHistory();
+            ph.setProjId(projId);
+            request.setAttribute("projectHistoryList", histDao.getProjectHistory(ph));
         } catch (Exception e) {
             logger.error("ProjectVerifyServlet Error", e);
         }
