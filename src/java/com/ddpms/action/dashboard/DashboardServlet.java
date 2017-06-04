@@ -6,7 +6,6 @@
 package com.ddpms.action.dashboard;
 
 import com.ddpms.dao.ProjectHistoryDao;
-import com.ddpms.model.ProjectHistory;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
