@@ -178,7 +178,7 @@ public class ProjectAddServlet extends HttpServlet {
                                 pw.setIsFirstApprove(Boolean.TRUE);
                                 pwDao.createProjectWorking(pw); 
                             }else{
-                                if(!"WAITING".equals(status) && !"CANCEL".equals(status)){
+                                if(!"WAITING".equals(status) && !"CANCEL".equals(status) && !"REJECT".equals(status)){
                                     ProjectWorking pwk = new ProjectWorking();
                                     pwk.setProjId(id);
                                     pwk.setIsFirstApprove(Boolean.FALSE);
