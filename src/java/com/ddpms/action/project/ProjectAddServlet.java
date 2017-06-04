@@ -94,7 +94,7 @@ public class ProjectAddServlet extends HttpServlet {
             p.setProjId(id);
             p.setProjName(proj_name);
             p.setProjDetail(details);
-            if(status != null && !"".equals(status) && !"CANCEL".equals(status) && !"WAITING".equals(status)){                
+            if(status != null && !"".equals(status) && !"CANCEL".equals(status) && !"WAITING".equals(status) && !"REJECT".equals(status)){                
                 p.setProjStatus("PROCESSING");
             }else{      
                 //After Approve Or Shift project
