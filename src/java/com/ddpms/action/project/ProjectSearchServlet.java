@@ -6,6 +6,7 @@ import com.ddpms.dao.PlanDao;
 import com.ddpms.dao.ProjectDao;
 import com.ddpms.dao.ProjectTypeDao;
 import com.ddpms.model.BudgetPlan;
+import com.ddpms.model.Employee;
 import com.ddpms.model.Pagination;
 import com.ddpms.model.Plan;
 import com.ddpms.model.Project;
@@ -28,6 +29,7 @@ public class ProjectSearchServlet extends HttpServlet {
             throws ServletException, IOException {
         logger.debug("...doGet ProjectSearchServlet");
         try {
+            Employee emp = (Employee) request.getSession().getAttribute("EMPLOYEE");
             String menu = CharacterUtil.removeNull(request.getParameter("menu"));
             Project p = new Project();
             ProjectDao projectDao = new ProjectDao();
@@ -44,24 +46,20 @@ public class ProjectSearchServlet extends HttpServlet {
             String budp_id = CharacterUtil.removeNull(request.getParameter("budp_id"));
             request.setAttribute("budp_id", budp_id);
             String prot_id = CharacterUtil.removeNull(request.getParameter("prot_id"));
-            request.setAttribute("prot_id", prot_id);
+            request.setAttribute("prot_id", prot_id);            
+            p.setProjName(proj_name);
+            p.setProjDetail(proj_details);
+            p.setProjStatus(proj_status);
+            p.setPlanId(plan_id);
+            p.setBudpId(budp_id);    
+            p.setProtId(prot_id);  
+            p.setModifiedBy(String.valueOf(emp.getEmpId()));
             int notificationCnt = CharacterUtil.removeNullTo(request.getParameter("notification"), 0);
             if(notificationCnt > 0){
                 p.setNotification(notificationCnt);
                 request.getSession().removeAttribute("NOTI_PROJECT_WAITING");
-            }            
-            if("searching".equals(menu)){
-                p.setProjName(proj_name);
-                p.setProjDetail(proj_details);
-                p.setProjStatus(proj_status);
-                p.setPlanId(plan_id);
-                p.setBudpId(budp_id);    
-                p.setProtId(prot_id);  
-                
-                request.setAttribute("projectList", projectDao.getProject(p, limit, offset));                
-            }else{
-                request.setAttribute("projectList", projectDao.getProject(p, limit, offset));
-            }
+            }   
+            request.setAttribute("projectList", projectDao.getProject(p, limit, offset));   
             String pageUrl = request.getContextPath() + "/ProjectSearchServlet?" + request.getQueryString();
             String sqlConditionBuilder = projectDao.getConditionBuilder(p);
             int countRecordAll = projectDao.getCountProject(sqlConditionBuilder);

@@ -43,7 +43,7 @@ public class Project {
     private int budgetAll;
     
     private String straId;
-    
+
     private int notification;
 
     public String getProjId() {
@@ -173,8 +173,6 @@ public class Project {
     public void setProjStatusDesc(String projStatusDesc) {
         this.projStatusDesc = projStatusDesc;
     }
-
-
     public int getBudgetBalance() {
         return budgetBalance;
     }
@@ -198,7 +196,6 @@ public class Project {
     public void setBudgetAll(int budgetAll) {
         this.budgetAll = budgetAll;
     }
-
     public String getStraId() {
         return straId;
     }
@@ -214,7 +211,5 @@ public class Project {
     public void setNotification(int notification) {
         this.notification = notification;
     }
-    
-    
-    
+  
 }

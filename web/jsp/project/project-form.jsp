@@ -88,6 +88,28 @@
             <div class="row">
                 <div class="col-sm-10" >
                     <div class="form-group">
+                        <label for="strategic" class="col-sm-2 control-label">Strategic</label>                        
+                        <div class="col-sm-8">
+                            <select class="form-control" id="strategic" name="strategic" multiple>
+                                <c:forEach items="${strategicList}" var="s">                            
+                                    <c:choose>
+                                        <c:when test="${stra_id == s.straId}">
+                                            <option value="${s.straId}" selected>${s.straName}</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="${s.straId}">${s.straName}</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>    
+                            </select>
+                        </div> 
+                    </div>
+                </div>
+                <input type="hidden" id="stra_id" name="stra_id" value="${stra_id}">
+            </div>            
+            <div class="row">
+                <div class="col-sm-10" >
+                    <div class="form-group">
                         <label for="budp_id" class="col-sm-2 control-label">Budget Plan</label>                        
                         <div class="col-sm-8">
                             <select class="form-control" id="budp_id" name="budp_id" >
@@ -144,9 +166,9 @@
             <div class="row">
                 <div class="col-sm-10" >
                     <div class="form-group">
-                        <label for="reason" class="col-sm-2 control-label">Reason <span style="color: red;">*</span></label>
+                        <label for="remarks" class="col-sm-2 control-label">Remarks <span style="color: red;">*</span></label>
                         <div class="col-sm-8">
-                            <textarea class="form-control" name="reason"></textarea>
+                            <textarea class="form-control" name="remarks" id="remarks"></textarea>
                         </div>
                     </div>
                 </div>
@@ -156,12 +178,56 @@
                     <button type="submit" class="btn btn-success">Save</button>
                     <button type="reset" class="btn btn-warning">Reset</button>
                     <c:if test="${isCancel==true}">
-                        <button type="button" class="btn btn-danger" id="btn-cancel">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="btn-cancel">Cancel Project</button>
                     </c:if>
                     
                       
                 </div>
             </div>
+            <c:if test="${!projectHistoryList.isEmpty() && projectHistoryList != null}">                
+                <div class="row">
+                    <div class="col-sm-12" >
+                        <div class="form-group">  
+                            <div class="col-sm-1">&nbsp;</div>
+                            <div class="col-sm-10">
+                            <div class="panel">
+                                <div class="panel-heading">
+                                    <h6>Project Movement</h6>
+                                </div>
+                                <div class="panel-body">
+                                    <div style="overflow-y: scroll;max-height: 400px;">                                
+                                        <table id="search_table" class="table table-responsive" > 
+                                            <thead style="background-color: wheat">
+                                                <tr>
+                                                    <th>Modified Date</th>
+                                                    <th>Project name</th> 
+                                                    <th>Project Status</th>
+                                                    <th>Remarks</th>
+                                                    <th>Modified By</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="p" items="${projectHistoryList}">
+                                                    <tr>
+                                                        <td>${p.modifiedDate}</td> 
+                                                        <td>${p.projId}</td>
+                                                        <td>${p.status}</td> 
+                                                        <td>${p.remarks}</td>
+                                                        <td>${p.modifiedBy}</td>
+                                                    </tr>
+                                                </c:forEach>                            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </c:if>
+            
             
         </form>
     </div>
@@ -170,11 +236,17 @@
     var verifyCaseLabel = {'APPROVE': 'อนุมัติ', 'REJECT': 'ไม่อนุมัติ', 'CANCEL': 'ยกเลิก'};
     $(document).ready(function () {
         $("#strategic").multiselect();
-        var strategic = $('#stra_id').val();
-        
+        var strategic = $('#stra_id').val(), i=0 , size = strategic.length;
+        var straArr = JSON.stringify(strategic);       
+         if(strategic !== ""){
+            for( i ; i<size ; i++){
+                $("#strategic").find("option[value='"+straArr[i]+"']").attr("selected",1); 
+                $("#strategic").multiselect("refresh");            
+            }
+        }       
         
         $('#btn-cancel').on('click', function () {
-            var verifyReason = $('textarea[name="reason"]').val();
+            var verifyReason = $('textarea[name="remarks"]').val();
             var projId = $('#id').val();
             if (verifyReason == '') {
                 alert('กรุณาระบุเหตุการยกเลิกโครงการ');
@@ -191,7 +263,7 @@
                       .attr({'type': 'hidden', 'name': 'projId', 'value': projId})
                     )
                     .append($('<input/>')
-                      .attr({'type': 'hidden', 'name': 'reason', 'value': verifyReason})
+                      .attr({'type': 'hidden', 'name': 'remarks', 'value': verifyReason})
                     )
                   ).find('#addProject').submit();
                 } else {

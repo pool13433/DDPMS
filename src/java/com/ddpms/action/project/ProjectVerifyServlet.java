@@ -1,10 +1,12 @@
 package com.ddpms.action.project;
 
 import com.ddpms.dao.ProjectDao;
+import com.ddpms.dao.ProjectHistoryDao;
 import com.ddpms.dao.ProjectWorkingDao;
 import com.ddpms.model.Employee;
 import com.ddpms.model.MessageUI;
 import com.ddpms.model.Project;
+import com.ddpms.model.ProjectHistory;
 import com.ddpms.model.ProjectWorking;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
@@ -27,6 +29,7 @@ public class ProjectVerifyServlet extends HttpServlet {
             Employee emp = (Employee) request.getSession().getAttribute("EMPLOYEE");
             String projId = CharacterUtil.removeNull(request.getParameter("projId"));
             String reason = CharacterUtil.removeNull(request.getParameter("reason"));
+            String remarks = CharacterUtil.removeNull(request.getParameter("remarks"));
             String verifyCase = CharacterUtil.removeNull(request.getParameter("verifyCase"));
             String[] budgetYears = request.getParameterValues("budgetYear");
             int budgetYearTotal = 0;
@@ -59,16 +62,28 @@ public class ProjectVerifyServlet extends HttpServlet {
             if (verifyCase.equals("APPROVE")) {// INPLAN
                 param.setProjStatus("INPLAN");
             } else if (verifyCase.equals("REJECT")) {// REJECT
+                param.setProjStatus("REJECT");
+            } else if (verifyCase.equals("CANCEL")) {// CANCEL
+                param.setProjRemark(remarks);
                 param.setProjStatus("WAITING");
-            } else if (verifyCase.equals("CANCEL")) {// CANCEL                
-                param.setProjStatus("CANCEL");
-            }
+            } 
             exec = new ProjectDao().updateProjectVerifyStatus(param);
 
             MessageUI message = null;
             if (exec == 0) {
                 message = new MessageUI(true, "สถานะการบันทึกข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการบันทึกข้อมูล", "danger");
             } else {
+                ProjectHistoryDao hisDao = new ProjectHistoryDao();
+                ProjectHistory h = new ProjectHistory();
+                h.setProjId(projId);
+                h.setStatus(param.getProjStatus());
+                h.setRemarks(param.getProjRemark());
+                h.setModifiedBy(String.valueOf(emp.getEmpId()));
+                try {
+                    hisDao.createProjectHistory(h);
+                } catch (Exception e) {
+                    logger.error("ProjectVerify:createProjectHistory error");
+                }
                 message = new MessageUI(true, "สถานะการบันทึกข้อมูล", "บันทึกข้อมูลการปรับเปลี่ยนสถานะของโครงงาน สำเร็จ", "info");
             }
             request.getSession().setAttribute("MessageUI", message);

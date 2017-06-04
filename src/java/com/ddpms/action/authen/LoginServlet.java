@@ -41,13 +41,13 @@ public class LoginServlet extends HttpServlet {
             } else {
                 request.getSession().setAttribute("EMPLOYEE", employee);
                 request.setAttribute("status", "login success");
-
+              
                 // set Project Waiting in Session Notification    for approver
                 if (CharacterUtil.removeNull(employee.getStatus()).equals("APPROVER")) {
                     int countProjectWaiting = new ProjectWorkingDao().getProjectWaitingInCurrentDate();
                     request.getSession().setAttribute("NOTI_PROJECT_WAITING", countProjectWaiting);
                 }
-                response.sendRedirect(request.getContextPath() + "/jsp/dashboard.jsp?menu=dashboard");
+                response.sendRedirect(request.getContextPath() + "/DashboardServlet?menu=dashboard");
             }
         } catch (Exception e) {
             logger.error("login error", e);

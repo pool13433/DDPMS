@@ -1,9 +1,11 @@
 
 package com.ddpms.action.project;
 
+import static com.ddpms.action.project.ProjectVerifyServlet.logger;
 import com.ddpms.dao.BudgetPlanDao;
 import com.ddpms.dao.PlanDao;
 import com.ddpms.dao.ProjectDao;
+import com.ddpms.dao.ProjectHistoryDao;
 import com.ddpms.dao.ProjectTypeDao;
 import com.ddpms.dao.ProjectWorkingDao;
 import com.ddpms.dao.StrategicDao;
@@ -12,6 +14,7 @@ import com.ddpms.model.Employee;
 import com.ddpms.model.MessageUI;
 import com.ddpms.model.Plan;
 import com.ddpms.model.Project;
+import com.ddpms.model.ProjectHistory;
 import com.ddpms.model.ProjectWorking;
 import com.ddpms.model.Strategic;
 import com.ddpms.util.CharacterUtil;
@@ -84,12 +87,14 @@ public class ProjectAddServlet extends HttpServlet {
             request.setAttribute("prot_id", prot_id);
             String yearStart = CharacterUtil.removeNull(request.getParameter("yearStart"));
             request.setAttribute("yearStart", yearStart);
+            String remarks = CharacterUtil.removeNull(request.getParameter("remarks"));
+            
             Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");  
             
             p.setProjId(id);
             p.setProjName(proj_name);
             p.setProjDetail(details);
-            if(status != null && !"".equals(status)){                
+            if(status != null && !"".equals(status) && !"CANCEL".equals(status) && !"WAITING".equals(status)){                
                 p.setProjStatus("PROCESSING");
             }else{      
                 //After Approve Or Shift project
@@ -100,7 +105,7 @@ public class ProjectAddServlet extends HttpServlet {
             p.setModifiedBy(String.valueOf(employee.getEmpId()));
             
             //new parameter
-            p.setProjRemark("");
+            p.setProjRemark(remarks);
             p.setProjVerifyBy("");
             p.setProjVerifyDate("");//NOW
             p.setProtId(prot_id);
@@ -126,6 +131,18 @@ public class ProjectAddServlet extends HttpServlet {
                 }else{
                     pw.setProjId(id);
                 }
+                 //Project History log
+                ProjectHistoryDao histDao = new ProjectHistoryDao();
+                ProjectHistory ph = new ProjectHistory();
+                ph.setProjId(pw.getProjId());
+                ph.setStatus(p.getProjStatus());
+                ph.setRemarks(p.getProjRemark());
+                ph.setModifiedBy(p.getModifiedBy());
+                    try {
+                        histDao.createProjectHistory(ph);
+                    } catch (Exception e) {
+                        logger.error("createProjectHistory Error "+e);
+                    }
                 
                 String[] budget_request = request.getParameterValues("budget_request");
                 String[] _yearStart = request.getParameterValues("yearStart_edit");
@@ -161,25 +178,31 @@ public class ProjectAddServlet extends HttpServlet {
                                 pw.setIsFirstApprove(Boolean.TRUE);
                                 pwDao.createProjectWorking(pw); 
                             }else{
-                                ProjectWorking pwk = new ProjectWorking();
-                                pwk.setProjId(id);
-                                pwk.setIsFirstApprove(Boolean.FALSE);
-                                //find firstApprove
-                                List<ProjectWorking> chkIsFirstApproveList = pwDao.getProjectWorking(pwk, 1, 0);
-                                if(!chkIsFirstApproveList.isEmpty()){
-                                    pw.setIsFirstApprove(Boolean.FALSE);
-                                    pwDao.updateProjectWorking(pw);
+                                if(!"WAITING".equals(status) && !"CANCEL".equals(status)){
+                                    ProjectWorking pwk = new ProjectWorking();
+                                    pwk.setProjId(id);
+                                    pwk.setIsFirstApprove(Boolean.FALSE);
+                                    //find firstApprove
+                                    List<ProjectWorking> chkIsFirstApproveList = pwDao.getProjectWorking(pwk, 1, 0);
+                                    if(!chkIsFirstApproveList.isEmpty()){
+                                        pw.setIsFirstApprove(Boolean.FALSE);
+                                        pwDao.updateProjectWorking(pw);
+                                    }else{
+                                        pw.setIsFirstApprove(Boolean.FALSE);
+                                        pwDao.createProjectWorking(pw); 
+                                    }  
                                 }else{
-                                    pw.setIsFirstApprove(Boolean.FALSE);
-                                    pwDao.createProjectWorking(pw); 
-                                }                                
+                                    pw.setIsFirstApprove(Boolean.TRUE);
+                                    pwDao.updateProjectWorking(pw);
+                                }                                                              
+                                
                             }
                             
                         } catch (Exception e) {
                             logger.error("createProjectWorking error :"+e.getMessage());
                         }  
-                    }
-                
+
+                    }                                                    
             } 
             
             MessageUI message = null;
@@ -187,7 +210,7 @@ public class ProjectAddServlet extends HttpServlet {
                 message = new MessageUI(true, "สถานะการบันทีกข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการบันทีกข้อมูล", "danger");
             } else {
                 message = new MessageUI(true, "สถานะการบันทีกข้อมูล", "บันทีกข้อมูลสำเร็จ", "info");
-            }       
+            }          
             request.getSession().setAttribute("MessageUI", message);
             response.sendRedirect(request.getContextPath() + "/ProjectSearchServlet");
         } catch (Exception e) {

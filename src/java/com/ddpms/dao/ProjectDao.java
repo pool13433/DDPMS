@@ -1,6 +1,7 @@
 package com.ddpms.dao;
 
 import com.ddpms.db.DbConnection;
+import com.ddpms.model.Employee;
 import com.ddpms.model.Config;
 import com.ddpms.model.Project;
 import com.ddpms.util.CharacterUtil;
@@ -38,6 +39,7 @@ public class ProjectDao {
             if (p.getNotification() > 0) {
                 sql.append(" AND pj.proj_status = 'WAITING' AND pj.modified_date = curdate() ");
             }
+            sql.append(" order by modified_date, proj_id desc ");
             if (offset != 0) {
                 sql.append(" limit ").append(limit).append(" offset ").append(offset);
             }
@@ -309,6 +311,13 @@ public class ProjectDao {
             if (!"".equals(CharacterUtil.removeNull(p.getStraId()))) {
                 sql.append(" and stra_id='" + p.getStraId() + "'");
             }
+			      if (!"".equals(CharacterUtil.removeNull(p.getModifiedBy()))) {
+                EmployeeDao empDao = new EmployeeDao();
+                Employee empObj = empDao.getEmployee(Integer.parseInt(p.getModifiedBy()));
+                if(!"APPROVER".equals(empObj.getStatus()) && !"ADMIN".equals(empObj.getStatus())){
+                    sql.append(" and modified_by='" + p.getModifiedBy() + "'");
+                }                
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -423,7 +432,7 @@ public class ProjectDao {
             sql.append(" proj_status,(SELECT conf_value FROM config c WHERE c.conf_name = proj_status) as proj_status_desc,");
             sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by`, ");
             sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by` , account_code, stra_id ");
-            sql.append(" FROM `project` ");
+            sql.append(" FROM `project`");            
             sql.append(getConditionBuilder(criteria));
 
             pstm = conn.prepareStatement(sql.toString());

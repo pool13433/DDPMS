@@ -5,6 +5,7 @@ import com.ddpms.dao.BudgetPlanDao;
 import com.ddpms.dao.PlanDao;
 import com.ddpms.dao.ProjectDao;
 import com.ddpms.dao.ProjectExpenseDao;
+import com.ddpms.dao.ProjectHistoryDao;
 import com.ddpms.dao.ProjectTypeDao;
 import com.ddpms.dao.ProjectWorkingDao;
 import com.ddpms.dao.StrategicDao;
@@ -12,6 +13,7 @@ import com.ddpms.model.BudgetPlan;
 import com.ddpms.model.Plan;
 import com.ddpms.model.Project;
 import com.ddpms.model.ProjectExpense;
+import com.ddpms.model.ProjectHistory;
 import com.ddpms.model.ProjectWorking;
 import com.ddpms.model.Strategic;
 import com.ddpms.util.CharacterUtil;
@@ -82,6 +84,11 @@ final static Logger logger = Logger.getLogger(ProjectEditServlet.class);
                 projectWorkingList = projectWDao.getProjectWorking(pw, 0, 0);
             }
             request.setAttribute("projectWorkingList",projectWorkingList);
+            
+            ProjectHistoryDao histDao = new ProjectHistoryDao();
+            ProjectHistory ph = new ProjectHistory();
+            ph.setProjId(id);
+            request.setAttribute("projectHistoryList", histDao.getProjectHistory(ph));
                     
             RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project/project-form.jsp");
             dispatcher.forward(request, response);
