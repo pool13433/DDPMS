@@ -118,8 +118,7 @@
             var budgetAll = $elementOption.attr('data-all');
             var budgetActualUse = $elementOption.attr('data-actualUse');
             var budgetBalance = $elementOption.attr('data-balance');
-            BUDGET = {all: budgetAll, actualUse: budgetActualUse, balance: budgetBalance};
-            console.log('xxxx ::==', BUDGET);
+            BUDGET = {all: budgetAll, actualUse: budgetActualUse, balance: budgetBalance};            
             //return false;
             $('#labelAll').html(numberWithCommas(budgetAll));
             $('#labelActualUse').html(numberWithCommas(budgetActualUse));
@@ -162,16 +161,47 @@
         return (x == undefined ? '' : x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     }
     function validateDateRange() {
+       
+        
         var result = [];
+        var CurrentDate = new Date();
+        var fit_start_time  = $('input[name="expDate"]').val(); 
+        var formDate;
+        if(fit_start_time!==null){
+            var startDate = fit_start_time.split("-");
+            formDate = new Date(startDate[2],startDate[1]-1,startDate[0]);
+        }
+        var fit_end_time    = $('input[name="expReceipt"]').val(); 
+        var toDate;
+        if(fit_end_time!==null){
+            var endDate = fit_end_time.split("-");
+            toDate = new Date(endDate[2],endDate[1]-1,endDate[0]);
+        }
+        
+        if (formDate > CurrentDate) {
+            //alert(formDate);
+            result.push({name: 'expDate', message: 'กรุณากรอก "Use Date" ไม่เกินวันที่ปัจจุบัน'});
+        }else if(toDate > CurrentDate){
+           // alert(toDate);
+            result.push({name: 'expReceipt', message: 'กรุณากรอก "Receipt/Reserve Date" ไม่เกินวันที่ปัจจุบัน'});
+            
+        }
+       
+        /*
+         var result = [];
         var expDate = moment($('input[name="expDate"]').val(), "DD/MM/YYYY");
+        alert(expDate);
         var expReceiptDate = moment($('input[name="expReceipt"]').val(), "DD/MM/YYYY");
+        alert(expReceiptDate);
         var currentDate = moment();
+        alert(currentDate);
         if (expDate.isSameOrAfter(currentDate)) {
             result.push({name: 'expDate', message: 'กรุณากรอก "Use Date" ไม่เกินวันที่ปัจจุบัน'});
         }
         if (expReceiptDate.isSameOrAfter(currentDate)) {
             result.push({name: 'expReceipt', message: 'กรุณากรอก "Receipt/Reserve Date" ไม่เกินวันที่ปัจจุบัน'});
         }
+         * */
         return result;
     }
 </script>
