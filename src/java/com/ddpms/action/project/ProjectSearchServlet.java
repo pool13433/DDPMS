@@ -46,8 +46,7 @@ public class ProjectSearchServlet extends HttpServlet {
             String budp_id = CharacterUtil.removeNull(request.getParameter("budp_id"));
             request.setAttribute("budp_id", budp_id);
             String prot_id = CharacterUtil.removeNull(request.getParameter("prot_id"));
-            request.setAttribute("prot_id", prot_id);
-            
+            request.setAttribute("prot_id", prot_id);            
             p.setProjName(proj_name);
             p.setProjDetail(proj_details);
             p.setProjStatus(proj_status);
@@ -55,8 +54,12 @@ public class ProjectSearchServlet extends HttpServlet {
             p.setBudpId(budp_id);    
             p.setProtId(prot_id);  
             p.setModifiedBy(String.valueOf(emp.getEmpId()));
-            request.setAttribute("projectList", projectDao.getProject(p, limit, offset));                
-            
+            int notificationCnt = CharacterUtil.removeNullTo(request.getParameter("notification"), 0);
+            if(notificationCnt > 0){
+                p.setNotification(notificationCnt);
+                request.getSession().removeAttribute("NOTI_PROJECT_WAITING");
+            }   
+            request.setAttribute("projectList", projectDao.getProject(p, limit, offset));   
             String pageUrl = request.getContextPath() + "/ProjectSearchServlet?" + request.getQueryString();
             String sqlConditionBuilder = projectDao.getConditionBuilder(p);
             int countRecordAll = projectDao.getCountProject(sqlConditionBuilder);

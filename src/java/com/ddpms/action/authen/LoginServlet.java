@@ -6,6 +6,7 @@
 package com.ddpms.action.authen;
 
 import com.ddpms.dao.EmployeeDao;
+import com.ddpms.dao.ProjectWorkingDao;
 import com.ddpms.model.Employee;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
@@ -21,17 +22,17 @@ import org.apache.log4j.Logger;
  * @author POOL_LAPTOP
  */
 public class LoginServlet extends HttpServlet {
-
+    
     final static Logger logger = Logger.getLogger(LoginServlet.class);
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("LoginServlet");
         try {
             String username = CharacterUtil.removeNull(request.getParameter("username"));
             String password = CharacterUtil.removeNull(request.getParameter("password"));
-            logger.debug("username ::=="+username);
-            logger.debug("password ::=="+password);
+            logger.debug("username ::==" + username);
+            logger.debug("password ::==" + password);
             Employee employee = new EmployeeDao().getEmployee(username, password);
             if (employee == null) {
                 request.setAttribute("status", "cannot find user in system");
@@ -40,11 +41,17 @@ public class LoginServlet extends HttpServlet {
             } else {
                 request.getSession().setAttribute("EMPLOYEE", employee);
                 request.setAttribute("status", "login success");
+              
+                // set Project Waiting in Session Notification    for approver
+                if (CharacterUtil.removeNull(employee.getStatus()).equals("APPROVER")) {
+                    int countProjectWaiting = new ProjectWorkingDao().getProjectWaitingInCurrentDate();
+                    request.getSession().setAttribute("NOTI_PROJECT_WAITING", countProjectWaiting);
+                }
                 response.sendRedirect(request.getContextPath() + "/DashboardServlet?menu=dashboard");
             }
         } catch (Exception e) {
             logger.error("login error", e);
         }
     }
-
+    
 }

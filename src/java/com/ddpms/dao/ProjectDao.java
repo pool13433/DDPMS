@@ -2,6 +2,7 @@ package com.ddpms.dao;
 
 import com.ddpms.db.DbConnection;
 import com.ddpms.model.Employee;
+import com.ddpms.model.Config;
 import com.ddpms.model.Project;
 import com.ddpms.util.CharacterUtil;
 import java.sql.Connection;
@@ -33,8 +34,11 @@ public class ProjectDao {
             sql.append(" (SELECT `plan_name`FROM `plan` p  WHERE p.plan_id=pj.plan_id ) as `plan_id`, (SELECT `budp_name` FROM `budget_plan` b WHERE b.budp_id=pj.budp_id) as `budp_id`, ");
             sql.append("  `modified_date`, `modified_by`,");
             sql.append(" (SELECT `prot_name` FROM `project_type` pt WHERE pt.prot_id=pj.prot_id) as `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by`, account_code, stra_id ");
-            sql.append(" FROM `project` pj");
+            sql.append(" FROM `project` pj ");
             sql.append(getConditionBuilder(p));
+            if (p.getNotification() > 0) {
+                sql.append(" AND pj.proj_status = 'WAITING' AND pj.modified_date = curdate() ");
+            }
             sql.append(" order by modified_date, proj_id desc ");
             if (offset != 0) {
                 sql.append(" limit ").append(limit).append(" offset ").append(offset);
@@ -119,6 +123,49 @@ public class ProjectDao {
         return list;
     }
 
+    public List<Project> getProjectBudgetIsApproveAll() {
+        logger.debug("..getProjectBudgetAll");
+        List<Project> budgetProjectList = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" SELECT  `proj_id`, `proj_name`,");
+
+            sql.append(" IFNULL((SELECT SUM((budget_approve_m1 + budget_approve_m2 + budget_approve_m3 + budget_approve_m4 + ");
+            sql.append(" budget_approve_m5 + budget_approve_m6 + budget_approve_m7 + budget_approve_m8 + ");
+            sql.append(" budget_approve_m9 + budget_approve_m10 + budget_approve_m11 + budget_approve_m12)) ");
+            sql.append(" FROM project_working pw WHERE pw.proj_id = p.proj_id ");
+            sql.append(" ),0) as sum_budget_all, ");
+
+            sql.append(" IFNULL(( SELECT SUM(pe.exp_amount) FROM project_expense pe WHERE pe.proj_id = p.proj_id ");
+            sql.append(" ),0) as sum_budget_actualuse ");
+
+            sql.append(" FROM `project` p WHERE p.proj_status NOT IN('WAITING') ORDER BY proj_name ASC");
+            pstm = conn.prepareStatement(sql.toString());
+            logger.info("pstm ::==" + pstm.toString());
+            rs = pstm.executeQuery();
+            budgetProjectList = new ArrayList<>();
+            while (rs.next()) {
+                int budgetAll = rs.getInt("sum_budget_all");
+                int budgetActualUser = rs.getInt("sum_budget_actualuse");
+                Project project = new Project();
+                project.setProjId(rs.getString("proj_id"));
+                project.setProjName(rs.getString("proj_name"));
+                project.setBudgetAll(budgetAll);
+                project.setBudgetActualUse(budgetActualUser);
+                project.setBudgetBalance(budgetAll - budgetActualUser);
+                budgetProjectList.add(project);
+            }
+        } catch (Exception e) {
+            logger.error("getProjectBudgetAll Error", e);
+        } finally {
+            this.close(pstm, rs);
+        }
+        return budgetProjectList;
+    }
+
     public int createProject(Project p) {
         logger.debug("..createProject");
         int exe = 0;
@@ -186,7 +233,7 @@ public class ProjectDao {
         }
         return exe;
     }
-    
+
     public int updateProjectStatus(String pId) {
         logger.debug("..updateProjectStatus");
         int exe = 0;
@@ -197,12 +244,12 @@ public class ProjectDao {
             sql.append(" UPDATE `project` SET ");
             sql.append(" `proj_status`=?, ");
             sql.append(" `modified_date`=NOW() ");
-            sql.append(" WHERE `proj_id`=?" );
+            sql.append(" WHERE `proj_id`=?");
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, "Processing");
             pstm.setString(2, pId);
-            
+
             logger.info("pstm ::==" + pstm.toString());
             exe = pstm.executeUpdate();
         } catch (Exception e) {
@@ -264,7 +311,7 @@ public class ProjectDao {
             if (!"".equals(CharacterUtil.removeNull(p.getStraId()))) {
                 sql.append(" and stra_id='" + p.getStraId() + "'");
             }
-			if (!"".equals(CharacterUtil.removeNull(p.getModifiedBy()))) {
+			      if (!"".equals(CharacterUtil.removeNull(p.getModifiedBy()))) {
                 EmployeeDao empDao = new EmployeeDao();
                 Employee empObj = empDao.getEmployee(Integer.parseInt(p.getModifiedBy()));
                 if(!"APPROVER".equals(empObj.getStatus()) && !"ADMIN".equals(empObj.getStatus())){
@@ -385,7 +432,7 @@ public class ProjectDao {
             sql.append(" proj_status,(SELECT conf_value FROM config c WHERE c.conf_name = proj_status) as proj_status_desc,");
             sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by`, ");
             sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by` , account_code, stra_id ");
-            sql.append(" FROM `project`");
+            sql.append(" FROM `project`");            
             sql.append(getConditionBuilder(criteria));
 
             pstm = conn.prepareStatement(sql.toString());
@@ -464,36 +511,60 @@ public class ProjectDao {
         return exe;
     }
 
-    public Map<String, Integer> getCountProjectInMonth(String year) {
+    public List<Config> getSumGroupByPlan() {
+        logger.info(" ... getSumGroupByPlan ");
+        List<Config> groupPlanList = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            String sql = "SELECT (SELECT plan_name FROM plan pl where pl.plan_id = p.plan_id) as name,count(*) cnt FROM `project` p group by p.plan_id order by count(*) DESC";
+            conn = new DbConnection().open();
+            pstm = conn.prepareStatement(sql);
+            rs = pstm.executeQuery();
+            groupPlanList = new ArrayList<>();
+            while (rs.next()) {
+                Config data = new Config();
+                data.setConfName(rs.getString("name"));
+                data.setConfValue(rs.getString("cnt"));
+                groupPlanList.add(data);
+            }
+        } catch (Exception e) {
+            logger.error("getSumGroupByPlan error", e);
+        } finally {
+            this.close(pstm, rs);
+        }
+        return groupPlanList;
+    }
+
+    public Map<String, Integer> getCountProjectInMonth(String year, String status) {
         logger.info("getCountProjectInMonth ...");
         PreparedStatement pstm = null;
         ResultSet rs = null;
-        Map<String, Integer>  map = null;
+        Map<String, Integer> map = null;
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT YEAR(p.modified_date) as year, ");
-            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 1 THEN 0 END) AS Jan, ");
-            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 2 THEN 0 END) AS Feb, ");
-            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 3 THEN 0 END) AS Mar, ");
-            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 4 THEN 0 END) AS Apr, ");
-            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 5 THEN 0 END) AS May, ");
-            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 6 THEN 0 END) AS Jun, ");
-            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 7 THEN 0 END) AS Jul, ");
-            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 8 THEN 0 END) AS Aug, ");
-            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 9 THEN 0 END) AS Sep, ");
-            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 10 THEN 0 END) AS Oct, ");
-            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 11 THEN 0 END) AS Nov, ");
-            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 12 THEN 0 END) AS Decem ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 1 THEN 0 END) AS Jan, COUNT(CASE WHEN MONTH(p.modified_date) = 2 THEN 0 END) AS Feb, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 3 THEN 0 END) AS Mar, COUNT(CASE WHEN MONTH(p.modified_date) = 4 THEN 0 END) AS Apr, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 5 THEN 0 END) AS May, COUNT(CASE WHEN MONTH(p.modified_date) = 6 THEN 0 END) AS Jun, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 7 THEN 0 END) AS Jul,  COUNT(CASE WHEN MONTH(p.modified_date) = 8 THEN 0 END) AS Aug, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 9 THEN 0 END) AS Sep, COUNT(CASE WHEN MONTH(p.modified_date) = 10 THEN 0 END) AS Oct, ");
+            sql.append(" COUNT(CASE WHEN MONTH(p.modified_date) = 11 THEN 0 END) AS Nov, COUNT(CASE WHEN MONTH(p.modified_date) = 12 THEN 0 END) AS Decem ");
             sql.append(" FROM project p  ");
-            sql.append(" WHERE YEAR(p.modified_date) = ?");
+            sql.append(" WHERE YEAR(p.modified_date) = ? ");
+            if (!CharacterUtil.removeNull(status).equals("")) {
+                sql.append(" and p.proj_status = '" + status + "' ");
+            }
             sql.append(" GROUP BY 1 ");
             logger.info(" sql ::==" + sql.toString());
-            pstm = conn.prepareStatement(sql.toString());            
+            pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, year);
             rs = pstm.executeQuery();
+
             if (rs.next()) {
                 map = new HashMap<>();
+                map.put("Year", rs.getInt("year"));
                 map.put("Jan", rs.getInt("Jan"));
                 map.put("Feb", rs.getInt("Feb"));
                 map.put("Mar", rs.getInt("Mar"));

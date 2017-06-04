@@ -35,7 +35,7 @@ public class ProjectWorkingDao {
                     + " `budget_approve_m1`, `budget_approve_m2`, `budget_approve_m3`, `budget_approve_m4`, "
                     + " `budget_approve_m5`, `budget_approve_m6`, `budget_approve_m7`, `budget_approve_m8`, "
                     + " `budget_approve_m9`, `budget_approve_m10`, `budget_approve_m11`, `budget_approve_m12`, ");
-            sql.append(" `budget_usage`, DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date, `modified_by` ");
+            sql.append(" `budget_usage`, DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date, `modified_by`, isFirstApprove ");
             sql.append(" FROM `project_working` pw ");
             sql.append(getConditionBuilder(pw));
             if (offset != 0) {
@@ -72,8 +72,8 @@ public class ProjectWorkingDao {
                     + " `budget_approve_m1`, `budget_approve_m2`, `budget_approve_m3`, `budget_approve_m4`, "
                     + "`budget_approve_m5`, `budget_approve_m6`, `budget_approve_m7`, `budget_approve_m8`,"
                     + " `budget_approve_m9`, `budget_approve_m10`, `budget_approve_m11`, `budget_approve_m12`, "
-                    + " `modified_date`, `modified_by` ) ");
-            sql.append(" VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)");
+                    + " `modified_date`, `modified_by`, isFirstApprove ) ");
+            sql.append(" VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?)");
 
             pstm = conn.prepareStatement(sql.toString());
             pstm.setString(1, pw.getProjId());
@@ -105,6 +105,7 @@ public class ProjectWorkingDao {
             pstm.setString(26, pw.getBudgetApproveM11());
             pstm.setString(27, pw.getBudgetApproveM12());
             pstm.setString(28, pw.getModifiedBy());
+            pstm.setBoolean(29, pw.getIsFirstApprove());
             logger.info("pstm ::==" + pstm.toString());
             exe = pstm.executeUpdate();
 
@@ -125,15 +126,15 @@ public class ProjectWorkingDao {
             StringBuilder sql = new StringBuilder();
             sql.append(" UPDATE `project_working` SET ");
             sql.append(" `budget_request_m1`=?,`budget_request_m2`=?,`budget_request_m3`=?,"
-                     + " `budget_request_m4`=?,`budget_request_m5`=?,`budget_request_m6`=?,"
-                     + " `budget_request_m7`=?,`budget_request_m8`=?,`budget_request_m9`=?,"
-                     + " `budget_request_m10`=?,`budget_request_m11`=?,`budget_request_m12`=?,");
+                    + " `budget_request_m4`=?,`budget_request_m5`=?,`budget_request_m6`=?,"
+                    + " `budget_request_m7`=?,`budget_request_m8`=?,`budget_request_m9`=?,"
+                    + " `budget_request_m10`=?,`budget_request_m11`=?,`budget_request_m12`=?,");
             sql.append(" `budget_usage`=?, `modified_by`=?, ");
             sql.append(" `modified_date`=NOW() ");
-            sql.append(" WHERE `proj_id`=? and `budget_year`=?");
+            sql.append(" WHERE `proj_id`=? and `budget_year`=? and isFirstApprove=?");
 
-            pstm = conn.prepareStatement(sql.toString()); 
-            
+            pstm = conn.prepareStatement(sql.toString());
+
             pstm.setString(1, pw.getBudgetRequestM1());
             pstm.setString(2, pw.getBudgetRequestM2());
             pstm.setString(3, pw.getBudgetRequestM3());
@@ -146,11 +147,12 @@ public class ProjectWorkingDao {
             pstm.setString(10, pw.getBudgetRequestM10());
             pstm.setString(11, pw.getBudgetRequestM11());
             pstm.setString(12, pw.getBudgetRequestM12());
-          
+
             pstm.setString(13, pw.getBudgetUsage());
             pstm.setString(14, pw.getModifiedBy());
             pstm.setString(15, pw.getProjId());
             pstm.setString(16, pw.getBudgetYear());
+            pstm.setBoolean(17, pw.getIsFirstApprove());
 
             logger.info("pstm ::==" + pstm.toString());
             exe = pstm.executeUpdate();
@@ -198,6 +200,9 @@ public class ProjectWorkingDao {
             if (!"".equals(CharacterUtil.removeNull(pw.getBudgetYear()))) {
                 sql.append(" and budget_year='" + pw.getBudgetYear() + "'");
             }
+            if (!"".equals(CharacterUtil.removeNull(pw.getIsFirstApprove()))) {
+                sql.append(" and isFirstApprove='" + pw.getIsFirstApprove() + "'");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -205,7 +210,7 @@ public class ProjectWorkingDao {
         return sql.toString();
     }
 
-    private ProjectWorking getEntityProjectWorking(ResultSet rs) throws SQLException {        
+    private ProjectWorking getEntityProjectWorking(ResultSet rs) throws SQLException {
         ProjectWorking pw = new ProjectWorking();
 
         pw.setProjwId(rs.getString("projw_id"));
@@ -224,7 +229,7 @@ public class ProjectWorkingDao {
         pw.setBudgetRequestM10(rs.getString("budget_request_m10"));
         pw.setBudgetRequestM11(rs.getString("budget_request_m11"));
         pw.setBudgetRequestM12(rs.getString("budget_request_m12"));
-      
+
         pw.setBudgetApproveM1(rs.getString("budget_approve_m1"));
         pw.setBudgetApproveM2(rs.getString("budget_approve_m2"));
         pw.setBudgetApproveM3(rs.getString("budget_approve_m3"));
@@ -240,6 +245,7 @@ public class ProjectWorkingDao {
         pw.setBudgetUsage(rs.getString("budget_usage"));
         pw.setModifiedDate(rs.getString("modified_date"));
         pw.setModifiedBy(rs.getString("modified_by"));
+        pw.setIsFirstApprove(rs.getBoolean("isFirstApprove"));
 
         return pw;
     }
@@ -300,7 +306,7 @@ public class ProjectWorkingDao {
                     + " `budget_approve_m1`, `budget_approve_m2`, `budget_approve_m3`, `budget_approve_m4`, "
                     + "`budget_approve_m5`, `budget_approve_m6`, `budget_approve_m7`, `budget_approve_m8`,"
                     + " `budget_approve_m9`, `budget_approve_m10`, `budget_approve_m11`, `budget_approve_m12`, ");
-            sql.append(" `budget_usage`, DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date, `modified_by` ");
+            sql.append(" `budget_usage`, DATE_FORMAT(modified_date," + DATE_TO_STR + ") as modified_date, `modified_by` , isFirstApprove ");
             sql.append(" FROM `project_working` pw ");
 
             pstm = conn.prepareStatement(sql.toString());
@@ -334,7 +340,7 @@ public class ProjectWorkingDao {
                     + " `budget_approve_m1`, `budget_approve_m2`, `budget_approve_m3`, `budget_approve_m4`, "
                     + "`budget_approve_m5`, `budget_approve_m6`, `budget_approve_m7`, `budget_approve_m8`,"
                     + " `budget_approve_m9`, `budget_approve_m10`, `budget_approve_m11`, `budget_approve_m12`, ");
-            sql.append(" `budget_usage`, DATE_FORMAT(pw.modified_date," + DATE_TO_STR + ") as modified_date, pw.modified_by ");
+            sql.append(" `budget_usage`, DATE_FORMAT(pw.modified_date," + DATE_TO_STR + ") as modified_date, pw.modified_by ,isFirstApprove ");
             sql.append(" FROM `project_working` pw");
             sql.append(" LEFT JOIN project p ON p.proj_id = pw.proj_id ");
             sql.append(" WHERE  pw.proj_id = ? ORDER BY pw.budget_year ASC ");
@@ -366,7 +372,7 @@ public class ProjectWorkingDao {
             sql.append(" `budget_approve_m1`=?,`budget_approve_m2`=?,`budget_approve_m3`=?,"
                     + " `budget_approve_m4`=?,`budget_approve_m5`=?,`budget_approve_m6`=?,"
                     + "`budget_approve_m7`=?,`budget_approve_m8`=?,`budget_approve_m9`=?,"
-                    + " `budget_approve_m10`=?,`budget_approve_m11`=?,`budget_approve_m12`=?, ");            
+                    + " `budget_approve_m10`=?,`budget_approve_m11`=?,`budget_approve_m12`=?, ");
             sql.append(" `modified_by`=?,`modified_date`=NOW() ");
             sql.append(" WHERE `budget_year`=?");
 
@@ -396,4 +402,28 @@ public class ProjectWorkingDao {
         return exe;
     }
 
+    public int getProjectWaitingInCurrentDate() {
+        logger.debug("..getProjectWaitingInCurrentDate");
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        int countProjectWaiting = 0;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder("SELECT ");
+            sql.append(" COUNT(*) as cnt FROM project p ");
+            sql.append(" WHERE p.proj_status = 'WAITING' AND p.modified_date = CURDATE() ");
+            logger.debug("sql ::=="+sql.toString());
+            pstm = conn.prepareStatement(sql.toString());
+            rs = pstm.executeQuery();
+            if (rs.next()) {
+                countProjectWaiting = rs.getInt("cnt");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("getProjectWaitingInCurrentDate error", e);
+        } finally {
+            this.close(pstm, rs);
+        }
+        return countProjectWaiting;
+    }
 }

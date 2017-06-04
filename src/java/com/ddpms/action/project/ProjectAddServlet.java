@@ -195,12 +195,14 @@ public class ProjectAddServlet extends HttpServlet {
                                     pw.setIsFirstApprove(Boolean.TRUE);
                                     pwDao.updateProjectWorking(pw);
                                 }                                                              
+                                
                             }
                             
                         } catch (Exception e) {
                             logger.error("createProjectWorking error :"+e.getMessage());
                         }  
-                    }                
+
+                    }                                                    
             } 
             
             MessageUI message = null;
