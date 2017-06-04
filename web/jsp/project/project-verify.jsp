@@ -144,6 +144,50 @@
                         </c:if>
                     </div>
                 </div>
+                    
+                <c:if test="${!projectHistoryList.isEmpty() && projectHistoryList != null}">                
+                    <div class="row">
+                        <div class="col-sm-12" >
+                            <div class="form-group">  
+                                <div class="col-sm-1">&nbsp;</div>
+                                <div class="col-sm-10">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <h6>Project Movement</h6>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div style="overflow-y: scroll;max-height: 400px;">                                
+                                            <table id="search_table" class="table table-responsive" > 
+                                                <thead style="background-color: wheat">
+                                                    <tr>
+                                                        <th>Modified Date</th>
+                                                        <th>Project name</th> 
+                                                        <th>Project Status</th>
+                                                        <th>Remarks</th>
+                                                        <th>Modified By</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach var="p" items="${projectHistoryList}">
+                                                        <tr>
+                                                            <td>${p.modifiedDate}</td> 
+                                                            <td>${p.projId}</td>
+                                                            <td>${p.status}</td> 
+                                                            <td>${p.remarks}</td>
+                                                            <td>${p.modifiedBy}</td>
+                                                        </tr>
+                                                    </c:forEach>                            
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>                    
+                    </div>
+                </c:if>
             </form>
 
         </div>        

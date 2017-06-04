@@ -93,7 +93,29 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                        
+                    </div>     
+                    <div class="row">
+                        <div class="col-sm-10" >
+                            <div class="form-group">                                 
+                                <label for="proj_status" class="col-sm-2 control-label">Status</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="proj_status" name="proj_status" >
+                                        <option value="" selected>    --กรุณาเลือก--  </option>
+                                        <c:forEach items="${statusList}" var="s">                            
+                                            <c:choose>
+                                                <c:when test="${proj_status == s.confName}">
+                                                    <option value="${s.confName}" selected>${s.confName}</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option value="${s.confName}" >${s.confName}</option>                                            
+                                                </c:otherwise>
+                                            </c:choose>                                          
+                                        </c:forEach>    
+                                    </select>                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>            
                 </div>            
 
                 <div class="row">
