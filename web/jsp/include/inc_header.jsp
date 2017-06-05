@@ -18,6 +18,7 @@
         <script type="text/javascript" src="${context}/asset/flat-ui/js/bootstrap.min.js"></script>  
         <script type="text/javascript" src="${context}/asset/chart.js/Chart.min.js"></script>                   
         <script type="text/javascript" src="${context}/asset/jquery-ui/jquery-ui.js"></script>    
+        <script type="text/javascript" src="${context}/asset/moment/moment.min.js"></script>        
         <script type="text/javascript" src="${context}/asset/flat-ui/bootstrap/js/bootstrap-multiselect.js"></script>
         <script type="text/javascript" src="${context}/asset/js/app-core.js"></script>        
         
