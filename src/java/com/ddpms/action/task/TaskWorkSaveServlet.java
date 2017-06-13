@@ -26,7 +26,7 @@ public class TaskWorkSaveServlet extends HttpServlet {
             String taskwManday = CharacterUtil.removeNull(request.getParameter("taskwManday"));
             String taskwDate = CharacterUtil.removeNull(request.getParameter("taskwDate"));
             TaskWork taskWork = new TaskWork();
-            taskWork.setModifiedBy(employee.getEmpId());
+            taskWork.setModifiedBy(Integer.parseInt(employee.getEmpId()));
             taskWork.setTaskaId(Integer.parseInt(taskaId));
             taskWork.setTaskwDate(taskwDate);
             taskWork.setTaskwDetail(taskwDetail);

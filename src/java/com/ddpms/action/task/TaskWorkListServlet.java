@@ -26,24 +26,25 @@ public class TaskWorkListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int taskaId = CharacterUtil.removeNullTo(request.getParameter("taskaId"), -1);
-            int taskwManday = CharacterUtil.removeNullTo(request.getParameter("taskwManday"),-1);
+            int taskwManday = CharacterUtil.removeNullTo(request.getParameter("taskwManday"), -1);
             String taskwMonth = CharacterUtil.removeNull(request.getParameter("taskwMonth"));
-            logger.info(" taskaId ::=="+taskaId);
-            logger.info(" taskwManday ::=="+taskwManday);
-            logger.info(" taskwMonth ::=="+taskwMonth);
+            logger.info(" taskaId ::==" + taskaId);
+            logger.info(" taskwManday ::==" + taskwManday);
+            logger.info(" taskwMonth ::==" + taskwMonth);
             TaskWork criteria = new TaskWork();
             criteria.setTaskaId(taskaId);
             criteria.setTaskwDate(taskwMonth);
-            criteria.setTaskwManday(taskwManday);    
+            criteria.setTaskwManday(taskwManday);
             
-            Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");            
-            List<TaskWork> taskWorkingList = new TaskWorkDao().getTaskWorkListByUser(employee.getEmpId(),criteria);
-            
-            List<Project> projectList = new ProjectDao().getProjectListHaveTaskAssign(employee.getEmpId());
-            for (Project project : projectList) {                
-                List<TaskAssign> taskAssignList = new TaskAssignDao().getTaskAssignListByUser(employee.getEmpId(),Integer.parseInt(project.getProjId()));
+            Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");
+            int empId = Integer.parseInt(employee.getEmpId());
+            List<TaskWork> taskWorkingList = new TaskWorkDao().getTaskWorkListByUser(empId, criteria);
+
+            List<Project> projectList = new ProjectDao().getProjectListHaveTaskAssign(empId);
+            for (Project project : projectList) {
+                List<TaskAssign> taskAssignList = new TaskAssignDao().getTaskAssignListByUser(empId, Integer.parseInt(project.getProjId()));
                 project.setTaskAssignList(taskAssignList);
-            }            
+            }
             request.setAttribute("projectList", projectList);
             request.setAttribute("months", new ConfigDao().getConfigUnique("MONTHS").getConfValue());
             request.setAttribute("mandays", new ConfigDao().getConfigUnique("MANDAYS").getConfValue());

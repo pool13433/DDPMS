@@ -20,7 +20,7 @@ public class TaskWorkDeleteServlet extends HttpServlet {
         try {
             int exec = new TaskWorkDao().deleteTaskWork(Integer.parseInt(CharacterUtil.removeNull(request.getParameter("taskwId"))));            
             if (exec == 0) {
-                message = new MessageUI(true, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
+                message = new MessageUI(false, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
             } else {
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "ลบข้อมูลสำเร็จ", "info");
             }            

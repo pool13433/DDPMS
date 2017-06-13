@@ -29,7 +29,7 @@ public class TaskAssignSaveServlet extends HttpServlet {
             Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");
 
             TaskAssign taskAssign = new TaskAssign();
-            taskAssign.setModifiedBy(employee.getEmpId());
+            taskAssign.setModifiedBy(Integer.parseInt(employee.getEmpId()));
             taskAssign.setProjId(Integer.parseInt(projId));
             taskAssign.setTaskId(Integer.parseInt(taskId));
             taskAssign.setTaskUserId(Integer.parseInt(empId));

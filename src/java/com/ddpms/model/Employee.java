@@ -6,7 +6,7 @@ public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer empId;
+    private String empId;
 
     private String empCode;
 
@@ -27,6 +27,8 @@ public class Employee implements Serializable {
     private String title;
 
     private int depId;
+    
+    private String depName;
 
     private String status;
 
@@ -37,11 +39,11 @@ public class Employee implements Serializable {
     public Employee() {
     }
 
-    public Integer getEmpId() {
+    public String getEmpId() {
         return empId;
     }
 
-    public void setEmpId(Integer empId) {
+    public void setEmpId(String empId) {
         this.empId = empId;
     }
 
@@ -148,5 +150,15 @@ public class Employee implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getDepName() {
+        return depName;
+    }
+
+    public void setDepName(String depName) {
+        this.depName = depName;
+    }
+    
+    
 
 }

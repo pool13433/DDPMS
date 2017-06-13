@@ -49,7 +49,7 @@ public class ChangeProfileServlet extends HttpServlet {
             if (exec == 0) {
                 message = new MessageUI(true, "สถานะการแก้ไขรหัสผ่านใหม่", "เกิดข้อผิดพลาดในขั้นตอนการบันทีกข้อมูล", "danger");
             } else {
-                Employee e = dao.getEmployee(sessionEmp.getEmpId());
+                Employee e = dao.getEmployee(Integer.parseInt(sessionEmp.getEmpId()));
                 request.getSession().setAttribute("EMPLOYEE", e);
                 message = new MessageUI(true, "สถานะการแก้ไขรหัสผ่านใหม่", "บันทีกข้อมูลสำเร็จ", "info");
             }
