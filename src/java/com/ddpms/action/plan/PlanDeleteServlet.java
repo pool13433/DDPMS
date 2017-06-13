@@ -25,14 +25,14 @@ final static Logger logger = Logger.getLogger(PlanDeleteServlet.class);
             exe = dao.deletePlan(id);
             MessageUI message = null;
             if (exe == 0) {
-                message = new MessageUI(true, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
+                message = new MessageUI(false, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
             } else {
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "ลบข้อมูลสำเร็จ", "info");
             }       
             request.getSession().setAttribute("MessageUI", message);      
             response.sendRedirect(request.getContextPath() + "/PlanSearchServlet");
         } catch (Exception e) {
-            logger.error("PlanDeleteServlet Error : "+e.getMessage());
+            logger.error("PlanDeleteServlet Error : ",e);
         }
     }
 }

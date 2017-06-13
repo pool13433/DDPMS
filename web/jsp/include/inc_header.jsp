@@ -89,6 +89,9 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Setting
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
+                                 <li class="<c:out value="${menu == 'employee' ? 'active': ''}"/>">                                
+                                    <a href="${context}/EmployeeListServlet?menu=employee"><i class="glyphicon glyphicon-flag"></i> Manage Employee</a>
+                                </li>
                                 <li class="<c:out value="${menu == 'strategic' ? 'active': ''}"/>">                                
                                     <a href="${context}/StrategicSearchServlet?menu=strategic"><i class="glyphicon glyphicon-flag"></i> Manage Strategic</a>
                                 </li>

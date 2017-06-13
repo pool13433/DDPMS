@@ -24,26 +24,15 @@ final static Logger logger = Logger.getLogger(BudgetplanDeleteServlet.class);
             exe = bpDao.deleteBudgetPlan(id);
             MessageUI message = null;
             if (exe == 0) {
-                message = new MessageUI(true, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
+                message = new MessageUI(false, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
             } else {
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "ลบข้อมูลสำเร็จ", "info");
             }       
             request.getSession().setAttribute("MessageUI", message);      
             response.sendRedirect(request.getContextPath() + "/BudgetplanSearchServlet");
         } catch (Exception e) {
-            logger.error("BudgetplanDeleteServlet Error :"+e.getMessage());
+            logger.error("BudgetplanDeleteServlet Error :",e);
         }
     }
 
-   
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            
-        } catch (Exception e) {
-        }
-    }
-
-    
 }

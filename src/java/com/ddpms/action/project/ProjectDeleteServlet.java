@@ -30,7 +30,7 @@ final static Logger logger = Logger.getLogger(ProjectDeleteServlet.class);
             exe = projectDao.deleteProject(id);
             MessageUI message = null;
             if (exe == 0) {
-                message = new MessageUI(true, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
+                message = new MessageUI(false, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
             } else {
                 ProjectHistoryDao hisDao = new ProjectHistoryDao();
                 ProjectHistory h = new ProjectHistory();

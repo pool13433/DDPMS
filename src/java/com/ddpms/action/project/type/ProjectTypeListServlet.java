@@ -23,7 +23,7 @@ public class ProjectTypeListServlet extends HttpServlet {
         try {
             int limit = CharacterUtil.removeNullTo(request.getParameter("limit"), 5);
             int offset = CharacterUtil.removeNullTo(request.getParameter("offset"), 0);
-            String pageUrl = request.getContextPath() + "/ProjectTypeListServlet?" + request.getQueryString();
+            String pageUrl = request.getContextPath() + "/EmployeeListServlet?" + request.getQueryString();
             
             String protCode = CharacterUtil.removeNull(request.getParameter("protCode"));
             String protName = CharacterUtil.removeNull(request.getParameter("protName"));

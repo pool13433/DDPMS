@@ -25,7 +25,7 @@ final static Logger logger = Logger.getLogger(ProjectWorkingDeleteServlet.class)
             exe = projectWorkingDao.deleteProjectWorking(id);
             MessageUI message = null;
             if (exe == 0) {
-                message = new MessageUI(true, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
+                message = new MessageUI(false, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
             } else {
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "ลบข้อมูลสำเร็จ", "info");
             }       
@@ -33,22 +33,8 @@ final static Logger logger = Logger.getLogger(ProjectWorkingDeleteServlet.class)
             response.sendRedirect(request.getContextPath() + "/ProjectWorkingSearchServlet");
             
         } catch (Exception e) {
-            logger.error("ProjectWorkingDeleteServlet Error : "+e.getMessage());
+            logger.error("ProjectWorkingDeleteServlet Error : ",e);
         }
         
     }
-
-    
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        logger.debug("...doPost ProjectWorkingDeleteServlet");
-        try {
-            
-        } catch (Exception e) {
-            logger.error("ProjectWorkingDeleteServlet Error : "+e.getMessage());
-        }
-    }
-
-   
 }

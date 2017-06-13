@@ -34,9 +34,9 @@ public class TaskWorkFormServlet extends HttpServlet {
             }
             
             Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");             
-            List<Project> projectList = new ProjectDao().getProjectListHaveTaskAssign(employee.getEmpId());
+            List<Project> projectList = new ProjectDao().getProjectListHaveTaskAssign(Integer.parseInt(employee.getEmpId()));
             for (Project project : projectList) {                
-                List<TaskAssign> taskAssignList = new TaskAssignDao().getTaskAssignListByUser(employee.getEmpId(),Integer.parseInt(project.getProjId()));
+                List<TaskAssign> taskAssignList = new TaskAssignDao().getTaskAssignListByUser(Integer.parseInt(employee.getEmpId()),Integer.parseInt(project.getProjId()));
                 project.setTaskAssignList(taskAssignList);
             }            
             request.setAttribute("projectList", projectList);

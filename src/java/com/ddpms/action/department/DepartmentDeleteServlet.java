@@ -20,14 +20,13 @@ public class DepartmentDeleteServlet extends HttpServlet {
             int exec = new DepartmentDao().deleteDepartment(Integer.parseInt(CharacterUtil.removeNull(request.getParameter("depId"))));
             MessageUI message = null;
             if (exec == 0) {
-                message = new MessageUI(true, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
+                message = new MessageUI(false, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
             } else {
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "ลบข้อมูลสำเร็จ", "info");
             }
             request.getSession().setAttribute("MessageUI", message);
         } catch (Exception e) {
             logger.error("ProjectTypeDeleteServlet error", e);
-            request.setAttribute("message", "delete project type error");
         }
         response.sendRedirect(request.getContextPath() + "/DepartmentListServlet?menu=department");
     }

@@ -21,7 +21,7 @@ public class TaskDeleteServlet extends HttpServlet {
         try {
             int exec = new TaskDao().deleteTask(Integer.parseInt(CharacterUtil.removeNull(request.getParameter("taskId"))));            
             if (exec == 0) {
-                message = new MessageUI(true, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
+                message = new MessageUI(false, "สถานะการลบข้อมูล", "เกิดข้อผิดพลาดในขั้นตอนการลบข้อมูล", "danger");
             } else {
                 message = new MessageUI(true, "สถานะการลบข้อมูล", "ลบข้อมูลสำเร็จ", "info");
             }            

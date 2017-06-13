@@ -37,7 +37,8 @@ public class ChangePasswordServlet extends HttpServlet {
               if (!passwordNew.equals(passwordNewConfirm)) {
                     message = new MessageUI(true, "สถานะการแก้ไขรหัสผ่านใหม่", "คุณกรอกหรัสผ่านใหม่ไม่ตรงกัน", "danger");
                 } else {
-                    int exec = dao.updatePassword(passwordNew, user.getEmpId(), user.getEmpId());
+                   int empId = Integer.parseInt(user.getEmpId());
+                    int exec = dao.updatePassword(passwordNew, empId, empId);
                     if (exec == 0) {
                         message = new MessageUI(true, "สถานะการแก้ไขรหัสผ่านใหม่", "เกิดข้อผิดพลาดในขั้นตอนการบันทีกข้อมูล", "danger");
                     } else {
