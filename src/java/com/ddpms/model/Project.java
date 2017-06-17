@@ -45,6 +45,8 @@ public class Project {
     private String straId;
 
     private int notification;
+    
+    private int delProject;
 
     public String getProjId() {
         return projId;
@@ -211,5 +213,15 @@ public class Project {
     public void setNotification(int notification) {
         this.notification = notification;
     }
+
+    public int getDelProject() {
+        return delProject;
+    }
+
+    public void setDelProject(int delProject) {
+        this.delProject = delProject;
+    }
+
+    
   
 }

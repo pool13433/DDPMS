@@ -4,11 +4,13 @@ import com.ddpms.db.DbConnection;
 import com.ddpms.model.Employee;
 import com.ddpms.model.Config;
 import com.ddpms.model.Project;
+import com.ddpms.model.ProjectWorking;
 import com.ddpms.util.CharacterUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +34,7 @@ public class ProjectDao {
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, ");
             sql.append(" proj_status,(SELECT conf_value FROM config c WHERE c.conf_name = pj.proj_status) as proj_status_desc,");
             sql.append(" (SELECT `plan_name`FROM `plan` p  WHERE p.plan_id=pj.plan_id ) as `plan_id`, (SELECT `budp_name` FROM `budget_plan` b WHERE b.budp_id=pj.budp_id) as `budp_id`, ");
-            sql.append("  `modified_date`, `modified_by`,");
+            sql.append("  `modified_date`, `modified_by`, (SELECT COUNT(*) as cnt FROM project_expense pe WHERE pe.proj_id=pj.proj_id) as delProject, ");
             sql.append(" (SELECT `prot_name` FROM `project_type` pt WHERE pt.prot_id=pj.prot_id) as `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by`, account_code, stra_id ");
             sql.append(" FROM `project` pj ");
             sql.append(getConditionBuilder(p));
@@ -70,7 +72,7 @@ public class ProjectDao {
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, ");
             sql.append(" proj_status,(SELECT conf_value FROM config c WHERE c.conf_name = pj.proj_status) as proj_status_desc,");
-            sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by`,");
+            sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by`, 0 as delProject, ");
             sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by`, account_code, stra_id ");
             sql.append(" FROM `project` pj");
             sql.append(getConditionBuilder(p));
@@ -102,7 +104,7 @@ public class ProjectDao {
         try {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
-            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`,");
+            sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`,0 as delProject, ");
             sql.append(" proj_status,(SELECT conf_value FROM config c WHERE c.conf_name = p.proj_status) as proj_status_desc,");
             sql.append(" (SELECT prot_name FROM project_type pt WHERE pt.prot_id = p.prot_id ) as prot_id, ");
             sql.append(" proj_remark,proj_verify_by,proj_verify_date,account_code,plan_id, budp_id, stra_id,  ");
@@ -207,7 +209,7 @@ public class ProjectDao {
             conn = new DbConnection().open();
             StringBuilder sql = new StringBuilder();
             sql.append(" UPDATE `project` SET ");
-            sql.append(" `proj_name`=?,`proj_details`=?,`proj_status`=?,`budp_id`=?,`plan_id`=?, ");
+            sql.append(" `proj_name`=?,`proj_details`=?,`proj_status`=?,`plan_id`=?,`budp_id`=?, ");
             sql.append(" `modified_by`=?, account_code=?,stra_id=?, ");
             sql.append(" `modified_date`=NOW(), prot_id=? ");
             sql.append(" WHERE `proj_id`=?");
@@ -342,7 +344,8 @@ public class ProjectDao {
         p.setProjVerifyDate(rs.getString("proj_verify_date"));
         p.setAccountCode(rs.getString("account_code"));
         p.setStraId(rs.getString("stra_id"));
-
+        p.setDelProject(rs.getInt("delProject"));
+        
         return p;
     }
 
@@ -401,7 +404,7 @@ public class ProjectDao {
             sql.append(" proj_remark,proj_verify_by,proj_verify_date,account_code,");
             sql.append(" (SELECT plan_name FROM plan pl WHERE pl.plan_id = p.plan_id) as plan_id, ");
             sql.append(" (SELECT budp_name FROM budget_plan bp WHERE bp.budp_id = p.budp_id ) as budp_id, stra_id, ");
-            sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, ");
+            sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, 0 as delProject, ");
             sql.append(" (SELECT CONCAT(emp_fname,' ',emp_lname) FROM employee e WHERE e.emp_id = p.modified_by) as modified_by");
             sql.append(" FROM `project` p WHERE p.proj_id = ?");
             pstm = conn.prepareStatement(sql.toString());
@@ -430,7 +433,7 @@ public class ProjectDao {
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`,");
             sql.append(" proj_status,(SELECT conf_value FROM config c WHERE c.conf_name = proj_status) as proj_status_desc,");
-            sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by`, ");
+            sql.append(" `plan_id`, `budp_id`, `modified_date`, `modified_by`, 0 as delProject, ");
             sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by` , account_code, stra_id ");
             sql.append(" FROM `project`");            
             sql.append(getConditionBuilder(criteria));
@@ -461,7 +464,7 @@ public class ProjectDao {
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT  `proj_id`, `proj_name`, `proj_details`, ");
             sql.append(" proj_status,(SELECT conf_value FROM config c WHERE c.conf_name = p.proj_status) as proj_status_desc,");
-            sql.append(" plan_id,budp_id, ");
+            sql.append(" plan_id,budp_id, 0 as delProject,  ");
             sql.append(" `prot_id`, `proj_remark`, `proj_verify_date`, `proj_verify_by`, ");
             sql.append(" DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date, `modified_by` ");
             sql.append(" FROM `project` p ");
@@ -586,4 +589,34 @@ public class ProjectDao {
         }
         return map;
     }
+    
+    public String getSumCostOfProject(ProjectWorking pw){
+        logger.debug("getSumCostOfProject");
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        DecimalFormat formatter = new DecimalFormat("###,###");
+        int total=0;
+        try {
+            conn = new DbConnection().open();
+            StringBuilder sql = new StringBuilder();
+            sql.append(" SELECT SUM((budget_request_m1 + budget_request_m2 + budget_request_m3 + budget_request_m4 + ");
+            sql.append(" budget_request_m5 + budget_request_m6 + budget_request_m7 + budget_request_m8 + ");
+            sql.append(" budget_request_m9 + budget_request_m10 + budget_request_m11 + budget_request_m12)) as sum_budget_all ");
+            sql.append(" FROM project_working pw WHERE pw.proj_id ='"+pw.getProjId()+"' and isFirstApprove is "+pw.getIsFirstApprove());
+           
+            pstm = conn.prepareStatement(sql.toString());
+            logger.info("pstm ::==" + pstm.toString());
+            
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                total= total+(Integer.parseInt(rs.getString("sum_budget_all")));
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            this.close(pstm, rs);
+        }
+        return formatter.format(total);
+    }    
 }

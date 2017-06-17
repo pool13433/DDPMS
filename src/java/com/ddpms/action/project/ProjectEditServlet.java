@@ -79,6 +79,15 @@ final static Logger logger = Logger.getLogger(ProjectEditServlet.class);
                 pw.setIsFirstApprove(Boolean.TRUE);
                 projectWorkingList = projectWDao.getProjectWorking(pw, 0, 0);
             }
+            
+            request.setAttribute("totalBudget", null); 
+            if(!"".equals(id)){
+                //Edit
+                String totalBudget="";
+                totalBudget = projectDao.getSumCostOfProject(pw);
+                request.setAttribute("totalBudget", totalBudget); 
+            }
+                
             if(projectWorkingList.isEmpty()){
                 pw.setIsFirstApprove(null);
                 projectWorkingList = projectWDao.getProjectWorking(pw, 0, 0);

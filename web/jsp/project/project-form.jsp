@@ -110,9 +110,9 @@
             <div class="row">
                 <div class="col-sm-10" >
                     <div class="form-group">
-                        <label for="budp_id" class="col-sm-2 control-label">Budget Plan</label>                        
+                        <label for="budgetPlan" class="col-sm-2 control-label">Budget Plan</label>                        
                         <div class="col-sm-8">
-                            <select class="form-control" id="budp_id" name="budp_id" >
+                            <select class="form-control" id="budgetPlan" name="budgetPlan" >
                                 <option value="" selected>    --กรุณาเลือก--  </option>
                                 <c:forEach items="${budgetPlanList}" var="bp">                            
                                     <c:choose> 
@@ -137,23 +137,24 @@
                         <div class="col-sm-11" >                            
                             <table class="table"> 
                                 <tbody>
-                                    <c:forEach items="${projectWorkingList}" var="i">
+                                    <c:forEach items="${projectWorkingList}" var="i" varStatus="count">
+                                        <c:set var="sizePjWorking" value="${count.count}" />
                                         <tr style="align-content: center">
                                         <td rowspan="2" style="vertical-align: middle">งบประมาณปี${i.budgetYear}<input type="hidden" id="yearStart+${i}" name="yearStart_edit" value="${i.budgetYear}"/></td>
-                                        <td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m1" value="${i.budgetRequestM1}" placeholder="JAN"></td>
-                                        <td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m2" value="${i.budgetRequestM2}" placeholder="FEB"></td>
-                                        <td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m3" value="${i.budgetRequestM3}" placeholder="MAR"></td>
-                                        <td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m4" value="${i.budgetRequestM4}" placeholder="APR"></td>
-                                        <td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m5" value="${i.budgetRequestM5}" placeholder="MAY"></td>
-                                        <td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m6" value="${i.budgetRequestM6}" placeholder="JUN"></td>
+                                        <td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m1" value="${i.budgetRequestM1}" placeholder="JAN" data-id="${i.budgetYear}_m1"></td>
+                                        <td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m2" value="${i.budgetRequestM2}" placeholder="FEB" data-id="${i.budgetYear}_m2"></td>
+                                        <td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m3" value="${i.budgetRequestM3}" placeholder="MAR" data-id="${i.budgetYear}_m3"></td>
+                                        <td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m4" value="${i.budgetRequestM4}" placeholder="APR" data-id="${i.budgetYear}_m4"></td>
+                                        <td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m5" value="${i.budgetRequestM5}" placeholder="MAY" data-id="${i.budgetYear}_m5"></td>
+                                        <td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m6" value="${i.budgetRequestM6}" placeholder="JUN" data-id="${i.budgetYear}_m6"></td>
                                         </tr>
-                                        <tr>
-                                        <td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m7" value="${i.budgetRequestM7}" placeholder="JUL"></td>
-                                        <td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m8" value="${i.budgetRequestM8}" placeholder="AUG"></td>
-                                        <td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m9" value="${i.budgetRequestM9}" placeholder="SEP"></td>
-                                        <td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m10" value="${i.budgetRequestM10}" placeholder="OCT"></td>
-                                        <td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m11" value="${i.budgetRequestM11}" placeholder="NOV"></td>
-                                        <td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m12" value="${i.budgetRequestM12}" placeholder="DEC"></td>                                      
+                                        <tr id="${i.budgetYear}">
+                                        <td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m7" value="${i.budgetRequestM7}" placeholder="JUL" data-id="${i.budgetYear}_m7"></td>
+                                        <td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m8" value="${i.budgetRequestM8}" placeholder="AUG" data-id="${i.budgetYear}_m8"></td>
+                                        <td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m9" value="${i.budgetRequestM9}" placeholder="SEP" data-id="${i.budgetYear}_m9"></td>
+                                        <td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m10" value="${i.budgetRequestM10}" placeholder="OCT" data-id="${i.budgetYear}_m10"></td>
+                                        <td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m11" value="${i.budgetRequestM11}" placeholder="NOV" data-id="${i.budgetYear}_m11"></td>
+                                        <td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m12" value="${i.budgetRequestM12}" placeholder="DEC" data-id="${i.budgetYear}_m12"></td>                                      
                                         </tr>
                                     </c:forEach>                                  
                                 </tbody>
@@ -163,6 +164,16 @@
                 </c:if>
             </div>
             <table style="align-content: center"></table>
+            <div class="row">
+                <div class="col-sm-10" >
+                    <div class="form-group">
+                        <label for="totalBudget" class="col-sm-3 control-label">งบประมาณรวมทั้งหมด </label>
+                        <div class="col-sm-3">
+                            <input class="form-control" type="number" name="totalBudget" id="totalBudget" value="${totalBudget}" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-sm-10" >
                     <div class="form-group">
@@ -273,15 +284,15 @@
         });
         
         $("#addProject").submit(function () {
-            var budp_id = $("#budp_id");
+            var budgetPlan = $("#budgetPlan");
 
-            if ("" === budp_id.val()) {
+            if ("" === budgetPlan.val()) {
                 alert('กรุณาเลือก Budget Plan');
                 return false;
             }
         });
 
-        $('select[id="budp_id"]').change(function (event) {
+        $('select[id="budgetPlan"]').change(function (event) {
             
             event.preventDefault();
             var yearS = $('option:selected', this).attr('yearS');
@@ -299,20 +310,20 @@
                         '<table class="table"><tbody>'+
                         '<tr style="align-content: center">'+
                         '<td rowspan="2" style="vertical-align: middle">งบประมาณปี '+ years + '</td>' +
-                        '<td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m1" placeholder="JAN"></td>'+
-                        '<td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m2" placeholder="FEB"></td>'+
-                        '<td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m3" placeholder="MAR"></td>'+
-                        '<td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m4" placeholder="APR"></td>'+
-                        '<td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m5" placeholder="MAY"></td>'+
-                        '<td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m6" placeholder="JUN"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m1" placeholder="JAN"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m2" placeholder="FEB"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m3" placeholder="MAR"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m4" placeholder="APR"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m5" placeholder="MAY"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m6" placeholder="JUN"></td>'+
                         '</tr>'+
                         '<tr>'+
-                        '<td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m7" placeholder="JUL"></td>'+
-                        '<td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m8" placeholder="AUG"></td>'+
-                        '<td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m9" placeholder="SEP"></td>'+
-                        '<td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m10" placeholder="OCT"></td>'+
-                        '<td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m11" placeholder="NOV"></td>'+
-                        '<td><input class="form-control input-sm" type="text" name="budget_request" id="budget_request_m12" placeholder="DEC"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m7" placeholder="JUL"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m8" placeholder="AUG"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m9" placeholder="SEP"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m10" placeholder="OCT"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m11" placeholder="NOV"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m12" placeholder="DEC"></td>'+
                         '</tr></tbody></table>'+
                         '</div>' +
                         '</div>'
@@ -322,11 +333,35 @@
             return false;
         });
         
-          if($("#id").val() !== ""){
-            $("#budp_id").attr('disabled','disabled');
+        if($("#id").val() !== ""){
+          $("#budgetPlan").attr('disabled','disabled');
         }
         
-       
+        $('#formBudget').find('input').focusout(function () {
+            calculatorBudgetTotal();
+        });
+        
+        function calculatorBudgetTotal(){
+            var budget_year = $("#budgetPlan").find('option:selected').attr('yearS');           
+            var size = ${sizePjWorking};
+            var budgetTotal = 0;
+            for (var loop = 1; loop <= size; loop++) {   
+                    for (var i = 1; i < 13; i++) {
+                        //var name = "budget_request_m"+ i;
+                        var req = budget_year+"_m"+i;
+                        //console.log('name ::=='+name);
+                        var budgetM =$("#formBudget").find('input[data-id="' + req + '"]').val();
+                        //console.log('budgetM ::=='+budgetM );
+                        budgetTotal += parseInt(((budgetM != '' && budgetM != undefined) ? budgetM : 0));                
+
+                    }
+                    //console.log("____________________________");
+                    //console.log('budgetTotal ::=='+budgetTotal);
+                    budget_year = (parseInt(budget_year)+1);
+            }
+            budgetTotal = budgetTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"); 
+            $('input[name="totalBudget"]').val(budgetTotal);
+        }
     });
 </script>
 <jsp:include page="../include/inc_footer.jsp"/>

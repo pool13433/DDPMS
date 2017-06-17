@@ -23,7 +23,7 @@
                             <div class="form-group">
                                 <label for="proj_name" class="col-sm-2 control-label">Project Name</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="proj_name" id="proj_name" value="${proj_name}" placeholder="budget plan name..." >
+                                    <input class="form-control" type="text" name="proj_name" id="proj_name" value="${proj_name}" placeholder="project name..." >
                                 </div>
                             </div>
                         </div>
@@ -167,7 +167,10 @@
                                         </c:if>
                                         <c:if test="${EMPLOYEE.status != 'APPROVER'}" >                                            
                                             <a href="${context}/ProjectEditServlet?id=${p.projId}" class="btn btn-default btn-info"><i class="glyphicon glyphicon-pencil"></i></a>
-                                            <a href="${context}/ProjectDeleteServlet?id=${p.projId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>                                
+                                            <c:if test="${p.delProject == 0}">
+                                                <a href="${context}/ProjectDeleteServlet?id=${p.projId}" onclick="return confirm('ยืนยันการลบข้อมูลนี้')" class="btn btn-default btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>                                
+                                            </c:if>
+                                            
                                         </c:if>                                    
                                     </td>
                                     <td>${p.projName}</td>
