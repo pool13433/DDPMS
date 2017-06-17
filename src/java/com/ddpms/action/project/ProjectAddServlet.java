@@ -71,8 +71,13 @@ public class ProjectAddServlet extends HttpServlet {
             request.setAttribute("proj_name", proj_name);
             String plan_id = CharacterUtil.removeNull(request.getParameter("plan_id"));
             request.setAttribute("plan_id", plan_id);
-            String budp_id = CharacterUtil.removeNull(request.getParameter("budp_id"));
-            request.setAttribute("budp_id", budp_id);
+            String budgetPlan = "";
+            if("".equals(id)){
+                budgetPlan = CharacterUtil.removeNull(request.getParameter("budgetPlan"));
+            }else{
+                budgetPlan = CharacterUtil.removeNull(request.getParameter("budp_id"));
+            }
+            request.setAttribute("budgetPlan", budgetPlan);
             String details = CharacterUtil.removeNull(request.getParameter("details"));
             request.setAttribute("details", details);
             
@@ -101,7 +106,7 @@ public class ProjectAddServlet extends HttpServlet {
                 p.setProjStatus("WAITING");
             }      
             p.setPlanId(plan_id);
-            p.setBudpId(budp_id);  
+            p.setBudpId(budgetPlan);  
             p.setModifiedBy(String.valueOf(employee.getEmpId()));
             
             //new parameter
@@ -181,6 +186,7 @@ public class ProjectAddServlet extends HttpServlet {
                                 if(!"WAITING".equals(status) && !"CANCEL".equals(status) && !"REJECT".equals(status)){
                                     ProjectWorking pwk = new ProjectWorking();
                                     pwk.setProjId(id);
+                                    pwk.setBudgetYear(pw.getBudgetYear());
                                     pwk.setIsFirstApprove(Boolean.FALSE);
                                     //find firstApprove
                                     List<ProjectWorking> chkIsFirstApproveList = pwDao.getProjectWorking(pwk, 1, 0);
@@ -202,7 +208,7 @@ public class ProjectAddServlet extends HttpServlet {
                             logger.error("createProjectWorking error :"+e.getMessage());
                         }  
 
-                    }                                                    
+                    }     
             } 
             
             MessageUI message = null;

@@ -11,8 +11,10 @@ import com.ddpms.model.Employee;
 import com.ddpms.model.Pagination;
 import com.ddpms.model.Plan;
 import com.ddpms.model.Project;
+import com.ddpms.model.ProjectExpense;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,7 +33,6 @@ public class ProjectSearchServlet extends HttpServlet {
         logger.debug("...doGet ProjectSearchServlet");
         try {
             Employee emp = (Employee) request.getSession().getAttribute("EMPLOYEE");
-            String menu = CharacterUtil.removeNull(request.getParameter("menu"));
             Project p = new Project();
             ProjectDao projectDao = new ProjectDao();
             int limit = CharacterUtil.removeNullTo(request.getParameter("limit"), 5);
@@ -44,8 +45,8 @@ public class ProjectSearchServlet extends HttpServlet {
             request.setAttribute("proj_status", proj_status);
             String plan_id = CharacterUtil.removeNull(request.getParameter("plan_id"));
             request.setAttribute("plan_id", plan_id);
-            String budp_id = CharacterUtil.removeNull(request.getParameter("budp_id"));
-            request.setAttribute("budp_id", budp_id);
+            String budgetPlan = CharacterUtil.removeNull(request.getParameter("budgetPlan"));
+            request.setAttribute("budgetPlan", budgetPlan);
             String prot_id = CharacterUtil.removeNull(request.getParameter("prot_id"));
             request.setAttribute("prot_id", prot_id);  
             request.setAttribute("statusList", new ConfigDao().getConfigList("PROJECT_STATUS"));
@@ -53,7 +54,7 @@ public class ProjectSearchServlet extends HttpServlet {
             p.setProjDetail(proj_details);
             p.setProjStatus(proj_status);
             p.setPlanId(plan_id);
-            p.setBudpId(budp_id);    
+            p.setBudpId(budgetPlan);    
             p.setProtId(prot_id);  
             p.setModifiedBy(String.valueOf(emp.getEmpId()));
             int notificationCnt = CharacterUtil.removeNullTo(request.getParameter("notification"), 0);
@@ -74,7 +75,9 @@ public class ProjectSearchServlet extends HttpServlet {
             request.setAttribute("projectTypeList", dao.getProjectTypeAll(countRecordAll, 0,""));
             BudgetPlanDao bpDao = new BudgetPlanDao();
             request.setAttribute("budgetPlanList", bpDao.getBudgetPlan(new BudgetPlan(), 0, 0));
-            request.setAttribute("planList", planDao.getPlan(new Plan(), 0, 0));    
+            request.setAttribute("planList", planDao.getPlan(new Plan(), 0, 0)); 
+            
+            
             RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/project/project-search.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {
