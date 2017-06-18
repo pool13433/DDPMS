@@ -131,10 +131,13 @@
                 </div>                        
             </div>
             <div class="row" id="formBudget">
+               
+                <c:set var="sizePjWorking" value="0" />
                 <c:if test="${projectWorkingList != null}">
                     <div class="row col-sm-offset-1">
                         <div class="col-sm-10" ><label class="col-sm-3 control-label"><h6>งบประมาณรายปี</h6></label></div>
-                        <div class="col-sm-11" >                            
+                        <div class="col-sm-11" >          
+                            <input type="hidden" id="loop" name="loop" />
                             <table class="table"> 
                                 <tbody>
                                     <c:forEach items="${projectWorkingList}" var="i" varStatus="count">
@@ -307,23 +310,24 @@
                     formBudget.append(
                         '<div class="row col-sm-offset-1">' +
                         '<div class="col-sm-11" >' +
+                        '<input type="hidden" id="loop" name="loop" value="'+loop+'"/>'+
                         '<table class="table"><tbody>'+
                         '<tr style="align-content: center">'+
                         '<td rowspan="2" style="vertical-align: middle">งบประมาณปี '+ years + '</td>' +
-                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m1" placeholder="JAN"></td>'+
-                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m2" placeholder="FEB"></td>'+
-                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m3" placeholder="MAR"></td>'+
-                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m4" placeholder="APR"></td>'+
-                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m5" placeholder="MAY"></td>'+
-                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m6" placeholder="JUN"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m1" placeholder="JAN" data-id="'+years+'_m1" onblur="calculator()" ></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m2" placeholder="FEB" data-id="'+years+'_m2" onblur="calculator()" ></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m3" placeholder="MAR" data-id="'+years+'_m3" onblur="calculator()"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m4" placeholder="APR" data-id="'+years+'_m4" onblur="calculator()"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m5" placeholder="MAY" data-id="'+years+'_m5" onblur="calculator()"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m6" placeholder="JUN" data-id="'+years+'_m6" onblur="calculator()"></td>'+
                         '</tr>'+
                         '<tr>'+
-                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m7" placeholder="JUL"></td>'+
-                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m8" placeholder="AUG"></td>'+
-                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m9" placeholder="SEP"></td>'+
-                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m10" placeholder="OCT"></td>'+
-                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m11" placeholder="NOV"></td>'+
-                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m12" placeholder="DEC"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m7" placeholder="JUL" data-id="'+years+'_m7" onblur="calculator()"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m8" placeholder="AUG" data-id="'+years+'_m8" onblur="calculator()"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m9" placeholder="SEP" data-id="'+years+'_m9" onblur="calculator()"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m10" placeholder="OCT" data-id="'+years+'_m10" onblur="calculator()"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m11" placeholder="NOV" data-id="'+years+'_m11" onblur="calculator()"></td>'+
+                        '<td><input class="form-control input-sm" type="number" name="budget_request" id="budget_request_m12" placeholder="DEC" data-id="'+years+'_m12" onblur="calculator()"></td>'+
                         '</tr></tbody></table>'+
                         '</div>' +
                         '</div>'
@@ -341,27 +345,44 @@
             calculatorBudgetTotal();
         });
         
+        //For Edit
         function calculatorBudgetTotal(){
             var budget_year = $("#budgetPlan").find('option:selected').attr('yearS');           
             var size = ${sizePjWorking};
             var budgetTotal = 0;
             for (var loop = 1; loop <= size; loop++) {   
-                    for (var i = 1; i < 13; i++) {
-                        //var name = "budget_request_m"+ i;
-                        var req = budget_year+"_m"+i;
-                        //console.log('name ::=='+name);
-                        var budgetM =$("#formBudget").find('input[data-id="' + req + '"]').val();
-                        //console.log('budgetM ::=='+budgetM );
-                        budgetTotal += parseInt(((budgetM != '' && budgetM != undefined) ? budgetM : 0));                
-
-                    }
-                    //console.log("____________________________");
-                    //console.log('budgetTotal ::=='+budgetTotal);
-                    budget_year = (parseInt(budget_year)+1);
+                for (var i = 1; i < 13; i++) {
+                    //var name = "budget_request_m"+ i;
+                    var req = budget_year+"_m"+i;
+                    //console.log('name ::=='+name);
+                    var budgetM =$("#formBudget").find('input[data-id="' + req + '"]').val();
+                    //console.log('budgetM ::=='+budgetM );
+                    budgetTotal += parseInt(((budgetM != '' && budgetM != undefined) ? budgetM : 0));         
+                }
+                //console.log("____________________________");
+                //console.log('budgetTotal ::=='+budgetTotal);
+                budget_year = (parseInt(budget_year)+1);
             }
             budgetTotal = budgetTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"); 
             $('input[name="totalBudget"]').val(budgetTotal);
         }
     });
+    //for Add
+    function calculator(){
+        var budget_year = $("#budgetPlan").find('option:selected').attr('yearS');           
+        var size = $("#loop").val();
+        var budgetTotal = 0;
+            for (var l = 0;  l<= size; l++) {   
+                for (var i = 1; i < 13; i++) {
+                    var req = budget_year+"_m"+i;
+                    var budgetM =$("#formBudget").find('input[data-id="' + req + '"]').val();
+                    budgetTotal += parseInt(((budgetM != '' && budgetM != undefined) ? budgetM : 0)); 
+                }
+                budget_year = (parseInt(budget_year)+1);
+            }
+        budgetTotal = budgetTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"); 
+        $('input[name="totalBudget"]').val(budgetTotal);
+    }
+    
 </script>
 <jsp:include page="../include/inc_footer.jsp"/>
