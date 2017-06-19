@@ -57,14 +57,20 @@ public class ReportDao {
             sql.append(" (SELECT SUM((budget_request_m1 + budget_request_m2 + budget_request_m3 + budget_request_m4 + ");
             sql.append(" budget_request_m5 + budget_request_m6 + budget_request_m7 + budget_request_m8 + ");
             sql.append(" budget_request_m9 + budget_request_m10 + budget_request_m11 + budget_request_m12)) ");
-            sql.append(" FROM project_working pw WHERE pw.proj_id = p.proj_id ");
+            sql.append(" FROM project_working pw WHERE pw.proj_id = p.proj_id AND pw.isFirstApprove is true ");
             sql.append(" ) as sum_request_all, ");
 
-            sql.append(" (SELECT SUM((budget_approve_m1 + budget_approve_m2 + budget_approve_m3 + budget_approve_m4 + ");
+            /*sql.append(" (SELECT SUM((budget_approve_m1 + budget_approve_m2 + budget_approve_m3 + budget_approve_m4 + ");
             sql.append(" budget_approve_m5 + budget_approve_m6 + budget_approve_m7 + budget_approve_m8 + ");
             sql.append(" budget_approve_m9 + budget_approve_m10 + budget_approve_m11 + budget_approve_m12)) ");
-            sql.append(" FROM project_working pw WHERE pw.proj_id = p.proj_id ");
+            sql.append(" FROM project_working pw WHERE pw.proj_id = p.proj_id AND pw.isFirstApprove is true");
+            sql.append(" ) as sum_approve_all, ");*/
+            sql.append(" (SELECT SUM((budget_request_m1 + budget_request_m2 + budget_request_m3 + budget_request_m4 + ");
+            sql.append(" budget_request_m5 + budget_request_m6 + budget_request_m7 + budget_request_m8 + ");
+            sql.append(" budget_request_m9 + budget_request_m10 + budget_request_m11 + budget_request_m12)) ");
+            sql.append(" FROM project_working pw WHERE pw.proj_id = p.proj_id AND pw.isFirstApprove is false ");
             sql.append(" ) as sum_approve_all, ");
+            
 
             sql.append(" ( SELECT SUM(pe.exp_amount) FROM project_expense pe WHERE pe.proj_id = p.proj_id ");
             sql.append(" ) as sum_actualuse_all ");
@@ -74,14 +80,17 @@ public class ReportDao {
                 sql.append(" ,(SELECT SUM((budget_request_m1 + budget_request_m2 + budget_request_m3 + budget_request_m4 + ");
                 sql.append(" budget_request_m5 + budget_request_m6 + budget_request_m7 + budget_request_m8 + ");
                 sql.append(" budget_request_m9 + budget_request_m10 + budget_request_m11 + budget_request_m12)) ");
-                sql.append(" FROM project_working pw WHERE pw.proj_id = p.proj_id ");
+                sql.append(" FROM project_working pw WHERE pw.proj_id = p.proj_id AND pw.isFirstApprove is true");
                 sql.append(" AND (pw.budget_year-543) = '" + year + "' ");
                 sql.append(" ) as sum_request_" + year + "  ");
 
-                sql.append(" ,(SELECT SUM((budget_approve_m1 + budget_approve_m2 + budget_approve_m3 + budget_approve_m4 + ");
+                /*sql.append(" ,(SELECT SUM((budget_approve_m1 + budget_approve_m2 + budget_approve_m3 + budget_approve_m4 + ");
                 sql.append(" budget_approve_m5 + budget_approve_m6 + budget_approve_m7 + budget_approve_m8 + ");
-                sql.append(" budget_approve_m9 + budget_approve_m10 + budget_approve_m11 + budget_approve_m12)) ");
-                sql.append(" FROM project_working pw WHERE pw.proj_id = p.proj_id ");
+                sql.append(" budget_approve_m9 + budget_approve_m10 + budget_approve_m11 + budget_approve_m12)) ");*/
+                sql.append(" ,(SELECT SUM((budget_request_m1 + budget_request_m2 + budget_request_m3 + budget_request_m4 + ");
+                sql.append(" budget_request_m5 + budget_request_m6 + budget_request_m7 + budget_request_m8 + ");
+                sql.append(" budget_request_m9 + budget_request_m10 + budget_request_m11 + budget_request_m12)) ");
+                sql.append(" FROM project_working pw WHERE pw.proj_id = p.proj_id AND pw.isFirstApprove is false");
                 sql.append(" AND (pw.budget_year-543) = '" + year + "' ");
                 sql.append(" ) as sum_approve_" + year + "  ");
 

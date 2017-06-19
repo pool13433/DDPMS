@@ -13,7 +13,7 @@
         <link href="${context}/asset/flat-ui/css/flat-ui.css" rel="stylesheet" type="text/css" />           
         <link href="${context}/asset/css/app-style.css" rel="stylesheet" type="text/css" />
         <link href="${context}/asset/flat-ui/bootstrap/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
-      
+
         <script type="text/javascript" src="${context}/asset/js/jquery.2.2.4.js"></script>        
         <script type="text/javascript" src="${context}/asset/flat-ui/js/bootstrap.min.js"></script>  
         <script type="text/javascript" src="${context}/asset/chart.js/Chart.min.js"></script>                   
@@ -21,7 +21,7 @@
         <script type="text/javascript" src="${context}/asset/moment/moment.min.js"></script>        
         <script type="text/javascript" src="${context}/asset/flat-ui/bootstrap/js/bootstrap-multiselect.js"></script>
         <script type="text/javascript" src="${context}/asset/js/app-core.js"></script>        
-        
+
         <style type="text/css">
             body *{font-family: 'Marmelad', sans-serif;}
             a{color: #0B0F00;font-weight: bold}
@@ -58,20 +58,8 @@
                         </a>                            
                     </li>
                     <c:if test="${!empty EMPLOYEE}">                        
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Budget
-                                <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li class="<c:out value="${menu == 'budget_plan' ? 'active': ''}"/>">                                
-                                    <a href="${context}/BudgetplanSearchServlet?menu=budget_plan"><i class="glyphicon glyphicon-inbox"></i> Manage BudgetPlan</a>
-                                </li>
-                                <li class="<c:out value="${menu == 'project' ? 'active': ''}"/>">                                
-                                    <a href="${context}/ProjectSearchServlet?menu=project"><i class="glyphicon glyphicon-list"></i> Manage Project Master</a>
-                                </li>
-                               <!-- <li class="<c:out value="${menu == 'project_working' ? 'active': ''}"/>">                                
-                                    <a href="${context}/ProjectWorkingSearchServlet?menu=project-working"><i class="glyphicon glyphicon-play-circle"></i> Manage Project Working</a>
-                                </li>-->                           
-                            </ul>
+                        <li class="<c:out value="${menu == 'project' ? 'active': ''}"/>">                                
+                            <a href="${context}/ProjectSearchServlet?menu=project"><i class="glyphicon glyphicon-list"></i> Manage Project Master</a>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Task
@@ -89,30 +77,37 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Setting
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                 <li class="<c:out value="${menu == 'employee' ? 'active': ''}"/>">                                
+                                <li class="<c:out value="${menu == 'employee' ? 'active': ''}"/>">                                
                                     <a href="${context}/EmployeeListServlet?menu=employee"><i class="glyphicon glyphicon-flag"></i> Manage Employee</a>
                                 </li>
+                                <li role="separator" class="divider"></li>
                                 <li class="<c:out value="${menu == 'strategic' ? 'active': ''}"/>">                                
                                     <a href="${context}/StrategicSearchServlet?menu=strategic"><i class="glyphicon glyphicon-flag"></i> Manage Strategic</a>
                                 </li>
                                 <li class="<c:out value="${menu == 'plan' ? 'active': ''}"/>">                                
                                     <a href="${context}/PlanSearchServlet?menu=plan"><i class="glyphicon glyphicon-list-alt"></i> Manage Plan</a>
                                 </li>
+                                <li class="<c:out value="${menu == 'budget_plan' ? 'active': ''}"/>">                                
+                                    <a href="${context}/BudgetplanSearchServlet?menu=budget_plan"><i class="glyphicon glyphicon-inbox"></i> Manage BudgetPlan</a>
+                                </li>                                
                                 <li class="<c:out value="${menu == 'project-type' ? 'active': ''}"/>">                                
                                     <a href="${context}/ProjectTypeListServlet?menu=project-type"><i class="glyphicon glyphicon-usd"></i> Manage Project Type</a>
                                 </li>
+                                <li class="<c:out value="${menu == 'project_expense' ? 'active': ''}"/>">                                
+                                    <a href="${context}/ProjectExpenseSearchServlet?menu=project_expense"><i class="glyphicon glyphicon-usd"></i> Manage Project Expense</a>
+                                </li>
+                                <li role="separator" class="divider"></li>
                                 <li class="<c:out value="${menu == 'config' ? 'active': ''}"/>">                                
                                     <a href="${context}/ConfigListServlet?menu=config"><i class="glyphicon glyphicon-cog"></i> Manage Config</a>
                                 </li>
                                 <li class="<c:out value="${menu == 'department' ? 'active': ''}"/>">                                
                                     <a href="${context}/DepartmentListServlet?menu=department"><i class="glyphicon glyphicon-oil"></i> Manage Department</a>
                                 </li>
+                                <li role="separator" class="divider"></li>
                                 <li class="<c:out value="${menu == 'task' ? 'active': ''}"/>">                                
                                     <a href="${context}/TaskListServlet?menu=task"><i class="glyphicon glyphicon-hourglass"></i> Manage Task</a>
                                 </li>
-                                <li class="<c:out value="${menu == 'project_expense' ? 'active': ''}"/>">                                
-                                    <a href="${context}/ProjectExpenseSearchServlet?menu=project_expense"><i class="glyphicon glyphicon-usd"></i> Manage Project Expense</a>
-                                </li>
+
                             </ul>
                         </li>
                         <li class="dropdown">

@@ -172,7 +172,7 @@
                     <div class="form-group">
                         <label for="totalBudget" class="col-sm-3 control-label">งบประมาณรวมทั้งหมด </label>
                         <div class="col-sm-3">
-                            <input class="form-control" type="number" name="totalBudget" id="totalBudget" value="${totalBudget}" disabled>
+                            <input class="form-control" type="text" name="totalBudget" id="totalBudget" value="${totalBudget}" disabled>
                         </div>
                     </div>
                 </div>
