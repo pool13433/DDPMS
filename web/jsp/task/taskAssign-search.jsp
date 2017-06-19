@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label for="BudgetPlan" class="col-sm-2 control-label">BudgetPlan</label>
                     <div class="col-sm-4">
-                        <select class="form-control" id="budpId" name="budpId">
+                        <select class="form-control" id="budpId" name="budpId" required>
                             <option value="" selected>--เลือก--</option>
                             <c:forEach items="${budgetPlanList}" var="budgetPlan">
                                 <c:choose>

@@ -10,6 +10,7 @@ import com.ddpms.model.Project;
 import com.ddpms.model.TaskAssign;
 import com.ddpms.util.CharacterUtil;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,10 +31,16 @@ public class TaskAssignListServlet extends HttpServlet {
             Project criteria = new Project();
             criteria.setBudpId(budpId);
             criteria.setPlanId(planId);
-            List<Project> projectList = new ProjectDao().getProjectByCriteria(criteria);
-            for (Project project : projectList) {
-                List<TaskAssign> taskAssignList = new TaskAssignDao().getTaskAssignsListByProject(project.getProjId());
-                project.setTaskAssignList(taskAssignList);
+
+            List<Project> projectList = null;
+            if (budpId.equals("")) {
+                projectList = new ArrayList<>();
+            } else {
+                projectList = new ProjectDao().getProjectByCriteria(criteria);
+                for (Project project : projectList) {
+                    List<TaskAssign> taskAssignList = new TaskAssignDao().getTaskAssignsListByProject(project.getProjId());
+                    project.setTaskAssignList(taskAssignList);
+                }
             }
 
             List<BudgetPlan> budgetPlanList = new BudgetPlanDao().getBudgetAll();
