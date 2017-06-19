@@ -14,10 +14,10 @@
         <link href="${context}/asset/css/app-style.css" rel="stylesheet" type="text/css" />
         <link href="${context}/asset/flat-ui/bootstrap/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
 
-        <script type="text/javascript" src="${context}/asset/js/jquery.2.2.4.js"></script>        
-        <script type="text/javascript" src="${context}/asset/flat-ui/js/bootstrap.min.js"></script>  
-        <script type="text/javascript" src="${context}/asset/chart.js/Chart.min.js"></script>                   
-        <script type="text/javascript" src="${context}/asset/jquery-ui/jquery-ui.js"></script>    
+        <script type="text/javascript" src="${context}/asset/js/jquery.2.2.4.js"></script>      
+        <script type="text/javascript" src="${context}/asset/jquery-ui/jquery-ui.js"></script> 
+        <script type="text/javascript" src="${context}/asset/flat-ui/js/bootstrap.min.js"></script> 
+        <script type="text/javascript" src="${context}/asset/chart.js/Chart.min.js"></script>   
         <script type="text/javascript" src="${context}/asset/moment/moment.min.js"></script>        
         <script type="text/javascript" src="${context}/asset/flat-ui/bootstrap/js/bootstrap-multiselect.js"></script>
         <script type="text/javascript" src="${context}/asset/js/app-core.js"></script>        

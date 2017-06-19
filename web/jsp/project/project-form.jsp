@@ -29,8 +29,17 @@
                         <label for="account" class="col-sm-2 control-label">Account</label>
                         <div class="col-sm-3">
                             <input class="form-control" type="number" name="account" id="account" value="${account}" placeholder="Account..." required>
-                        </div>                                                
-                    </div>
+                        </div>  
+                        <c:if test="${proj_id != '' && proj_id != undefined}" >
+                            <div class="btn-group col-sm-4" data-toggle="buttons">
+                                <label for="planRef" class="btn btn-default" style="font-size: 0.5em;">                                    
+                                    <input  type="checkbox" name="planRef" id="planRef"> 
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </label>&nbsp;&nbsp;  อัพเดทแผน 3 ปี
+                            </div>
+                            
+                        </c:if>
+                    </div>                    
                 </div>                        
             </div>
             <div class="row">
