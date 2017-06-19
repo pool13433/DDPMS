@@ -93,7 +93,8 @@ public class ProjectAddServlet extends HttpServlet {
             String yearStart = CharacterUtil.removeNull(request.getParameter("yearStart"));
             request.setAttribute("yearStart", yearStart);
             String remarks = CharacterUtil.removeNull(request.getParameter("remarks"));
-            
+            String planRef = request.getParameter("planRef");            
+            System.out.println("planRef : "+planRef);
             Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE");  
             
             p.setProjId(id);
@@ -179,25 +180,32 @@ public class ProjectAddServlet extends HttpServlet {
                         pw.setModifiedBy(p.getModifiedBy());
 
                         try {
-                            if(id.equals("")){
+                            if(id.equals("")){//Add
                                 pw.setIsFirstApprove(Boolean.TRUE);
                                 pwDao.createProjectWorking(pw); 
-                            }else{
-                                if(!"WAITING".equals(status) && !"CANCEL".equals(status) && !"REJECT".equals(status)){
-                                    ProjectWorking pwk = new ProjectWorking();
-                                    pwk.setProjId(id);
-                                    pwk.setBudgetYear(pw.getBudgetYear());
-                                    pwk.setIsFirstApprove(Boolean.FALSE);
-                                    //find firstApprove
-                                    List<ProjectWorking> chkIsFirstApproveList = pwDao.getProjectWorking(pwk, 1, 0);
-                                    if(!chkIsFirstApproveList.isEmpty()){
-                                        pw.setIsFirstApprove(Boolean.FALSE);
-                                        pwDao.updateProjectWorking(pw);
+                            }else{//Update
+                                if(!"on".equals(planRef)){
+                                    if(!"WAITING".equals(status) && !"CANCEL".equals(status) && !"REJECT".equals(status)){
+                                        ProjectWorking pwk = new ProjectWorking();
+                                        pwk.setProjId(id);
+                                        pwk.setBudgetYear(pw.getBudgetYear());
+                                        pwk.setIsFirstApprove(Boolean.FALSE);
+                                        //find firstApprove
+                                        List<ProjectWorking> chkIsFirstApproveList = pwDao.getProjectWorking(pwk, 1, 0);
+                                        if(!chkIsFirstApproveList.isEmpty()){
+                                            pw.setIsFirstApprove(Boolean.FALSE);
+                                            pwDao.updateProjectWorking(pw);
+                                        }else{
+                                            pw.setIsFirstApprove(Boolean.FALSE);
+                                            pwDao.createProjectWorking(pw); 
+                                        }    
                                     }else{
-                                        pw.setIsFirstApprove(Boolean.FALSE);
-                                        pwDao.createProjectWorking(pw); 
-                                    }  
+                                        System.out.println("planRef updateProjectWorking1 : "+planRef);
+                                        pw.setIsFirstApprove(Boolean.TRUE);
+                                        pwDao.updateProjectWorking(pw); 
+                                    }                                       
                                 }else{
+                                    System.out.println("planRef updateProjectWorking2 : "+planRef);
                                     pw.setIsFirstApprove(Boolean.TRUE);
                                     pwDao.updateProjectWorking(pw);
                                 }                                                              
